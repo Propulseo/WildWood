@@ -117,11 +117,13 @@ Plans:
   3. Newsletter page shows a mock history of past campaigns with date, subject, and number of recipients
   4. Instagram page displays follower count with 30-day evolution and engagement rate cards
   5. Instagram page shows a top-5 posts table by engagement (with thumbnail and stats) and a Recharts line chart of follower growth over 3/6/12 month toggles
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
+- [ ] 06-01-PLAN.md — Newsletter and Instagram types, mock data, and data-access functions
+- [ ] 06-02-PLAN.md — Newsletter page with contacts table, campaign dialog, and campaign history
+- [ ] 06-03-PLAN.md — Instagram page with stat cards, top posts table, and follower growth chart
+- [ ] 06-04-PLAN.md — Automated verification and visual checkpoint for Phase 6
 
 ### Phase 7: Polish + Deployment
 **Goal**: The prototype is demo-ready on Vercel with proper loading states, error handling, and clear "this is a prototype" framing throughout
@@ -149,5 +151,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Admin Shell + Dashboard | 2/2 | Complete | 2026-03-01 |
 | 4. Core Admin Modules | 4/4 | Complete | 2026-03-01 |
 | 5. Accounting + Reports | 3/3 | Complete | 2026-03-01 |
-| 6. Secondary Modules | 0/TBD | Not started | - |
+| 6. Secondary Modules | 0/4 | In progress | - |
 | 7. Polish + Deployment | 0/TBD | Not started | - |
