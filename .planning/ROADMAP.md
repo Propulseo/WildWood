@@ -32,11 +32,14 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. POS layout renders at 100vh with no scroll, and all interactive elements meet the 120x80px minimum size on a 1024px-wide viewport
   4. Mock data files contain realistic WildWood pricing (9 gym passes, 6 F&B categories) with plausible client names and dates, accessible only through lib/data-access.ts (no direct JSON imports in components)
   5. A "PROTOTYPE -- Donnees fictives" banner is visible on every screen
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md — Scaffold Next.js 16 project and configure WildWood design system
+- [ ] 01-02-PLAN.md — Create TypeScript types, realistic mock data, and data access layer
+- [ ] 01-03-PLAN.md — Create AuthContext with localStorage persistence and prototype banner
+- [ ] 01-04-PLAN.md — Create login page, POS layout shell, admin layout shell, and role toggle
+- [ ] 01-05-PLAN.md — Automated verification and visual checkpoint for Phase 1 completion
 
 ### Phase 2: POS Cash Register
 **Goal**: Staff can ring up a gym pass or F&B sale in under 3 taps on a tablet, from product selection through checkout confirmation
@@ -131,11 +134,11 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
-| 1. Foundation + Design System | 0/TBD | Not started | - |
+| 1. Foundation + Design System | 0/5 | Planned | - |
 | 2. POS Cash Register | 0/TBD | Not started | - |
 | 3. Admin Shell + Dashboard | 0/TBD | Not started | - |
 | 4. Core Admin Modules | 0/TBD | Not started | - |
