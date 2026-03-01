@@ -10,27 +10,28 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 2 of 7 (POS Cash Register)
-Plan: 0 of TBD in current phase
-Status: Not started
-Last activity: 2026-03-01 - Completed Phase 1
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-03-01 - Completed 02-01-PLAN.md
 
-Progress: [██░░░░░░░░] ~14%
+Progress: [███░░░░░░░] ~22%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 4.4min
-- Total execution time: 22min
+- Total plans completed: 6
+- Average duration: 4.0min
+- Total execution time: 24min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 - Foundation | 5/5 | 22min | 4.4min |
+| 2 - POS Cash Register | 1/4 | 2min | 2.0min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6min), 01-02 (5min), 01-03 (6min), 01-04 (2min), 01-05 (3min)
+- Last 5 plans: 01-02 (5min), 01-03 (6min), 01-04 (2min), 01-05 (3min), 02-01 (2min)
 - Trend: Accelerating
 
 *Updated after each plan completion*
@@ -59,6 +60,10 @@ Recent decisions affecting current work:
 - [01-04]: Route groups (pos) and (admin) isolate layout shells without affecting URL paths
 - [01-04]: router.push for login actions, router.replace for auto-redirects (prevents back-button loops)
 - [01-05]: POS layout height uses calc(100dvh-1.75rem) to account for prototype banner offset
+- [02-01]: npm used instead of pnpm (project has package-lock.json, pnpm not installed)
+- [02-01]: Server Component page fetches all data via data-access.ts Promise.all, passes as props to client PosRegister
+- [02-01]: Cart state via useReducer with typed CartAction discriminated union (ADD_ITEM, REMOVE_ITEM, UPDATE_QUANTITY, SET_CLIENT, CLEAR_CART)
+- [02-01]: POS register two-column grid: grid-cols-[1fr_320px] (products left, 320px cart right)
 
 ### Pending Todos
 
@@ -72,5 +77,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed Phase 1 (Foundation + Design System)
+Stopped at: Completed 02-01-PLAN.md (POS register foundation)
 Resume file: None
