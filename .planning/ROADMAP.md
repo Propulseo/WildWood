@@ -67,10 +67,11 @@ Plans:
   1. Admin layout displays a collapsible sidebar with icon-first navigation linking to all admin modules (Dashboard, Clients, Bungalows, Comptabilite, Newsletter, Instagram)
   2. Dashboard page shows today's revenue total, number of passes sold, and number of new reservations as prominent stat cards visible within 1 second of page load
   3. Dashboard displays a revenue summary broken down by the 3 revenue centers (Gym, F&B, Bungalows)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — Collapsible admin sidebar + dashboard stat cards and revenue breakdown
+- [ ] 03-02-PLAN.md — Automated verification and visual checkpoint for Phase 3
 
 ### Phase 4: Core Admin Modules
 **Goal**: The owner can look up any client's full history and see bungalow occupancy at a glance on the calendar
