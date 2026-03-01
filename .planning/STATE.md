@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 3 of 7 (Admin Shell + Dashboard)
-Plan: 0 of TBD in current phase
-Status: Not started
-Last activity: 2026-03-01 - Completed Phase 2 (POS Cash Register)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-03-01 - Completed 03-01-PLAN.md (Collapsible Sidebar + Dashboard)
 
-Progress: [████░░░░░░] ~29%
+Progress: [█████░░░░░] ~32%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 3.3min
-- Total execution time: 33min
+- Total plans completed: 11
+- Average duration: 3.2min
+- Total execution time: 35min
 
 **By Phase:**
 
@@ -29,9 +29,10 @@ Progress: [████░░░░░░] ~29%
 |-------|-------|-------|----------|
 | 1 - Foundation | 5/5 | 22min | 4.4min |
 | 2 - POS Cash Register | 4/4 | 9min | 2.3min |
+| 3 - Admin Shell + Dashboard | 1/2 | 2min | 2.0min |
 
 **Recent Trend:**
-- Last 5 plans: 01-05 (3min), 02-01 (2min), 02-02 (2min), 02-03 (3min), 02-04 (2min)
+- Last 5 plans: 02-01 (2min), 02-02 (2min), 02-03 (3min), 02-04 (2min), 03-01 (2min)
 - Trend: Accelerating
 
 *Updated after each plan completion*
@@ -74,6 +75,10 @@ Recent decisions affecting current work:
 - [02-03]: Transaction ID format: txn-{last 3 digits of Date.now()}
 - [02-03]: Gym pass items 0 THB for bungalow residents; F&B always charged
 - [02-03]: New contexts in src/contexts/ (TransactionsContext)
+- [03-01]: Sidebar collapse persists via localStorage key wildwood-sidebar-collapsed with isHydrated guard
+- [03-01]: TransactionsProvider placed in admin layout wrapping children, not in root layout
+- [03-01]: Dashboard uses useMemo for derived stats, not useEffect+useState
+- [03-01]: Revenue center cards use WildWood brand colors: orange (Gym), lime (F&B), bois (Bungalows)
 
 ### Pending Todos
 
@@ -87,5 +92,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed Phase 2 (POS Cash Register)
+Stopped at: Completed 03-01-PLAN.md (Collapsible Sidebar + Dashboard)
 Resume file: None
