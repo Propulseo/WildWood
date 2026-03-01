@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation + Design System** - Project scaffold, WildWood theme, type system, mock data, layout shells, auth simulation
 - [x] **Phase 2: POS Cash Register** - Touch-first gym pass and F&B sales interface with cart and checkout
 - [x] **Phase 3: Admin Shell + Dashboard** - Sidebar navigation layout and today's key numbers dashboard
-- [ ] **Phase 4: Core Admin Modules** - Client database with search/profiles and bungalow calendar with occupancy
+- [x] **Phase 4: Core Admin Modules** - Client database with search/profiles and bungalow calendar with occupancy
 - [ ] **Phase 5: Accounting + Reports** - Daily/monthly/annual revenue views, expense entry, Recharts graphs
 - [ ] **Phase 6: Secondary Modules** - Newsletter contact management and Instagram stats dashboard
 - [ ] **Phase 7: Polish + Deployment** - Loading states, error handling, prototype banners enforcement, Vercel deploy
@@ -86,10 +86,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Install shadcn Table/Select and build client list with search, filters, pagination
-- [ ] 04-02-PLAN.md — Build bungalow calendar with CSS grid, reservation bars, and occupancy rates
-- [ ] 04-03-PLAN.md — Build client profile page with history, stats, resident badge, newsletter toggle
-- [ ] 04-04-PLAN.md — Automated verification and visual checkpoint for Phase 4
+- [x] 04-01-PLAN.md — Install shadcn Table/Select and build client list with search, filters, pagination
+- [x] 04-02-PLAN.md — Build bungalow calendar with CSS grid, reservation bars, and occupancy rates
+- [x] 04-03-PLAN.md — Build client profile page with history, stats, resident badge, newsletter toggle
+- [x] 04-04-PLAN.md — Automated verification and visual checkpoint for Phase 4
 
 ### Phase 5: Accounting + Reports
 **Goal**: The owner can answer "how much did I make today/this month/this year?" broken down by revenue center, and track expenses
@@ -146,7 +146,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 1. Foundation + Design System | 5/5 | Complete | 2026-03-01 |
 | 2. POS Cash Register | 4/4 | Complete | 2026-03-01 |
 | 3. Admin Shell + Dashboard | 2/2 | Complete | 2026-03-01 |
-| 4. Core Admin Modules | 0/4 | In progress | - |
+| 4. Core Admin Modules | 4/4 | Complete | 2026-03-01 |
 | 5. Accounting + Reports | 0/TBD | Not started | - |
 | 6. Secondary Modules | 0/TBD | Not started | - |
 | 7. Polish + Deployment | 0/TBD | Not started | - |

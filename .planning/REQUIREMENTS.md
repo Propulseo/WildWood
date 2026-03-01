@@ -141,16 +141,16 @@ Aucun requirement v2 defini pour ce milestone. Le scope v2 (backend Supabase, in
 | POS-08 | Phase 2: POS Cash Register | Complete |
 | DASH-01 | Phase 3: Admin Shell + Dashboard | Complete |
 | DASH-02 | Phase 3: Admin Shell + Dashboard | Complete |
-| CLI-01 | Phase 4: Core Admin Modules | Pending |
-| CLI-02 | Phase 4: Core Admin Modules | Pending |
-| CLI-03 | Phase 4: Core Admin Modules | Pending |
-| CLI-04 | Phase 4: Core Admin Modules | Pending |
-| CLI-05 | Phase 4: Core Admin Modules | Pending |
-| CLI-06 | Phase 4: Core Admin Modules | Pending |
-| BUNG-01 | Phase 4: Core Admin Modules | Pending |
-| BUNG-02 | Phase 4: Core Admin Modules | Pending |
-| BUNG-03 | Phase 4: Core Admin Modules | Pending |
-| BUNG-04 | Phase 4: Core Admin Modules | Pending |
+| CLI-01 | Phase 4: Core Admin Modules | Complete |
+| CLI-02 | Phase 4: Core Admin Modules | Complete |
+| CLI-03 | Phase 4: Core Admin Modules | Complete |
+| CLI-04 | Phase 4: Core Admin Modules | Complete |
+| CLI-05 | Phase 4: Core Admin Modules | Complete |
+| CLI-06 | Phase 4: Core Admin Modules | Complete |
+| BUNG-01 | Phase 4: Core Admin Modules | Complete |
+| BUNG-02 | Phase 4: Core Admin Modules | Complete |
+| BUNG-03 | Phase 4: Core Admin Modules | Complete |
+| BUNG-04 | Phase 4: Core Admin Modules | Complete |
 | COMPT-01 | Phase 5: Accounting + Reports | Pending |
 | COMPT-02 | Phase 5: Accounting + Reports | Pending |
 | COMPT-03 | Phase 5: Accounting + Reports | Pending |
