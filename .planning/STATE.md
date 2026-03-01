@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 1 of 7 (Foundation + Design System)
-Plan: 1 of 5 in current phase
+Plan: 2 of 5 in current phase
 Status: In progress
-Last activity: 2026-03-01 - Completed 01-01-PLAN.md
+Last activity: 2026-03-01 - Completed 01-02-PLAN.md
 
-Progress: [██░░░░░░░░] ~7%
+Progress: [███░░░░░░░] ~13%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 6min
-- Total execution time: 6min
+- Total plans completed: 2
+- Average duration: 5.5min
+- Total execution time: 11min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 - Foundation | 1/5 | 6min | 6min |
+| 1 - Foundation | 2/5 | 11min | 5.5min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6min)
-- Trend: First plan, baseline established
+- Last 5 plans: 01-01 (6min), 01-02 (5min)
+- Trend: Stable, slightly faster on data-focused plan
 
 *Updated after each plan completion*
 
@@ -49,6 +49,9 @@ Recent decisions affecting current work:
 - [01-01]: POS button variants use Tailwind utility classes mapped via @theme inline, not hardcoded OKLCH
 - [01-01]: No React Compiler (prototype speed priority)
 - [01-01]: No tailwind.config.js (CSS-first Tailwind v4)
+- [01-02]: French field names in all interfaces matching WildWood domain (prenom, nom, centreRevenu)
+- [01-02]: data-access.ts is sole importer of mock-data/ -- Phase 2 migration contract
+- [01-02]: ID conventions: cli-XXX, pass-XX, fnb-XXX, bung-X, res-XXX, txn-XXX
 
 ### Pending Todos
 
@@ -62,5 +65,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 01-01-PLAN.md
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
