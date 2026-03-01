@@ -124,13 +124,13 @@ Aucun requirement v2 defini pour ce milestone. Le scope v2 (backend Supabase, in
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1: Foundation + Design System | Pending |
-| FOUND-02 | Phase 1: Foundation + Design System | Pending |
-| FOUND-03 | Phase 1: Foundation + Design System | Pending |
-| FOUND-04 | Phase 1: Foundation + Design System | Pending |
-| FOUND-05 | Phase 1: Foundation + Design System | Pending |
-| FOUND-06 | Phase 1: Foundation + Design System | Pending |
-| FOUND-07 | Phase 1: Foundation + Design System | Pending |
+| FOUND-01 | Phase 1: Foundation + Design System | Complete |
+| FOUND-02 | Phase 1: Foundation + Design System | Complete |
+| FOUND-03 | Phase 1: Foundation + Design System | Complete |
+| FOUND-04 | Phase 1: Foundation + Design System | Complete |
+| FOUND-05 | Phase 1: Foundation + Design System | Complete |
+| FOUND-06 | Phase 1: Foundation + Design System | Complete |
+| FOUND-07 | Phase 1: Foundation + Design System | Complete |
 | POS-01 | Phase 2: POS Cash Register | Pending |
 | POS-02 | Phase 2: POS Cash Register | Pending |
 | POS-03 | Phase 2: POS Cash Register | Pending |

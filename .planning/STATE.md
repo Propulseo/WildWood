@@ -5,33 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-03-01)
 
 **Core value:** Le staff terrain doit pouvoir enregistrer un encaissement en moins de 3 clics sur tablette, sans formation -- si la caisse POS n'est pas instantanee et intuitive, rien d'autre n'a de valeur.
-**Current focus:** Phase 1 - Foundation + Design System
+**Current focus:** Phase 2 - POS Cash Register
 
 ## Current Position
 
-Phase: 1 of 7 (Foundation + Design System)
-Plan: 4 of 5 in current phase
-Status: In progress
-Last activity: 2026-03-01 - Completed 01-04-PLAN.md
+Phase: 2 of 7 (POS Cash Register)
+Plan: 0 of TBD in current phase
+Status: Not started
+Last activity: 2026-03-01 - Completed Phase 1
 
-Progress: [█████░░░░░] ~25%
+Progress: [██░░░░░░░░] ~14%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 4.8min
-- Total execution time: 19min
+- Total plans completed: 5
+- Average duration: 4.4min
+- Total execution time: 22min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 - Foundation | 4/5 | 19min | 4.8min |
+| 1 - Foundation | 5/5 | 22min | 4.4min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6min), 01-02 (5min), 01-03 (6min), 01-04 (2min)
-- Trend: Accelerating, 01-04 fastest yet
+- Last 5 plans: 01-01 (6min), 01-02 (5min), 01-03 (6min), 01-04 (2min), 01-05 (3min)
+- Trend: Accelerating
 
 *Updated after each plan completion*
 
@@ -58,6 +58,7 @@ Recent decisions affecting current work:
 - [01-04]: POS layout is Server Component (no 'use client'), Admin layout is Client Component (needs usePathname)
 - [01-04]: Route groups (pos) and (admin) isolate layout shells without affecting URL paths
 - [01-04]: router.push for login actions, router.replace for auto-redirects (prevents back-button loops)
+- [01-05]: POS layout height uses calc(100dvh-1.75rem) to account for prototype banner offset
 
 ### Pending Todos
 
@@ -71,5 +72,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 01-04-PLAN.md
+Stopped at: Completed Phase 1 (Foundation + Design System)
 Resume file: None

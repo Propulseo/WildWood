@@ -12,7 +12,7 @@ WildWood ERP is built in 7 phases that move from invisible infrastructure to the
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation + Design System** - Project scaffold, WildWood theme, type system, mock data, layout shells, auth simulation
+- [x] **Phase 1: Foundation + Design System** - Project scaffold, WildWood theme, type system, mock data, layout shells, auth simulation
 - [ ] **Phase 2: POS Cash Register** - Touch-first gym pass and F&B sales interface with cart and checkout
 - [ ] **Phase 3: Admin Shell + Dashboard** - Sidebar navigation layout and today's key numbers dashboard
 - [ ] **Phase 4: Core Admin Modules** - Client database with search/profiles and bungalow calendar with occupancy
@@ -35,11 +35,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 5 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold Next.js 16 project and configure WildWood design system
-- [ ] 01-02-PLAN.md — Create TypeScript types, realistic mock data, and data access layer
-- [ ] 01-03-PLAN.md — Create AuthContext with localStorage persistence and prototype banner
-- [ ] 01-04-PLAN.md — Create login page, POS layout shell, admin layout shell, and role toggle
-- [ ] 01-05-PLAN.md — Automated verification and visual checkpoint for Phase 1 completion
+- [x] 01-01-PLAN.md — Scaffold Next.js 16 project and configure WildWood design system
+- [x] 01-02-PLAN.md — Create TypeScript types, realistic mock data, and data access layer
+- [x] 01-03-PLAN.md — Create AuthContext with localStorage persistence and prototype banner
+- [x] 01-04-PLAN.md — Create login page, POS layout shell, admin layout shell, and role toggle
+- [x] 01-05-PLAN.md — Automated verification and visual checkpoint for Phase 1 completion
 
 ### Phase 2: POS Cash Register
 **Goal**: Staff can ring up a gym pass or F&B sale in under 3 taps on a tablet, from product selection through checkout confirmation
@@ -138,7 +138,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
-| 1. Foundation + Design System | 0/5 | Planned | - |
+| 1. Foundation + Design System | 5/5 | Complete | 2026-03-01 |
 | 2. POS Cash Register | 0/TBD | Not started | - |
 | 3. Admin Shell + Dashboard | 0/TBD | Not started | - |
 | 4. Core Admin Modules | 0/TBD | Not started | - |
