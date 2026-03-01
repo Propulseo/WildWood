@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 1 of 7 (Foundation + Design System)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-03-01 - Completed 01-03-PLAN.md
+Last activity: 2026-03-01 - Completed 01-04-PLAN.md
 
-Progress: [████░░░░░░] ~20%
+Progress: [█████░░░░░] ~25%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 5.7min
-- Total execution time: 17min
+- Total plans completed: 4
+- Average duration: 4.8min
+- Total execution time: 19min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 - Foundation | 3/5 | 17min | 5.7min |
+| 1 - Foundation | 4/5 | 19min | 4.8min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6min), 01-02 (5min), 01-03 (6min)
-- Trend: Stable ~6min per plan
+- Last 5 plans: 01-01 (6min), 01-02 (5min), 01-03 (6min), 01-04 (2min)
+- Trend: Accelerating, 01-04 fastest yet
 
 *Updated after each plan completion*
 
@@ -55,6 +55,9 @@ Recent decisions affecting current work:
 - [01-03]: PrototypeBanner outside AuthProvider for immediate rendering (no hydration delay)
 - [01-03]: isHydrated guard pattern: Client Components reading localStorage must delay rendering until useEffect runs
 - [01-03]: Role type imported from shared types.ts, not defined locally in auth-context
+- [01-04]: POS layout is Server Component (no 'use client'), Admin layout is Client Component (needs usePathname)
+- [01-04]: Route groups (pos) and (admin) isolate layout shells without affecting URL paths
+- [01-04]: router.push for login actions, router.replace for auto-redirects (prevents back-button loops)
 
 ### Pending Todos
 
@@ -68,5 +71,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 01-03-PLAN.md
+Stopped at: Completed 01-04-PLAN.md
 Resume file: None
