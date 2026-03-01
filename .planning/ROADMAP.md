@@ -51,11 +51,13 @@ Plans:
   3. User can switch to the F&B tab and see products organized by 6 categories (bowls, cocktails proteines, cafes, smoothies, boissons, snacks) with correct pricing
   4. User can add multiple items to a cart, see a running total, and complete the sale with an "Encaisser" button that shows visual confirmation feedback
   5. When a bungalow resident is detected, a badge indicates their gym pass is free and no transaction amount is charged
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Install shadcn components and create POS register shell with cart state
+- [ ] 02-02-PLAN.md — Build gym pass grid and F&B product grid with tabbed navigation
+- [ ] 02-03-PLAN.md — Client popup, bungalow detection, cart sidebar, and checkout flow
+- [ ] 02-04-PLAN.md — Automated verification and visual checkpoint for Phase 2
 
 ### Phase 3: Admin Shell + Dashboard
 **Goal**: The owner can open the admin interface and immediately see today's key business numbers without clicking anything
@@ -139,7 +141,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
 | 1. Foundation + Design System | 5/5 | Complete | 2026-03-01 |
-| 2. POS Cash Register | 0/TBD | Not started | - |
+| 2. POS Cash Register | 0/4 | Not started | - |
 | 3. Admin Shell + Dashboard | 0/TBD | Not started | - |
 | 4. Core Admin Modules | 0/TBD | Not started | - |
 | 5. Accounting + Reports | 0/TBD | Not started | - |
