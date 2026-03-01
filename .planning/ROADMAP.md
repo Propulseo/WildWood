@@ -100,11 +100,12 @@ Plans:
   2. Monthly view displays a Recharts bar chart of revenue vs expenses per month, with a recap table and net balance
   3. Annual view shows a 12-month table with totals for each revenue center
   4. User can manually enter an expense with category, amount, date, and note
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
+- [ ] 05-01-PLAN.md — Expense type, mock data, data-access function, and ExpensesContext
+- [ ] 05-02-PLAN.md — Comptabilite page with daily/monthly/annual views and expense entry dialog
+- [ ] 05-03-PLAN.md — Automated verification and visual checkpoint for Phase 5
 
 ### Phase 6: Secondary Modules
 **Goal**: The owner has a basic view of newsletter contacts and Instagram performance, even if these modules are lighter than the core ones
@@ -147,6 +148,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 2. POS Cash Register | 4/4 | Complete | 2026-03-01 |
 | 3. Admin Shell + Dashboard | 2/2 | Complete | 2026-03-01 |
 | 4. Core Admin Modules | 4/4 | Complete | 2026-03-01 |
-| 5. Accounting + Reports | 0/TBD | Not started | - |
+| 5. Accounting + Reports | 0/3 | Not started | - |
 | 6. Secondary Modules | 0/TBD | Not started | - |
 | 7. Polish + Deployment | 0/TBD | Not started | - |
