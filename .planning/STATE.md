@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 5 of 7 (Accounting + Reports)
-Plan: 0 of TBD in current phase
-Status: Planning
-Last activity: 2026-03-01 - Completed Phase 4 (Core Admin Modules)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-03-01 - Completed 05-01-PLAN.md
 
-Progress: [█████████░] ~90%
+Progress: [█████████░] ~92%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 16
+- Total plans completed: 17
 - Average duration: 2.9min
-- Total execution time: 47min
+- Total execution time: 49min
 
 **By Phase:**
 
@@ -31,9 +31,10 @@ Progress: [█████████░] ~90%
 | 2 - POS Cash Register | 4/4 | 9min | 2.3min |
 | 3 - Admin Shell + Dashboard | 2/2 | 3min | 1.5min |
 | 4 - Core Admin Modules | 4/4 | 10min | 2.5min |
+| 5 - Accounting + Reports | 1/3 | 2min | 2.0min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (3min), 04-02 (3min), 04-03 (2min), 04-04 (1min)
+- Last 5 plans: 04-02 (3min), 04-03 (2min), 04-04 (1min), 05-01 (2min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -78,6 +79,8 @@ Recent decisions affecting current work:
 - [04-03]: Newsletter toggle uses local state only (prototype, no persistence)
 - [04-03]: Client stats (montantTotal, datesVisite) computed from TransactionsContext via useMemo
 - [04-03]: Avatar initials in wildwood-bois circle for client profile header
+- [05-01]: Expense IDs use exp-XXX convention, 5 categories: Fournitures, Salaires, Maintenance, Marketing, Divers
+- [05-01]: ExpensesProvider wraps TransactionsProvider (outer) in admin layout
 
 ### Pending Todos
 
@@ -91,5 +94,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed Phase 4 (Core Admin Modules)
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None
