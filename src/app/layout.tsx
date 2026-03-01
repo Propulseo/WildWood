@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { Inter, Oswald } from "next/font/google"
+import { AuthProvider } from "@/lib/contexts/auth-context"
+import { PrototypeBanner } from "@/components/prototype-banner"
 import "./globals.css"
 
 const inter = Inter({
@@ -27,7 +29,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${inter.variable} ${oswald.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased pt-7">
+        <PrototypeBanner />
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   )
 }
