@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 5 of 7 (Accounting + Reports)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-03-01 - Completed 05-01-PLAN.md
+Last activity: 2026-03-01 - Completed 05-02-PLAN.md
 
-Progress: [█████████░] ~92%
+Progress: [██████████] ~95%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
+- Total plans completed: 18
 - Average duration: 2.9min
-- Total execution time: 49min
+- Total execution time: 53min
 
 **By Phase:**
 
@@ -31,10 +31,10 @@ Progress: [█████████░] ~92%
 | 2 - POS Cash Register | 4/4 | 9min | 2.3min |
 | 3 - Admin Shell + Dashboard | 2/2 | 3min | 1.5min |
 | 4 - Core Admin Modules | 4/4 | 10min | 2.5min |
-| 5 - Accounting + Reports | 1/3 | 2min | 2.0min |
+| 5 - Accounting + Reports | 2/3 | 6min | 3.0min |
 
 **Recent Trend:**
-- Last 5 plans: 04-02 (3min), 04-03 (2min), 04-04 (1min), 05-01 (2min)
+- Last 5 plans: 04-03 (2min), 04-04 (1min), 05-01 (2min), 05-02 (4min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -81,6 +81,9 @@ Recent decisions affecting current work:
 - [04-03]: Avatar initials in wildwood-bois circle for client profile header
 - [05-01]: Expense IDs use exp-XXX convention, 5 categories: Fournitures, Salaires, Maintenance, Marketing, Divers
 - [05-01]: ExpensesProvider wraps TransactionsProvider (outer) in admin layout
+- [05-02]: Recharts Tooltip formatter uses (value: number | string | undefined) for v3 type compatibility
+- [05-02]: Monthly chart uses date-fns format(month, 'MMM'), annual table uses French month names
+- [05-02]: Expense dialog generates IDs with exp-${Date.now()} for prototype simplicity
 
 ### Pending Todos
 
@@ -94,5 +97,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 05-01-PLAN.md
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
