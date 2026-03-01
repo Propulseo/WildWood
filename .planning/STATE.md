@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 4 of 7 (Core Admin Modules)
-Plan: 2 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-03-01 - Completed 04-02-PLAN.md (Bungalow Calendar)
+Last activity: 2026-03-01 - Completed 04-03-PLAN.md (Client Profile)
 
-Progress: [█████████░] ~87%
+Progress: [█████████░] ~90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
-- Average duration: 3.1min
-- Total execution time: 43min
+- Total plans completed: 15
+- Average duration: 3.0min
+- Total execution time: 45min
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [█████████░] ~87%
 | 1 - Foundation | 5/5 | 22min | 4.4min |
 | 2 - POS Cash Register | 4/4 | 9min | 2.3min |
 | 3 - Admin Shell + Dashboard | 2/2 | 3min | 1.5min |
-| 4 - Core Admin Modules | 2/4 | 6min | 3.0min |
+| 4 - Core Admin Modules | 3/4 | 8min | 2.7min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (2min), 03-02 (1min), 04-01 (3min), 04-02 (3min)
+- Last 5 plans: 03-02 (1min), 04-01 (3min), 04-02 (3min), 04-03 (2min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -87,6 +87,9 @@ Recent decisions affecting current work:
 - [04-02]: Flat grid children pattern for reservation bars (direct gridRow/gridColumn, not nested)
 - [04-02]: Occupancy computed in useMemo with annulee exclusion, same pattern as dashboard
 - [04-02]: Weekly breakdown uses eachWeekOfInterval with Monday start (weekStartsOn: 1)
+- [04-03]: Newsletter toggle uses local state only (prototype, no persistence)
+- [04-03]: Client stats (montantTotal, datesVisite) computed from TransactionsContext via useMemo
+- [04-03]: Avatar initials in wildwood-bois circle for client profile header
 
 ### Pending Todos
 
@@ -100,5 +103,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 04-02-PLAN.md (Bungalow Calendar)
+Stopped at: Completed 04-03-PLAN.md (Client Profile)
 Resume file: None
