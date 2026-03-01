@@ -1,4 +1,5 @@
 import { RoleToggle } from '@/components/role-toggle'
+import { Toaster } from '@/components/ui/sonner'
 
 export default function PosLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export default function PosLayout({ children }: { children: React.ReactNode }) {
       <main className="overflow-hidden">
         {children}
       </main>
+      <Toaster position="top-center" richColors />
     </div>
   )
 }
