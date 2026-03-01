@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { RoleToggle } from '@/components/role-toggle'
 import { TransactionsProvider } from '@/contexts/transactions-context'
+import { ExpensesProvider } from '@/contexts/expenses-context'
 import {
   LayoutDashboard,
   Users,
@@ -118,7 +119,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <RoleToggle />
         </header>
         <main className="flex-1 p-6 overflow-auto">
-          <TransactionsProvider>{children}</TransactionsProvider>
+          <ExpensesProvider>
+            <TransactionsProvider>{children}</TransactionsProvider>
+          </ExpensesProvider>
         </main>
       </div>
     </div>
