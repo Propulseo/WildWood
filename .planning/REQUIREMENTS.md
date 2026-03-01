@@ -131,14 +131,14 @@ Aucun requirement v2 defini pour ce milestone. Le scope v2 (backend Supabase, in
 | FOUND-05 | Phase 1: Foundation + Design System | Complete |
 | FOUND-06 | Phase 1: Foundation + Design System | Complete |
 | FOUND-07 | Phase 1: Foundation + Design System | Complete |
-| POS-01 | Phase 2: POS Cash Register | Pending |
-| POS-02 | Phase 2: POS Cash Register | Pending |
-| POS-03 | Phase 2: POS Cash Register | Pending |
-| POS-04 | Phase 2: POS Cash Register | Pending |
-| POS-05 | Phase 2: POS Cash Register | Pending |
-| POS-06 | Phase 2: POS Cash Register | Pending |
-| POS-07 | Phase 2: POS Cash Register | Pending |
-| POS-08 | Phase 2: POS Cash Register | Pending |
+| POS-01 | Phase 2: POS Cash Register | Complete |
+| POS-02 | Phase 2: POS Cash Register | Complete |
+| POS-03 | Phase 2: POS Cash Register | Complete |
+| POS-04 | Phase 2: POS Cash Register | Complete |
+| POS-05 | Phase 2: POS Cash Register | Complete |
+| POS-06 | Phase 2: POS Cash Register | Complete |
+| POS-07 | Phase 2: POS Cash Register | Complete |
+| POS-08 | Phase 2: POS Cash Register | Complete |
 | DASH-01 | Phase 3: Admin Shell + Dashboard | Pending |
 | DASH-02 | Phase 3: Admin Shell + Dashboard | Pending |
 | CLI-01 | Phase 4: Core Admin Modules | Pending |

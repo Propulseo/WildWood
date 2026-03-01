@@ -13,7 +13,7 @@ WildWood ERP is built in 7 phases that move from invisible infrastructure to the
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation + Design System** - Project scaffold, WildWood theme, type system, mock data, layout shells, auth simulation
-- [ ] **Phase 2: POS Cash Register** - Touch-first gym pass and F&B sales interface with cart and checkout
+- [x] **Phase 2: POS Cash Register** - Touch-first gym pass and F&B sales interface with cart and checkout
 - [ ] **Phase 3: Admin Shell + Dashboard** - Sidebar navigation layout and today's key numbers dashboard
 - [ ] **Phase 4: Core Admin Modules** - Client database with search/profiles and bungalow calendar with occupancy
 - [ ] **Phase 5: Accounting + Reports** - Daily/monthly/annual revenue views, expense entry, Recharts graphs
@@ -54,10 +54,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Install shadcn components and create POS register shell with cart state
-- [ ] 02-02-PLAN.md — Build gym pass grid and F&B product grid with tabbed navigation
-- [ ] 02-03-PLAN.md — Client popup, bungalow detection, cart sidebar, and checkout flow
-- [ ] 02-04-PLAN.md — Automated verification and visual checkpoint for Phase 2
+- [x] 02-01-PLAN.md — Install shadcn components and create POS register shell with cart state
+- [x] 02-02-PLAN.md — Build gym pass grid and F&B product grid with tabbed navigation
+- [x] 02-03-PLAN.md — Client popup, bungalow detection, cart sidebar, and checkout flow
+- [x] 02-04-PLAN.md — Automated verification and visual checkpoint for Phase 2
 
 ### Phase 3: Admin Shell + Dashboard
 **Goal**: The owner can open the admin interface and immediately see today's key business numbers without clicking anything
@@ -141,7 +141,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
 | 1. Foundation + Design System | 5/5 | Complete | 2026-03-01 |
-| 2. POS Cash Register | 0/4 | Not started | - |
+| 2. POS Cash Register | 4/4 | Complete | 2026-03-01 |
 | 3. Admin Shell + Dashboard | 0/TBD | Not started | - |
 | 4. Core Admin Modules | 0/TBD | Not started | - |
 | 5. Accounting + Reports | 0/TBD | Not started | - |
