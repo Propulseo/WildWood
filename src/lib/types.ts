@@ -108,5 +108,18 @@ export interface TransactionItem {
   sousTotal: number
 }
 
+/** Depense manuelle saisie par l'owner */
+export interface Expense {
+  id: string
+  /** Categorie de depense */
+  categorie: 'Fournitures' | 'Salaires' | 'Maintenance' | 'Marketing' | 'Divers'
+  /** Montant en baht thailandais */
+  montant: number
+  /** Date de la depense -- format ISO YYYY-MM-DD */
+  date: string
+  /** Note explicative optionnelle */
+  note?: string
+}
+
 /** Roles utilisateur pour l'authentification simulee */
 export type Role = 'admin' | 'staff'

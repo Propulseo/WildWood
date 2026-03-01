@@ -1,0 +1,177 @@
+[
+  {
+    "id": "exp-001",
+    "categorie": "Salaires",
+    "montant": 22000,
+    "date": "2025-03-15",
+    "note": "Salaire Nong mars"
+  },
+  {
+    "id": "exp-002",
+    "categorie": "Fournitures",
+    "montant": 4500,
+    "date": "2025-04-03",
+    "note": "Achat serviettes et tapis yoga"
+  },
+  {
+    "id": "exp-003",
+    "categorie": "Maintenance",
+    "montant": 8500,
+    "date": "2025-04-20",
+    "note": "Reparation toit bungalow 3"
+  },
+  {
+    "id": "exp-004",
+    "categorie": "Marketing",
+    "montant": 2500,
+    "date": "2025-05-10",
+    "note": "Publicite Facebook mai"
+  },
+  {
+    "id": "exp-005",
+    "categorie": "Salaires",
+    "montant": 22000,
+    "date": "2025-05-15",
+    "note": "Salaire Nong mai"
+  },
+  {
+    "id": "exp-006",
+    "categorie": "Divers",
+    "montant": 1200,
+    "date": "2025-06-02",
+    "note": "Papeterie et fournitures bureau"
+  },
+  {
+    "id": "exp-007",
+    "categorie": "Fournitures",
+    "montant": 7200,
+    "date": "2025-06-18",
+    "note": "Halteres et bandes elastiques"
+  },
+  {
+    "id": "exp-008",
+    "categorie": "Maintenance",
+    "montant": 12000,
+    "date": "2025-07-05",
+    "note": "Nettoyage et traitement piscine"
+  },
+  {
+    "id": "exp-009",
+    "categorie": "Salaires",
+    "montant": 18000,
+    "date": "2025-08-15",
+    "note": "Salaire Ploy aout"
+  },
+  {
+    "id": "exp-010",
+    "categorie": "Marketing",
+    "montant": 3500,
+    "date": "2025-09-01",
+    "note": "Impression flyers haute saison"
+  },
+  {
+    "id": "exp-011",
+    "categorie": "Fournitures",
+    "montant": 2800,
+    "date": "2025-09-22",
+    "note": "Produits nettoyage et desinfectant"
+  },
+  {
+    "id": "exp-012",
+    "categorie": "Maintenance",
+    "montant": 5500,
+    "date": "2025-10-10",
+    "note": "Remplacement ventilateur bungalow 5"
+  },
+  {
+    "id": "exp-013",
+    "categorie": "Divers",
+    "montant": 2200,
+    "date": "2025-10-28",
+    "note": "Decoration Halloween bar"
+  },
+  {
+    "id": "exp-014",
+    "categorie": "Salaires",
+    "montant": 25000,
+    "date": "2025-11-15",
+    "note": "Salaire Nong novembre + prime"
+  },
+  {
+    "id": "exp-015",
+    "categorie": "Marketing",
+    "montant": 4800,
+    "date": "2025-12-01",
+    "note": "Campagne Instagram Noel"
+  },
+  {
+    "id": "exp-016",
+    "categorie": "Fournitures",
+    "montant": 6500,
+    "date": "2025-12-20",
+    "note": "Tapis de sol et rouleaux massage"
+  },
+  {
+    "id": "exp-017",
+    "categorie": "Salaires",
+    "montant": 22000,
+    "date": "2026-01-15",
+    "note": "Salaire Nong janvier"
+  },
+  {
+    "id": "exp-018",
+    "categorie": "Maintenance",
+    "montant": 14000,
+    "date": "2026-01-25",
+    "note": "Peinture exterieure bungalows 1 et 2"
+  },
+  {
+    "id": "exp-019",
+    "categorie": "Divers",
+    "montant": 850,
+    "date": "2026-02-05",
+    "note": "Ampoules LED remplacement"
+  },
+  {
+    "id": "exp-020",
+    "categorie": "Fournitures",
+    "montant": 3200,
+    "date": "2026-02-14",
+    "note": "Corde a sauter et kettlebells"
+  },
+  {
+    "id": "exp-021",
+    "categorie": "Marketing",
+    "montant": 1500,
+    "date": "2026-02-20",
+    "note": "Boost publication Facebook fevrier"
+  },
+  {
+    "id": "exp-022",
+    "categorie": "Salaires",
+    "montant": 18000,
+    "date": "2026-02-15",
+    "note": "Salaire Ploy fevrier"
+  },
+  {
+    "id": "exp-023",
+    "categorie": "Fournitures",
+    "montant": 5800,
+    "date": "2026-03-01",
+    "note": "Achat proteines et supplements bar"
+  },
+  {
+    "id": "exp-024",
+    "categorie": "Maintenance",
+    "montant": 3500,
+    "date": "2026-03-01",
+    "note": "Reparation plomberie bungalow 7"
+  },
+  {
+    "id": "exp-025",
+    "categorie": "Divers",
+    "montant": 950,
+    "date": "2026-03-01",
+    "note": "Recharge eau potable distributeur"
+  }
+]

@@ -1,9 +1,10 @@
-import type { Client, GymPass, FnbProduct, Bungalow, Transaction } from './types'
+import type { Client, GymPass, FnbProduct, Bungalow, Transaction, Expense } from './types'
 import clientsData from './mock-data/clients.json'
 import gymPassesData from './mock-data/gym-passes.json'
 import fnbProductsData from './mock-data/fnb-products.json'
 import bungalowsData from './mock-data/bungalows.json'
 import transactionsData from './mock-data/transactions.json'
+import expensesData from './mock-data/expenses.json'
 
 // =============================================================================
 // Data Access Layer — Single point of entry for all data
@@ -48,4 +49,10 @@ export async function getBungalows(): Promise<Bungalow[]> {
 
 export async function getTransactions(): Promise<Transaction[]> {
   return transactionsData as Transaction[]
+}
+
+// --- Expenses ---
+
+export async function getExpenses(): Promise<Expense[]> {
+  return expensesData as Expense[]
 }
