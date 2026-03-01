@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 4 of 7 (Core Admin Modules)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-03-01 - Completed 04-01-PLAN.md (Client List Page)
+Last activity: 2026-03-01 - Completed 04-02-PLAN.md (Bungalow Calendar)
 
-Progress: [████████░░] ~80%
+Progress: [█████████░] ~87%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
+- Total plans completed: 14
 - Average duration: 3.1min
-- Total execution time: 40min
+- Total execution time: 43min
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [████████░░] ~80%
 | 1 - Foundation | 5/5 | 22min | 4.4min |
 | 2 - POS Cash Register | 4/4 | 9min | 2.3min |
 | 3 - Admin Shell + Dashboard | 2/2 | 3min | 1.5min |
-| 4 - Core Admin Modules | 1/4 | 3min | 3.0min |
+| 4 - Core Admin Modules | 2/4 | 6min | 3.0min |
 
 **Recent Trend:**
-- Last 5 plans: 02-04 (2min), 03-01 (2min), 03-02 (1min), 04-01 (3min)
+- Last 5 plans: 03-01 (2min), 03-02 (1min), 04-01 (3min), 04-02 (3min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -84,6 +84,9 @@ Recent decisions affecting current work:
 - [04-01]: Client-side filtering with no debounce (35 items instant)
 - [04-01]: Pass type derived from most recent gym-pass transaction per client via useMemo
 - [04-01]: Period filter uses date-fns isAfter/subDays/startOfYear with preset options
+- [04-02]: Flat grid children pattern for reservation bars (direct gridRow/gridColumn, not nested)
+- [04-02]: Occupancy computed in useMemo with annulee exclusion, same pattern as dashboard
+- [04-02]: Weekly breakdown uses eachWeekOfInterval with Monday start (weekStartsOn: 1)
 
 ### Pending Todos
 
@@ -97,5 +100,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 04-01-PLAN.md (Client List Page)
+Stopped at: Completed 04-02-PLAN.md (Bungalow Calendar)
 Resume file: None
