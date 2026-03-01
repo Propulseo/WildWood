@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 2 of 7 (POS Cash Register)
-Plan: 2 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-03-01 - Completed 02-02-PLAN.md
+Last activity: 2026-03-01 - Completed 02-03-PLAN.md
 
-Progress: [████░░░░░░] ~26%
+Progress: [█████░░░░░] ~33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 3.7min
-- Total execution time: 26min
+- Total plans completed: 8
+- Average duration: 3.6min
+- Total execution time: 29min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 - Foundation | 5/5 | 22min | 4.4min |
-| 2 - POS Cash Register | 2/4 | 4min | 2.0min |
+| 2 - POS Cash Register | 3/4 | 7min | 2.3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (6min), 01-04 (2min), 01-05 (3min), 02-01 (2min), 02-02 (2min)
-- Trend: Accelerating
+- Last 5 plans: 01-04 (2min), 01-05 (3min), 02-01 (2min), 02-02 (2min), 02-03 (3min)
+- Trend: Consistently fast
 
 *Updated after each plan completion*
 
@@ -68,6 +68,12 @@ Recent decisions affecting current work:
 - [02-02]: Category filter uses Button variant toggle (pos/pos-accent) instead of nested Tabs
 - [02-02]: Gym pass handler sets selectedPass + clientDialogOpen state (consumed by Plan 03 dialog)
 - [02-02]: F&B items dispatch ADD_ITEM directly to cart reducer (no client popup for bar sales)
+- [02-03]: React 19 context syntax: <TransactionsContext value={...}> not .Provider
+- [02-03]: Dialog portal pos-theme class on DialogContent for dark theme inheritance
+- [02-03]: Bungalow resident detection: client.bungalowId + active reservation (statut en-cours)
+- [02-03]: Transaction ID format: txn-{last 3 digits of Date.now()}
+- [02-03]: Gym pass items 0 THB for bungalow residents; F&B always charged
+- [02-03]: New contexts in src/contexts/ (TransactionsContext)
 
 ### Pending Todos
 
@@ -81,5 +87,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 02-02-PLAN.md (Product grids - gym passes + F&B)
+Stopped at: Completed 02-03-PLAN.md (Client popup, cart sidebar, checkout flow)
 Resume file: None
