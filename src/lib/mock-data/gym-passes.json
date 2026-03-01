@@ -1,0 +1,11 @@
+[
+  { "id": "pass-1j", "nom": "1 jour", "prix": 350, "dureeJours": 1 },
+  { "id": "pass-3j", "nom": "3 jours", "prix": 800, "dureeJours": 3 },
+  { "id": "pass-1s", "nom": "1 semaine", "prix": 1200, "dureeJours": 7 },
+  { "id": "pass-10j", "nom": "10 jours", "prix": 1400, "dureeJours": 10, "expireJours": 90, "description": "Expire dans 90 jours" },
+  { "id": "pass-1m", "nom": "1 mois", "prix": 2000, "dureeJours": 30 },
+  { "id": "pass-6m", "nom": "6 mois", "prix": 9000, "dureeJours": 180 },
+  { "id": "pass-1a", "nom": "1 an", "prix": 15000, "dureeJours": 365 },
+  { "id": "pass-spa", "nom": "Spa pass (1 jour)", "prix": 250, "dureeJours": 1, "description": "Acces spa uniquement" },
+  { "id": "pass-pool", "nom": "Pool pass only", "prix": 200, "dureeJours": 1, "description": "Acces piscine uniquement" }
+]

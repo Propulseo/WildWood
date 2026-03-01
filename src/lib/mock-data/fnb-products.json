@@ -1,0 +1,22 @@
+[
+  { "id": "fnb-001", "nom": "Acai Bowl", "categorie": "bowls", "prix": 220, "emoji": "\ud83e\uded0" },
+  { "id": "fnb-002", "nom": "Protein Bowl", "categorie": "bowls", "prix": 220, "emoji": "\ud83e\udee8" },
+  { "id": "fnb-003", "nom": "Smoothie Bowl", "categorie": "bowls", "prix": 220, "emoji": "\ud83c\udf5c" },
+  { "id": "fnb-004", "nom": "Whey Shake", "categorie": "cocktails-proteines", "prix": 220, "emoji": "\ud83e\udd5b" },
+  { "id": "fnb-005", "nom": "Post-Workout", "categorie": "cocktails-proteines", "prix": 220, "emoji": "\ud83d\udcaa" },
+  { "id": "fnb-006", "nom": "Mass Gainer", "categorie": "cocktails-proteines", "prix": 220, "emoji": "\ud83c\udfcb\ufe0f" },
+  { "id": "fnb-007", "nom": "Espresso", "categorie": "cafes", "prix": 70, "emoji": "\u2615" },
+  { "id": "fnb-008", "nom": "Americano", "categorie": "cafes", "prix": 70, "emoji": "\u2615" },
+  { "id": "fnb-009", "nom": "Latte", "categorie": "cafes", "prix": 70, "emoji": "\ud83e\udd5b" },
+  { "id": "fnb-010", "nom": "Cappuccino", "categorie": "cafes", "prix": 70, "emoji": "\u2615" },
+  { "id": "fnb-011", "nom": "Mango Smoothie", "categorie": "smoothies", "prix": 120, "emoji": "\ud83e\udd6d" },
+  { "id": "fnb-012", "nom": "Banana-Peanut", "categorie": "smoothies", "prix": 120, "emoji": "\ud83c\udf4c" },
+  { "id": "fnb-013", "nom": "Green Detox", "categorie": "smoothies", "prix": 120, "emoji": "\ud83e\udd6c" },
+  { "id": "fnb-014", "nom": "Eau", "categorie": "boissons", "prix": 40, "emoji": "\ud83d\udca7" },
+  { "id": "fnb-015", "nom": "Coca", "categorie": "boissons", "prix": 60, "emoji": "\ud83e\udd64" },
+  { "id": "fnb-016", "nom": "Jus de fruits", "categorie": "boissons", "prix": 80, "emoji": "\ud83e\uddc3" },
+  { "id": "fnb-017", "nom": "Biere", "categorie": "boissons", "prix": 100, "emoji": "\ud83c\udf7a" },
+  { "id": "fnb-018", "nom": "Banana Pancake", "categorie": "snacks", "prix": 120, "emoji": "\ud83e\udd5e" },
+  { "id": "fnb-019", "nom": "Granola Bar", "categorie": "snacks", "prix": 100, "emoji": "\ud83c\udf6b" },
+  { "id": "fnb-020", "nom": "Toast Avocat", "categorie": "snacks", "prix": 150, "emoji": "\ud83e\udd51" }
+]
