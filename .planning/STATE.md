@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 2 of 7 (POS Cash Register)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-03-01 - Completed 02-01-PLAN.md
+Last activity: 2026-03-01 - Completed 02-02-PLAN.md
 
-Progress: [███░░░░░░░] ~22%
+Progress: [████░░░░░░] ~26%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 4.0min
-- Total execution time: 24min
+- Total plans completed: 7
+- Average duration: 3.7min
+- Total execution time: 26min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 - Foundation | 5/5 | 22min | 4.4min |
-| 2 - POS Cash Register | 1/4 | 2min | 2.0min |
+| 2 - POS Cash Register | 2/4 | 4min | 2.0min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (5min), 01-03 (6min), 01-04 (2min), 01-05 (3min), 02-01 (2min)
+- Last 5 plans: 01-03 (6min), 01-04 (2min), 01-05 (3min), 02-01 (2min), 02-02 (2min)
 - Trend: Accelerating
 
 *Updated after each plan completion*
@@ -64,6 +64,10 @@ Recent decisions affecting current work:
 - [02-01]: Server Component page fetches all data via data-access.ts Promise.all, passes as props to client PosRegister
 - [02-01]: Cart state via useReducer with typed CartAction discriminated union (ADD_ITEM, REMOVE_ITEM, UPDATE_QUANTITY, SET_CLIENT, CLEAR_CART)
 - [02-01]: POS register two-column grid: grid-cols-[1fr_320px] (products left, 320px cart right)
+- [02-02]: FnbGrid uses useState without 'use client' -- client boundary propagates from PosRegister
+- [02-02]: Category filter uses Button variant toggle (pos/pos-accent) instead of nested Tabs
+- [02-02]: Gym pass handler sets selectedPass + clientDialogOpen state (consumed by Plan 03 dialog)
+- [02-02]: F&B items dispatch ADD_ITEM directly to cart reducer (no client popup for bar sales)
 
 ### Pending Todos
 
@@ -77,5 +81,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 02-01-PLAN.md (POS register foundation)
+Stopped at: Completed 02-02-PLAN.md (Product grids - gym passes + F&B)
 Resume file: None
