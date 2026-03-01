@@ -151,12 +151,12 @@ Aucun requirement v2 defini pour ce milestone. Le scope v2 (backend Supabase, in
 | BUNG-02 | Phase 4: Core Admin Modules | Complete |
 | BUNG-03 | Phase 4: Core Admin Modules | Complete |
 | BUNG-04 | Phase 4: Core Admin Modules | Complete |
-| COMPT-01 | Phase 5: Accounting + Reports | Pending |
-| COMPT-02 | Phase 5: Accounting + Reports | Pending |
-| COMPT-03 | Phase 5: Accounting + Reports | Pending |
-| COMPT-04 | Phase 5: Accounting + Reports | Pending |
-| COMPT-05 | Phase 5: Accounting + Reports | Pending |
-| COMPT-06 | Phase 5: Accounting + Reports | Pending |
+| COMPT-01 | Phase 5: Accounting + Reports | Complete |
+| COMPT-02 | Phase 5: Accounting + Reports | Complete |
+| COMPT-03 | Phase 5: Accounting + Reports | Complete |
+| COMPT-04 | Phase 5: Accounting + Reports | Complete |
+| COMPT-05 | Phase 5: Accounting + Reports | Complete |
+| COMPT-06 | Phase 5: Accounting + Reports | Complete |
 | NEWS-01 | Phase 6: Secondary Modules | Pending |
 | NEWS-02 | Phase 6: Secondary Modules | Pending |
 | NEWS-03 | Phase 6: Secondary Modules | Pending |
