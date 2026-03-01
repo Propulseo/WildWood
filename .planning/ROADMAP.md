@@ -83,11 +83,13 @@ Plans:
   3. Clicking a client opens a profile page showing their purchase history, total amount spent, visit dates, and a "Resident bungalow" badge if they have an active reservation
   4. Each client profile has an "Ajouter a la newsletter" button
   5. Bungalow calendar displays a month view with 8 bungalow rows, showing reservations with client name, dates, number of nights, amount, and status, plus a weekly/monthly occupancy rate
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — Install shadcn Table/Select and build client list with search, filters, pagination
+- [ ] 04-02-PLAN.md — Build bungalow calendar with CSS grid, reservation bars, and occupancy rates
+- [ ] 04-03-PLAN.md — Build client profile page with history, stats, resident badge, newsletter toggle
+- [ ] 04-04-PLAN.md — Automated verification and visual checkpoint for Phase 4
 
 ### Phase 5: Accounting + Reports
 **Goal**: The owner can answer "how much did I make today/this month/this year?" broken down by revenue center, and track expenses
@@ -144,7 +146,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 1. Foundation + Design System | 5/5 | Complete | 2026-03-01 |
 | 2. POS Cash Register | 4/4 | Complete | 2026-03-01 |
 | 3. Admin Shell + Dashboard | 2/2 | Complete | 2026-03-01 |
-| 4. Core Admin Modules | 0/TBD | Not started | - |
+| 4. Core Admin Modules | 0/4 | In progress | - |
 | 5. Accounting + Reports | 0/TBD | Not started | - |
 | 6. Secondary Modules | 0/TBD | Not started | - |
 | 7. Polish + Deployment | 0/TBD | Not started | - |
