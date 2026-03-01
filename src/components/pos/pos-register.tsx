@@ -1,7 +1,8 @@
 'use client'
 
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 import type { Client, GymPass, FnbProduct, Bungalow } from '@/lib/types'
+import { ProductGrid } from './product-grid'
 
 // =============================================================================
 // Cart State Types
@@ -120,14 +121,36 @@ export function PosRegister({
   bungalows,
 }: PosRegisterProps) {
   const [cart, dispatch] = useReducer(cartReducer, initialCartState)
+  const [selectedPass, setSelectedPass] = useState<GymPass | null>(null)
+  const [clientDialogOpen, setClientDialogOpen] = useState(false)
+
+  const handleSelectGymPass = (pass: GymPass) => {
+    setSelectedPass(pass)
+    setClientDialogOpen(true)
+  }
+
+  const handleAddFnbItem = (product: FnbProduct) => {
+    dispatch({
+      type: 'ADD_ITEM',
+      payload: {
+        produitId: product.id,
+        nom: product.nom,
+        prixUnitaire: product.prix,
+        type: 'fnb',
+      },
+    })
+  }
 
   return (
     <div className="grid grid-cols-[1fr_320px] h-full">
       {/* Left panel: Product area */}
       <div className="flex flex-col overflow-hidden border-r border-border">
-        <p className="text-muted-foreground p-4">
-          Product grids coming in Plan 02
-        </p>
+        <ProductGrid
+          gymPasses={gymPasses}
+          fnbProducts={fnbProducts}
+          onSelectGymPass={handleSelectGymPass}
+          onAddFnbItem={handleAddFnbItem}
+        />
       </div>
       {/* Right panel: Cart sidebar */}
       <div className="flex flex-col bg-card">
