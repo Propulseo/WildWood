@@ -6,9 +6,10 @@ import { useTransactions } from '@/contexts/transactions-context'
 import { getClientById, getBungalows } from '@/lib/data-access'
 import type { Client, Bungalow } from '@/lib/types'
 import { format, parseISO } from 'date-fns'
-import { ArrowLeft, Home } from 'lucide-react'
+import { ArrowLeft, Home, Mail } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableHeader,
@@ -17,6 +18,7 @@ import {
   TableHead,
   TableCell,
 } from '@/components/ui/table'
+import { toast } from 'sonner'
 
 const TYPE_LABELS: Record<string, string> = {
   'gym-pass': 'Gym',
@@ -31,6 +33,7 @@ export default function ClientProfilePage() {
 
   const [client, setClient] = useState<Client | null>(null)
   const [bungalows, setBungalows] = useState<Bungalow[]>([])
+  const [newsletterStatus, setNewsletterStatus] = useState(false)
 
   useEffect(() => {
     if (params.id) {
@@ -38,6 +41,23 @@ export default function ClientProfilePage() {
       getBungalows().then(setBungalows)
     }
   }, [params.id])
+
+  // Sync newsletter status when client loads
+  useEffect(() => {
+    if (client) setNewsletterStatus(client.newsletter)
+  }, [client])
+
+  function handleNewsletter() {
+    setNewsletterStatus((prev) => {
+      const next = !prev
+      if (next) {
+        toast.success('Client ajoute a la newsletter')
+      } else {
+        toast.success('Client retire de la newsletter')
+      }
+      return next
+    })
+  }
 
   // Compute client stats from transactions
   const { montantTotal, datesVisite, historiqueAchats } = useMemo(() => {
@@ -97,6 +117,16 @@ export default function ClientProfilePage() {
                 Resident bungalow
               </Badge>
             )}
+            <Button
+              variant={newsletterStatus ? 'secondary' : 'default'}
+              size="sm"
+              onClick={handleNewsletter}
+            >
+              <Mail className="h-4 w-4 mr-1" />
+              {newsletterStatus
+                ? 'Inscrit a la newsletter'
+                : 'Ajouter a la newsletter'}
+            </Button>
           </div>
           <div className="mt-1 space-y-0.5 text-muted-foreground text-sm">
             {client.email && <p>{client.email}</p>}
