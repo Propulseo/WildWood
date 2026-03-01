@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 ## Current Position
 
 Phase: 4 of 7 (Core Admin Modules)
-Plan: 0 of TBD in current phase
-Status: Not started
-Last activity: 2026-03-01 - Completed Phase 3 (Admin Shell + Dashboard)
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-03-01 - Completed 04-01-PLAN.md (Client List Page)
 
-Progress: [█████░░░░░] ~43%
+Progress: [████████░░] ~80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
+- Total plans completed: 13
 - Average duration: 3.1min
-- Total execution time: 37min
+- Total execution time: 40min
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: [█████░░░░░] ~43%
 | 1 - Foundation | 5/5 | 22min | 4.4min |
 | 2 - POS Cash Register | 4/4 | 9min | 2.3min |
 | 3 - Admin Shell + Dashboard | 2/2 | 3min | 1.5min |
+| 4 - Core Admin Modules | 1/4 | 3min | 3.0min |
 
 **Recent Trend:**
-- Last 5 plans: 02-03 (3min), 02-04 (2min), 03-01 (2min), 03-02 (1min)
-- Trend: Accelerating
+- Last 5 plans: 02-04 (2min), 03-01 (2min), 03-02 (1min), 04-01 (3min)
+- Trend: Consistent
 
 *Updated after each plan completion*
 
@@ -80,6 +81,9 @@ Recent decisions affecting current work:
 - [03-01]: TransactionsProvider placed in admin layout wrapping children, not in root layout
 - [03-01]: Dashboard uses useMemo for derived stats, not useEffect+useState
 - [03-01]: Revenue center cards use WildWood brand colors: orange (Gym), lime (F&B), bois (Bungalows)
+- [04-01]: Client-side filtering with no debounce (35 items instant)
+- [04-01]: Pass type derived from most recent gym-pass transaction per client via useMemo
+- [04-01]: Period filter uses date-fns isAfter/subDays/startOfYear with preset options
 
 ### Pending Todos
 
@@ -93,5 +97,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed Phase 3 (Admin Shell + Dashboard)
+Stopped at: Completed 04-01-PLAN.md (Client List Page)
 Resume file: None
