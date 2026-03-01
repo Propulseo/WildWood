@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation + Design System** - Project scaffold, WildWood theme, type system, mock data, layout shells, auth simulation
 - [x] **Phase 2: POS Cash Register** - Touch-first gym pass and F&B sales interface with cart and checkout
-- [ ] **Phase 3: Admin Shell + Dashboard** - Sidebar navigation layout and today's key numbers dashboard
+- [x] **Phase 3: Admin Shell + Dashboard** - Sidebar navigation layout and today's key numbers dashboard
 - [ ] **Phase 4: Core Admin Modules** - Client database with search/profiles and bungalow calendar with occupancy
 - [ ] **Phase 5: Accounting + Reports** - Daily/monthly/annual revenue views, expense entry, Recharts graphs
 - [ ] **Phase 6: Secondary Modules** - Newsletter contact management and Instagram stats dashboard
@@ -70,8 +70,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Collapsible admin sidebar + dashboard stat cards and revenue breakdown
-- [ ] 03-02-PLAN.md — Automated verification and visual checkpoint for Phase 3
+- [x] 03-01-PLAN.md — Collapsible admin sidebar + dashboard stat cards and revenue breakdown
+- [x] 03-02-PLAN.md — Automated verification and visual checkpoint for Phase 3
 
 ### Phase 4: Core Admin Modules
 **Goal**: The owner can look up any client's full history and see bungalow occupancy at a glance on the calendar
@@ -143,7 +143,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 |-------|---------------|--------|-----------|
 | 1. Foundation + Design System | 5/5 | Complete | 2026-03-01 |
 | 2. POS Cash Register | 4/4 | Complete | 2026-03-01 |
-| 3. Admin Shell + Dashboard | 0/TBD | Not started | - |
+| 3. Admin Shell + Dashboard | 2/2 | Complete | 2026-03-01 |
 | 4. Core Admin Modules | 0/TBD | Not started | - |
 | 5. Accounting + Reports | 0/TBD | Not started | - |
 | 6. Secondary Modules | 0/TBD | Not started | - |

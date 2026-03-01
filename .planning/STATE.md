@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-03-01)
 
 **Core value:** Le staff terrain doit pouvoir enregistrer un encaissement en moins de 3 clics sur tablette, sans formation -- si la caisse POS n'est pas instantanee et intuitive, rien d'autre n'a de valeur.
-**Current focus:** Phase 3 - Admin Shell + Dashboard
+**Current focus:** Phase 4 - Core Admin Modules
 
 ## Current Position
 
-Phase: 3 of 7 (Admin Shell + Dashboard)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-03-01 - Completed 03-01-PLAN.md (Collapsible Sidebar + Dashboard)
+Phase: 4 of 7 (Core Admin Modules)
+Plan: 0 of TBD in current phase
+Status: Not started
+Last activity: 2026-03-01 - Completed Phase 3 (Admin Shell + Dashboard)
 
-Progress: [█████░░░░░] ~32%
+Progress: [█████░░░░░] ~43%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 3.2min
-- Total execution time: 35min
+- Total plans completed: 12
+- Average duration: 3.1min
+- Total execution time: 37min
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [█████░░░░░] ~32%
 |-------|-------|-------|----------|
 | 1 - Foundation | 5/5 | 22min | 4.4min |
 | 2 - POS Cash Register | 4/4 | 9min | 2.3min |
-| 3 - Admin Shell + Dashboard | 1/2 | 2min | 2.0min |
+| 3 - Admin Shell + Dashboard | 2/2 | 3min | 1.5min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (2min), 02-02 (2min), 02-03 (3min), 02-04 (2min), 03-01 (2min)
+- Last 5 plans: 02-03 (3min), 02-04 (2min), 03-01 (2min), 03-02 (1min)
 - Trend: Accelerating
 
 *Updated after each plan completion*
@@ -75,6 +75,7 @@ Recent decisions affecting current work:
 - [02-03]: Transaction ID format: txn-{last 3 digits of Date.now()}
 - [02-03]: Gym pass items 0 THB for bungalow residents; F&B always charged
 - [02-03]: New contexts in src/contexts/ (TransactionsContext)
+- [03-01]: Custom collapsible sidebar (NOT shadcn Sidebar -- Next.js 16 bug #9189)
 - [03-01]: Sidebar collapse persists via localStorage key wildwood-sidebar-collapsed with isHydrated guard
 - [03-01]: TransactionsProvider placed in admin layout wrapping children, not in root layout
 - [03-01]: Dashboard uses useMemo for derived stats, not useEffect+useState
@@ -92,5 +93,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 03-01-PLAN.md (Collapsible Sidebar + Dashboard)
+Stopped at: Completed Phase 3 (Admin Shell + Dashboard)
 Resume file: None
