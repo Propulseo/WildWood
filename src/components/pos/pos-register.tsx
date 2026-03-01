@@ -1,8 +1,12 @@
 'use client'
 
 import { useReducer, useState } from 'react'
-import type { Client, GymPass, FnbProduct, Bungalow } from '@/lib/types'
+import type { Client, GymPass, FnbProduct, Bungalow, Transaction } from '@/lib/types'
 import { ProductGrid } from './product-grid'
+import { ClientPopup } from './client-popup'
+import { CartSidebar } from './cart-sidebar'
+import { useTransactions } from '@/contexts/transactions-context'
+import { toast } from 'sonner'
 
 // =============================================================================
 // Cart State Types
@@ -123,6 +127,11 @@ export function PosRegister({
   const [cart, dispatch] = useReducer(cartReducer, initialCartState)
   const [selectedPass, setSelectedPass] = useState<GymPass | null>(null)
   const [clientDialogOpen, setClientDialogOpen] = useState(false)
+  const { addTransaction } = useTransactions()
+
+  // ---------------------------------------------------------------------------
+  // Product selection handlers
+  // ---------------------------------------------------------------------------
 
   const handleSelectGymPass = (pass: GymPass) => {
     setSelectedPass(pass)
@@ -141,6 +150,79 @@ export function PosRegister({
     })
   }
 
+  // ---------------------------------------------------------------------------
+  // Client popup confirm
+  // ---------------------------------------------------------------------------
+
+  const handleClientConfirm = (
+    client: Client | null,
+    isBungalowResident: boolean,
+    pass: GymPass
+  ) => {
+    if (client) {
+      dispatch({
+        type: 'SET_CLIENT',
+        payload: { client, isBungalowResident },
+      })
+    }
+
+    dispatch({
+      type: 'ADD_ITEM',
+      payload: {
+        produitId: pass.id,
+        nom: pass.nom,
+        prixUnitaire: pass.prix,
+        type: 'gym-pass',
+      },
+    })
+  }
+
+  // ---------------------------------------------------------------------------
+  // Checkout
+  // ---------------------------------------------------------------------------
+
+  const handleCheckout = (methode: 'especes' | 'virement') => {
+    const total = cart.items.reduce((sum, item) => {
+      if (cart.isBungalowResident && item.type === 'gym-pass') return sum
+      return sum + item.prixUnitaire * item.quantite
+    }, 0)
+
+    const hasGymPass = cart.items.some((i) => i.type === 'gym-pass')
+
+    const transaction: Transaction = {
+      id: `txn-${String(Date.now()).slice(-3)}`,
+      date: new Date().toISOString().slice(0, 19),
+      type: hasGymPass ? 'gym-pass' : 'fnb',
+      centreRevenu: hasGymPass ? 'Gym' : 'F&B',
+      clientId: cart.client?.id,
+      items: cart.items.map((item) => ({
+        produitId: item.produitId,
+        nom: item.nom,
+        quantite: item.quantite,
+        prixUnitaire:
+          cart.isBungalowResident && item.type === 'gym-pass'
+            ? 0
+            : item.prixUnitaire,
+        sousTotal:
+          cart.isBungalowResident && item.type === 'gym-pass'
+            ? 0
+            : item.prixUnitaire * item.quantite,
+      })),
+      total,
+      methode,
+    }
+
+    addTransaction(transaction)
+    dispatch({ type: 'CLEAR_CART' })
+    toast.success('Transaction enregistree', {
+      description: `Total: ${total.toLocaleString()} THB`,
+    })
+  }
+
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
+
   return (
     <div className="grid grid-cols-[1fr_320px] h-full">
       {/* Left panel: Product area */}
@@ -154,10 +236,32 @@ export function PosRegister({
       </div>
       {/* Right panel: Cart sidebar */}
       <div className="flex flex-col bg-card">
-        <p className="text-muted-foreground p-4">
-          Cart sidebar coming in Plan 03
-        </p>
+        <CartSidebar
+          items={cart.items}
+          client={cart.client}
+          isBungalowResident={cart.isBungalowResident}
+          onRemoveItem={(produitId) =>
+            dispatch({ type: 'REMOVE_ITEM', payload: { produitId } })
+          }
+          onUpdateQuantity={(produitId, quantite) =>
+            dispatch({
+              type: 'UPDATE_QUANTITY',
+              payload: { produitId, quantite },
+            })
+          }
+          onCheckout={handleCheckout}
+        />
       </div>
+
+      {/* Client popup dialog */}
+      <ClientPopup
+        open={clientDialogOpen}
+        onOpenChange={setClientDialogOpen}
+        selectedPass={selectedPass}
+        clients={clients}
+        bungalows={bungalows}
+        onConfirm={handleClientConfirm}
+      />
     </div>
   )
 }

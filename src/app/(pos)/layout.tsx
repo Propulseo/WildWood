@@ -1,5 +1,6 @@
 import { RoleToggle } from '@/components/role-toggle'
 import { Toaster } from '@/components/ui/sonner'
+import { TransactionsProvider } from '@/contexts/transactions-context'
 
 export default function PosLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +12,9 @@ export default function PosLayout({ children }: { children: React.ReactNode }) {
         <RoleToggle />
       </header>
       <main className="overflow-hidden">
-        {children}
+        <TransactionsProvider>
+          {children}
+        </TransactionsProvider>
       </main>
       <Toaster position="top-center" richColors />
     </div>
