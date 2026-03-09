@@ -157,14 +157,14 @@ Aucun requirement v2 defini pour ce milestone. Le scope v2 (backend Supabase, in
 | COMPT-04 | Phase 5: Accounting + Reports | Complete |
 | COMPT-05 | Phase 5: Accounting + Reports | Complete |
 | COMPT-06 | Phase 5: Accounting + Reports | Complete |
-| NEWS-01 | Phase 6: Secondary Modules | Pending |
-| NEWS-02 | Phase 6: Secondary Modules | Pending |
-| NEWS-03 | Phase 6: Secondary Modules | Pending |
-| INSTA-01 | Phase 6: Secondary Modules | Pending |
-| INSTA-02 | Phase 6: Secondary Modules | Pending |
-| INSTA-03 | Phase 6: Secondary Modules | Pending |
-| INSTA-04 | Phase 6: Secondary Modules | Pending |
-| DEPLOY-01 | Phase 7: Polish + Deployment | Pending |
+| NEWS-01 | Phase 6: Secondary Modules | Complete |
+| NEWS-02 | Phase 6: Secondary Modules | Complete |
+| NEWS-03 | Phase 6: Secondary Modules | Complete |
+| INSTA-01 | Phase 6: Secondary Modules | Complete |
+| INSTA-02 | Phase 6: Secondary Modules | Complete |
+| INSTA-03 | Phase 6: Secondary Modules | Complete |
+| INSTA-04 | Phase 6: Secondary Modules | Complete |
+| DEPLOY-01 | Phase 7: Polish + Deployment | Complete |
 
 ---
 *Generated: 2026-03-01*

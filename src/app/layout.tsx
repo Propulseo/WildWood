@@ -1,19 +1,28 @@
 import type { Metadata } from "next"
-import { Inter, Oswald } from "next/font/google"
+import { Barlow_Condensed, DM_Sans, DM_Mono } from "next/font/google"
 import { AuthProvider } from "@/lib/contexts/auth-context"
 import { PrototypeBanner } from "@/components/prototype-banner"
 import "./globals.css"
 
-const inter = Inter({
+const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  weight: ["600", "700", "800"],
+  variable: "--font-barlow-condensed",
 })
 
-const oswald = Oswald({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-oswald",
+  weight: ["400", "500"],
+  variable: "--font-dm-sans",
+})
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+  variable: "--font-dm-mono",
 })
 
 export const metadata: Metadata = {
@@ -28,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${oswald.variable}`}>
-      <body className="font-sans antialiased pt-7">
+    <html lang="fr" className={`${barlowCondensed.variable} ${dmSans.variable} ${dmMono.variable}`}>
+      <body className="pt-7">
         <PrototypeBanner />
         <AuthProvider>
           {children}

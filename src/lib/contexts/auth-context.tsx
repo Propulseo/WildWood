@@ -14,6 +14,7 @@ interface AuthContextType {
   role: Role | null
   login: (role: Role) => void
   logout: () => void
+  setRole: (role: Role) => void
   toggleRole: () => void
   isAuthenticated: boolean
 }
@@ -21,21 +22,20 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 const STORAGE_KEY = 'wildwood-role'
+const VALID_ROLES: Role[] = ['admin', 'reception', 'bar']
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [role, setRole] = useState<Role | null>(null)
+  const [role, setRoleState] = useState<Role | null>(null)
   const [isHydrated, setIsHydrated] = useState(false)
 
-  // Read role from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored === 'admin' || stored === 'staff') {
-      setRole(stored)
+    if (stored && VALID_ROLES.includes(stored as Role)) {
+      setRoleState(stored as Role)
     }
     setIsHydrated(true)
   }, [])
 
-  // Sync role to localStorage on change (only after hydration to avoid clearing on mount)
   useEffect(() => {
     if (!isHydrated) return
     if (role) {
@@ -45,19 +45,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [role, isHydrated])
 
-  const login = (newRole: Role) => setRole(newRole)
-  const logout = () => setRole(null)
+  const login = (newRole: Role) => setRoleState(newRole)
+  const logout = () => setRoleState(null)
+  const setRole = (newRole: Role) => setRoleState(newRole)
   const toggleRole = () =>
-    setRole((prev) => (prev === 'admin' ? 'staff' : 'admin'))
+    setRoleState((prev) => {
+      if (prev === 'admin') return 'reception'
+      if (prev === 'reception') return 'bar'
+      return 'admin'
+    })
 
-  // Prevent hydration mismatch: render nothing until client-side state is loaded
-  if (!isHydrated) {
-    return null
-  }
+  if (!isHydrated) return null
 
   return (
     <AuthContext.Provider
-      value={{ role, login, logout, toggleRole, isAuthenticated: role !== null }}
+      value={{ role, login, logout, setRole, toggleRole, isAuthenticated: role !== null }}
     >
       {children}
     </AuthContext.Provider>

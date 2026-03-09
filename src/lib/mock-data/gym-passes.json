@@ -7,5 +7,10 @@
   { "id": "pass-6m", "nom": "6 mois", "prix": 9000, "dureeJours": 180 },
   { "id": "pass-1a", "nom": "1 an", "prix": 15000, "dureeJours": 365 },
   { "id": "pass-spa", "nom": "Spa pass (1 jour)", "prix": 250, "dureeJours": 1, "description": "Acces spa uniquement" },
-  { "id": "pass-pool", "nom": "Pool pass only", "prix": 200, "dureeJours": 1, "description": "Acces piscine uniquement" }
+  { "id": "pass-spa-monthly", "nom": "Monthly Spa Pass", "prix": 1500, "dureeJours": 30, "description": "Acces spa mensuel - locaux uniquement" },
+  { "id": "pass-pool", "nom": "Pool pass only", "prix": 200, "dureeJours": 1, "description": "Acces piscine uniquement" },
+  { "id": "pass-guest-hotel", "nom": "Guest Hotel", "prix": 0, "dureeJours": 1, "description": "Client hotel - acces gym gratuit" },
+  { "id": "pass-yoga", "nom": "Yoga", "prix": 500, "dureeJours": 1, "description": "Cours de yoga uniquement" },
+  { "id": "pass-yoga-daily", "nom": "Yoga + Daily pass", "prix": 600, "dureeJours": 1, "description": "Cours de yoga + acces gym 1 jour inclus" },
+  { "id": "pass-fitness-class", "nom": "Fitness class", "prix": 600, "dureeJours": 1, "description": "Cours de fitness" }
 ]

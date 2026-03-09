@@ -1,37 +1,67 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Menu } from 'lucide-react'
 import { RoleToggle } from '@/components/role-toggle'
+import { Sidebar } from '@/components/layout/Sidebar'
+import { MobileDrawer } from '@/components/layout/MobileDrawer'
 import { TransactionsProvider } from '@/contexts/transactions-context'
 import { ExpensesProvider } from '@/contexts/expenses-context'
-import {
-  LayoutDashboard,
-  Users,
-  Home,
-  Calculator,
-  Mail,
-  Camera,
-  PanelLeftClose,
-  PanelLeftOpen,
-} from 'lucide-react'
+import { ActivePassesProvider } from '@/contexts/active-passes-context'
+import { StaffProvider } from '@/contexts/staff-context'
+import { ServiettesProvider } from '@/contexts/serviettes-context'
+import { ProductsProvider } from '@/contexts/products-context'
+import { MaintenanceProvider } from '@/contexts/maintenance-context'
+import { ShiftProvider } from '@/contexts/shift-context'
+import { ChatProvider } from '@/contexts/chat-context'
+import { TablesProvider } from '@/contexts/tables-context'
+import { PlanningProvider } from '@/contexts/planning-context'
+import { ReportingProvider } from '@/contexts/reporting-context'
+import { ClosingsProvider } from '@/contexts/closings-context'
+import { MessagesWAProvider } from '@/contexts/messages-wa-context'
+import { Toaster } from '@/components/ui/sonner'
 
-const STORAGE_KEY = 'wildwood-sidebar-collapsed'
+const STORAGE_KEY = 'ww_sidebar_collapsed'
 
-const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/clients', label: 'Clients', icon: Users },
-  { href: '/bungalows', label: 'Bungalows', icon: Home },
-  { href: '/comptabilite', label: 'Comptabilite', icon: Calculator },
-  { href: '/newsletter', label: 'Newsletter', icon: Mail },
-  { href: '/instagram', label: 'Instagram', icon: Camera },
-]
+const pageTitles: Record<string, string> = {
+  '/dashboard': 'Dashboard',
+  '/statistiques': 'Statistiques',
+  '/clients': 'Clients',
+  '/bungalows': 'Bungalows',
+  '/maintenance': 'Maintenance',
+  '/comptabilite': 'Comptabilite',
+  '/revenus': 'Revenus',
+  '/depenses': 'Depenses',
+  '/presence': 'Presence',
+  '/checkin': 'Entrees du jour',
+  '/parametres/produits': 'Parametres — Produits',
+  '/pos': 'Caisse POS',
+  '/tables': 'Tables ouvertes',
+  '/pointage': 'Pointage',
+  '/planning': 'Planning',
+  '/reporting': 'Reporting',
+  '/communications': 'Communications',
+  '/parametres/messages': 'Templates WhatsApp',
+}
+
+function TodayDate() {
+  const today = new Date()
+  return today.toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+}
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isHydrated, setIsHydrated] = useState(false)
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false)
+
+  const isPosPage = pathname.startsWith('/pos') || pathname.startsWith('/pointage')
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY)
@@ -47,83 +77,87 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     })
   }
 
+  const currentPage = Object.entries(pageTitles).find(
+    ([href]) => pathname === href || pathname.startsWith(href + '/')
+  )
+
   if (!isHydrated) return null
 
   return (
-    <div className="min-h-dvh bg-background text-foreground flex">
-      {/* Sidebar */}
-      <aside
-        className={`${
-          isCollapsed ? 'w-16' : 'w-64'
-        } bg-sidebar-background text-sidebar-foreground flex flex-col shrink-0 transition-all duration-300 ease-in-out`}
-      >
-        <div className="p-4 border-b border-sidebar-border">
-          {isCollapsed ? (
-            <h1 className="font-display text-lg font-bold uppercase tracking-wider text-center">
-              W
-            </h1>
-          ) : (
-            <>
-              <h1 className="font-display text-lg font-bold uppercase tracking-wider">
-                WildWood
-              </h1>
-              <p className="text-xs text-sidebar-foreground/60">Administration</p>
-            </>
-          )}
-        </div>
-        <nav className="flex-1 p-3 space-y-1">
-          {navItems.map(({ href, label, icon: Icon }) => {
-            const isActive = pathname === href || pathname.startsWith(href + '/')
-            return (
-              <Link
-                key={href}
-                href={href}
-                title={isCollapsed ? label : undefined}
-                className={`flex items-center ${
-                  isCollapsed ? 'justify-center px-2 py-2' : 'gap-3 px-3 py-2'
-                } rounded-md text-sm transition-colors ${
-                  isActive
-                    ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                    : 'hover:bg-sidebar-accent/10 text-sidebar-foreground/80'
-                }`}
-              >
-                <Icon className="h-5 w-5 shrink-0" />
-                {!isCollapsed && <span>{label}</span>}
-              </Link>
-            )
-          })}
-        </nav>
-        <div className="p-3 border-t border-sidebar-border">
-          <button
-            onClick={toggleSidebar}
-            title={isCollapsed ? 'Ouvrir le menu' : 'Reduire le menu'}
-            className={`flex items-center ${
-              isCollapsed ? 'justify-center px-2 py-2' : 'gap-3 px-3 py-2'
-            } rounded-md text-sm transition-colors hover:bg-sidebar-accent/10 text-sidebar-foreground/80 w-full`}
-          >
-            {isCollapsed ? (
-              <PanelLeftOpen className="h-5 w-5 shrink-0" />
-            ) : (
-              <>
-                <PanelLeftClose className="h-5 w-5 shrink-0" />
-                <span>Reduire</span>
-              </>
-            )}
-          </button>
-        </div>
-      </aside>
+    <ProductsProvider>
+    <MessagesWAProvider>
+    <MaintenanceProvider>
+    <StaffProvider>
+    <ShiftProvider>
+    <ChatProvider>
+    <ServiettesProvider>
+    <ActivePassesProvider>
+    <ExpensesProvider>
+      <TransactionsProvider>
+      <TablesProvider>
+      <ReportingProvider>
+      <ClosingsProvider>
+      <PlanningProvider>
+        <div className="h-dvh bg-ww-bg text-ww-text flex overflow-hidden">
+          <Sidebar isCollapsed={isCollapsed} onToggle={toggleSidebar} pathname={pathname} />
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col min-h-dvh">
-        <header className="flex items-center justify-end px-6 py-3 border-b border-border">
-          <RoleToggle />
-        </header>
-        <main className="flex-1 p-6 overflow-auto">
-          <ExpensesProvider>
-            <TransactionsProvider>{children}</TransactionsProvider>
-          </ExpensesProvider>
-        </main>
-      </div>
-    </div>
+          <div className="flex-1 flex flex-col h-full min-w-0">
+            {!isPosPage && (
+              <header className="h-12 md:h-14 shrink-0 flex items-center justify-between px-3 md:px-6 border-b border-ww-border bg-ww-bg">
+                {/* Mobile: WW logo + page title + hamburger */}
+                <div className="flex md:hidden items-center gap-2 flex-1 min-w-0">
+                  <span className="font-display font-extrabold text-ww-orange text-lg shrink-0">WW</span>
+                  {currentPage && (
+                    <span className="text-ww-text font-sans font-medium text-sm truncate">{currentPage[1]}</span>
+                  )}
+                </div>
+                <button
+                  onClick={() => setMobileDrawerOpen(true)}
+                  className="md:hidden text-ww-muted hover:text-ww-text p-1.5"
+                >
+                  <Menu className="h-5 w-5" />
+                </button>
+
+                {/* Desktop: breadcrumb + date + role */}
+                <div className="hidden md:flex items-center gap-2 text-sm">
+                  <span className="text-ww-muted font-sans">WildWood</span>
+                  {currentPage && (
+                    <>
+                      <span className="text-ww-border">/</span>
+                      <span className="text-ww-text font-sans font-medium">{currentPage[1]}</span>
+                    </>
+                  )}
+                </div>
+                <div className="hidden md:flex items-center gap-6">
+                  <span className="text-sm text-ww-muted font-sans capitalize hidden xl:inline">
+                    <TodayDate />
+                  </span>
+                  <RoleToggle />
+                </div>
+              </header>
+            )}
+
+            <main className={isPosPage ? 'flex-1 overflow-hidden' : 'flex-1 px-3 py-4 md:p-6 overflow-auto min-h-0 ww-page-in'}>
+              {children}
+            </main>
+          </div>
+
+          <MobileDrawer open={mobileDrawerOpen} onClose={() => setMobileDrawerOpen(false)} pathname={pathname} />
+        </div>
+        <Toaster position="bottom-right" />
+      </PlanningProvider>
+      </ClosingsProvider>
+      </ReportingProvider>
+      </TablesProvider>
+      </TransactionsProvider>
+    </ExpensesProvider>
+    </ActivePassesProvider>
+    </ServiettesProvider>
+    </ChatProvider>
+    </ShiftProvider>
+    </StaffProvider>
+    </MaintenanceProvider>
+    </MessagesWAProvider>
+    </ProductsProvider>
   )
 }

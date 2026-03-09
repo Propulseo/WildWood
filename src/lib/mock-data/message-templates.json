@@ -1,0 +1,23 @@
+[
+  {
+    "id": "tpl-wa-001",
+    "type": "j_moins_2",
+    "nom": "Rappel avant arrivee (J-2)",
+    "contenu": "Bonjour {{prenom}} ! Votre sejour au WildWood Beach approche. Vous etes attendu(e) le {{date_debut}} au Bungalow {{bungalow_numero}} pour {{nuits}} nuits. Nous avons hate de vous accueillir ! A bientot, L'equipe WildWood",
+    "variables": ["prenom", "date_debut", "bungalow_numero", "nuits"]
+  },
+  {
+    "id": "tpl-wa-002",
+    "type": "j_plus_3",
+    "nom": "Avis apres depart (J+3)",
+    "contenu": "Bonjour {{prenom}} ! Nous esperons que votre sejour au Bungalow {{bungalow_numero}} s'est bien passe. Nous serions ravis de recevoir votre avis. Merci et a bientot ! L'equipe WildWood",
+    "variables": ["prenom", "bungalow_numero"]
+  },
+  {
+    "id": "tpl-wa-003",
+    "type": "urgence",
+    "nom": "Message urgent / libre",
+    "contenu": "Bonjour {{prenom}}, {{message_libre}}",
+    "variables": ["prenom", "message_libre"]
+  }
+]

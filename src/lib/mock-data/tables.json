@@ -1,0 +1,124 @@
+[
+  {
+    "id": "tab-001",
+    "nom_table": "Table 2",
+    "client_nom": "Marco",
+    "type_client": "externe",
+    "bungalow_id": null,
+    "items": [
+      { "nom": "Chang Beer", "prix": 80, "quantite": 2 },
+      { "nom": "Pad Thai", "prix": 120, "quantite": 1 }
+    ],
+    "total_thb": 280,
+    "heure_ouverture": "2026-03-06T11:30:00",
+    "statut": "ouverte",
+    "staff_ouverture": "Ploy"
+  },
+  {
+    "id": "tab-002",
+    "nom_table": "Transat",
+    "client_nom": "Sophie",
+    "type_client": "gym",
+    "bungalow_id": null,
+    "items": [
+      { "nom": "Smoothie Mangue", "prix": 100, "quantite": 1 },
+      { "nom": "Eau minerale", "prix": 30, "quantite": 2 }
+    ],
+    "total_thb": 160,
+    "heure_ouverture": "2026-03-06T10:15:00",
+    "statut": "ouverte",
+    "staff_ouverture": "Ploy"
+  },
+  {
+    "id": "tab-003",
+    "nom_table": "Table 1",
+    "client_nom": "James & Laura",
+    "type_client": "hotel",
+    "bungalow_id": "bung-3",
+    "items": [
+      { "nom": "Club Sandwich", "prix": 180, "quantite": 2 },
+      { "nom": "Coca Cola", "prix": 50, "quantite": 2 },
+      { "nom": "French Fries", "prix": 80, "quantite": 1 }
+    ],
+    "total_thb": 540,
+    "heure_ouverture": "2026-03-06T12:00:00",
+    "statut": "ouverte",
+    "staff_ouverture": "Kwan"
+  },
+  {
+    "id": "tab-004",
+    "nom_table": "Bar",
+    "client_nom": "Thomas",
+    "type_client": "externe",
+    "bungalow_id": null,
+    "items": [
+      { "nom": "Singha Beer", "prix": 80, "quantite": 3 },
+      { "nom": "Spring Rolls", "prix": 90, "quantite": 1 }
+    ],
+    "total_thb": 330,
+    "heure_ouverture": "2026-03-06T14:20:00",
+    "statut": "ouverte",
+    "staff_ouverture": "Ploy"
+  },
+  {
+    "id": "tab-005",
+    "nom_table": "Plage",
+    "client_nom": "Anna",
+    "type_client": "gym",
+    "bungalow_id": null,
+    "items": [
+      { "nom": "Protein Shake", "prix": 120, "quantite": 1 }
+    ],
+    "total_thb": 120,
+    "heure_ouverture": "2026-03-06T09:45:00",
+    "statut": "ouverte",
+    "staff_ouverture": "Kwan"
+  },
+  {
+    "id": "tab-006",
+    "nom_table": "Table 4",
+    "client_nom": "David & Marie",
+    "type_client": "hotel",
+    "bungalow_id": "bung-1",
+    "items": [
+      { "nom": "Green Curry", "prix": 150, "quantite": 2 },
+      { "nom": "Sticky Rice", "prix": 40, "quantite": 2 },
+      { "nom": "Chang Beer", "prix": 80, "quantite": 2 },
+      { "nom": "Mango Lassi", "prix": 90, "quantite": 1 }
+    ],
+    "total_thb": 630,
+    "heure_ouverture": "2026-03-06T12:45:00",
+    "statut": "ouverte",
+    "staff_ouverture": "Ploy"
+  },
+  {
+    "id": "tab-007",
+    "nom_table": "Table 3",
+    "client_nom": "Pierre",
+    "type_client": "externe",
+    "bungalow_id": null,
+    "items": [
+      { "nom": "Espresso", "prix": 60, "quantite": 2 },
+      { "nom": "Banana Pancake", "prix": 90, "quantite": 1 }
+    ],
+    "total_thb": 210,
+    "heure_ouverture": "2026-03-06T08:30:00",
+    "statut": "payee",
+    "staff_ouverture": "Kwan"
+  },
+  {
+    "id": "tab-008",
+    "nom_table": "Table 5",
+    "client_nom": "Yuki",
+    "type_client": "gym",
+    "bungalow_id": null,
+    "items": [
+      { "nom": "Acai Bowl", "prix": 150, "quantite": 1 },
+      { "nom": "Fresh OJ", "prix": 70, "quantite": 1 }
+    ],
+    "total_thb": 220,
+    "heure_ouverture": "2026-03-06T10:00:00",
+    "statut": "ouverte",
+    "staff_ouverture": "Ploy"
+  }
+]

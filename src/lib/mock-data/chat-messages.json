@@ -1,0 +1,220 @@
+[
+  {
+    "id": "chat-001",
+    "canal": "general",
+    "auteur_id": "staff-001",
+    "auteur_nom": "Jean-Luc",
+    "auteur_poste": "reception",
+    "contenu": "Bonne journee a tous, ouverture a 8h comme prevu",
+    "date": "2026-03-04T08:02:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-002",
+    "canal": "general",
+    "auteur_id": "staff-004",
+    "auteur_nom": "Marco",
+    "auteur_poste": "bar",
+    "contenu": "Bar pret, tout le stock est OK",
+    "date": "2026-03-04T10:15:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-003",
+    "canal": "reception",
+    "auteur_id": "staff-001",
+    "auteur_nom": "Jean-Luc",
+    "auteur_poste": "reception",
+    "contenu": "Check-in bungalow 3 prevu a 14h, client arrive de Bangkok",
+    "date": "2026-03-04T09:30:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-004",
+    "canal": "reception",
+    "auteur_id": "staff-002",
+    "auteur_nom": "Sunny",
+    "auteur_poste": "reception",
+    "contenu": "Recu, je prepare les serviettes et la clef",
+    "date": "2026-03-04T09:45:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-005",
+    "canal": "bar",
+    "auteur_id": "staff-004",
+    "auteur_nom": "Marco",
+    "auteur_poste": "bar",
+    "contenu": "On est a court de lait d'amande, je commande demain matin",
+    "date": "2026-03-04T14:20:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-006",
+    "canal": "general",
+    "auteur_id": "staff-003",
+    "auteur_nom": "Emily",
+    "auteur_poste": "reception",
+    "contenu": "Rappel: coupure d'eau prevue demain 6h-8h",
+    "date": "2026-03-04T16:00:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-007",
+    "canal": "general",
+    "auteur_id": "staff-001",
+    "auteur_nom": "Jean-Luc",
+    "auteur_poste": "reception",
+    "contenu": "Fermeture reception, bonne soiree",
+    "date": "2026-03-04T17:00:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-008",
+    "canal": "reception",
+    "auteur_id": "staff-002",
+    "auteur_nom": "Sunny",
+    "auteur_poste": "reception",
+    "contenu": "",
+    "date": "2026-03-05T08:10:00",
+    "type": "prise_de_shift",
+    "shift_detail": {
+      "nouveau_staff": "Sunny Rattana",
+      "ancien_staff": "Jean-Luc Dupont",
+      "poste": "Reception",
+      "note": "RAS hier soir. Bungalow 5 demande serviettes supplementaires."
+    }
+  },
+  {
+    "id": "chat-009",
+    "canal": "general",
+    "auteur_id": "staff-002",
+    "auteur_nom": "Sunny",
+    "auteur_poste": "reception",
+    "contenu": "Ouverture, coupure d'eau terminee a 7h45",
+    "date": "2026-03-05T08:15:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-010",
+    "canal": "bar",
+    "auteur_id": "staff-005",
+    "auteur_nom": "Nok",
+    "auteur_poste": "bar",
+    "contenu": "",
+    "date": "2026-03-05T10:05:00",
+    "type": "prise_de_shift",
+    "shift_detail": {
+      "nouveau_staff": "Nok Prasert",
+      "ancien_staff": "Marco Rossi",
+      "poste": "Bar",
+      "note": "Livraison Singha prevue a 11h"
+    }
+  },
+  {
+    "id": "chat-011",
+    "canal": "bar",
+    "auteur_id": "staff-005",
+    "auteur_nom": "Nok",
+    "auteur_poste": "bar",
+    "contenu": "Livraison recue et stockee. 3 cartons Singha, 2 Chang",
+    "date": "2026-03-05T11:30:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-012",
+    "canal": "reception",
+    "auteur_id": "staff-002",
+    "auteur_nom": "Sunny",
+    "auteur_poste": "reception",
+    "contenu": "Groupe de 4 pour passes gym 1 semaine, ils arrivent a 13h",
+    "date": "2026-03-05T12:00:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-013",
+    "canal": "general",
+    "auteur_id": "staff-005",
+    "auteur_nom": "Nok",
+    "auteur_poste": "bar",
+    "contenu": "Smoothie bowl special du jour: acai + banana + granola",
+    "date": "2026-03-05T13:00:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-014",
+    "canal": "reception",
+    "auteur_id": "staff-003",
+    "auteur_nom": "Emily",
+    "auteur_poste": "reception",
+    "contenu": "TM30 fait pour le client bungalow 3, tout est OK",
+    "date": "2026-03-05T15:30:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-015",
+    "canal": "general",
+    "auteur_id": "staff-004",
+    "auteur_nom": "Marco",
+    "auteur_poste": "bar",
+    "contenu": "Bonne journee demain, je suis off samedi",
+    "date": "2026-03-05T19:00:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-016",
+    "canal": "reception",
+    "auteur_id": "staff-001",
+    "auteur_nom": "Jean-Luc",
+    "auteur_poste": "reception",
+    "contenu": "",
+    "date": "2026-03-06T08:05:00",
+    "type": "prise_de_shift",
+    "shift_detail": {
+      "nouveau_staff": "Jean-Luc Dupont",
+      "ancien_staff": "Sunny Rattana",
+      "poste": "Reception",
+      "note": "Check-out bungalow 2 prevu ce matin. Verifier depot serviettes."
+    }
+  },
+  {
+    "id": "chat-017",
+    "canal": "general",
+    "auteur_id": "staff-001",
+    "auteur_nom": "Jean-Luc",
+    "auteur_poste": "reception",
+    "contenu": "Ouverture, journee chargee prevue",
+    "date": "2026-03-06T08:10:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-018",
+    "canal": "bar",
+    "auteur_id": "staff-004",
+    "auteur_nom": "Marco",
+    "auteur_poste": "bar",
+    "contenu": "Bar ouvert, nouveau menu smoothies affiche",
+    "date": "2026-03-06T10:00:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-019",
+    "canal": "general",
+    "auteur_id": "staff-003",
+    "auteur_nom": "Emily",
+    "auteur_poste": "reception",
+    "contenu": "Reservation last-minute bungalow 6, arrive a 16h",
+    "date": "2026-03-06T11:30:00",
+    "type": "message"
+  },
+  {
+    "id": "chat-020",
+    "canal": "bar",
+    "auteur_id": "staff-005",
+    "auteur_nom": "Nok",
+    "auteur_poste": "bar",
+    "contenu": "Stock glace presque vide, il faut en racheter ce soir",
+    "date": "2026-03-06T14:00:00",
+    "type": "message"
+  }
+]

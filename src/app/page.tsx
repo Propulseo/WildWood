@@ -11,8 +11,10 @@ export default function Home() {
   useEffect(() => {
     if (!isAuthenticated) {
       router.replace('/login')
-    } else if (role === 'staff') {
-      router.replace('/pos')
+    } else if (role === 'reception') {
+      router.replace('/pos?tab=gym')
+    } else if (role === 'bar') {
+      router.replace('/pos?tab=fnb')
     } else {
       router.replace('/dashboard')
     }

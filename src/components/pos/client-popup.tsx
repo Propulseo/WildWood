@@ -13,7 +13,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 
 // =============================================================================
 // Client Popup — Dialog for client entry with existing client detection
@@ -28,7 +27,8 @@ interface ClientPopupProps {
   onConfirm: (
     client: Client | null,
     isBungalowResident: boolean,
-    pass: GymPass
+    pass: GymPass,
+    pax: number
   ) => void
 }
 
@@ -46,8 +46,8 @@ export function ClientPopup({
   const [telephone, setTelephone] = useState('')
   const [detectedClient, setDetectedClient] = useState<Client | null>(null)
   const [isBungalowResident, setIsBungalowResident] = useState(false)
+  const [pax, setPax] = useState(1)
 
-  // Reset form when dialog opens
   useEffect(() => {
     if (open) {
       setPrenom('')
@@ -56,12 +56,9 @@ export function ClientPopup({
       setTelephone('')
       setDetectedClient(null)
       setIsBungalowResident(false)
+      setPax(1)
     }
   }, [open])
-
-  // ---------------------------------------------------------------------------
-  // Client detection by email or phone
-  // ---------------------------------------------------------------------------
 
   const detectClient = useCallback(
     (emailValue: string, phoneValue: string) => {
@@ -96,7 +93,6 @@ export function ClientPopup({
         setEmail(match.email ?? '')
         setTelephone(match.telephone ?? '')
 
-        // Check bungalow resident status
         if (match.bungalowId) {
           const bungalow = bungalows.find((b) => b.id === match.bungalowId)
           if (bungalow) {
@@ -128,10 +124,6 @@ export function ClientPopup({
     detectClient(email, value)
   }
 
-  // ---------------------------------------------------------------------------
-  // Confirm / Skip
-  // ---------------------------------------------------------------------------
-
   const handleConfirm = () => {
     if (!selectedPass) return
 
@@ -147,19 +139,19 @@ export function ClientPopup({
       newsletter: false,
     }
 
-    onConfirm(client, isBungalowResident, selectedPass)
+    onConfirm(client, isBungalowResident, selectedPass, pax)
     onOpenChange(false)
   }
 
   const handleSkip = () => {
     if (!selectedPass) return
-    onConfirm(null, false, selectedPass)
+    onConfirm(null, false, selectedPass, pax)
     onOpenChange(false)
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="pos-theme">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Client pour {selectedPass?.nom}</DialogTitle>
           <DialogDescription>
@@ -168,9 +160,8 @@ export function ClientPopup({
         </DialogHeader>
 
         <div className="grid gap-4 py-2">
-          {/* Prenom */}
           <div className="grid gap-2">
-            <Label htmlFor="prenom">Prenom *</Label>
+            <Label htmlFor="prenom" className="text-ww-muted text-xs uppercase tracking-wider font-display font-semibold">Prenom *</Label>
             <Input
               id="prenom"
               value={prenom}
@@ -179,9 +170,8 @@ export function ClientPopup({
             />
           </div>
 
-          {/* Nom */}
           <div className="grid gap-2">
-            <Label htmlFor="nom">Nom *</Label>
+            <Label htmlFor="nom" className="text-ww-muted text-xs uppercase tracking-wider font-display font-semibold">Nom *</Label>
             <Input
               id="nom"
               value={nom}
@@ -190,9 +180,8 @@ export function ClientPopup({
             />
           </div>
 
-          {/* Email */}
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-ww-muted text-xs uppercase tracking-wider font-display font-semibold">Email</Label>
             <Input
               id="email"
               type="email"
@@ -202,9 +191,8 @@ export function ClientPopup({
             />
           </div>
 
-          {/* Telephone */}
           <div className="grid gap-2">
-            <Label htmlFor="telephone">Telephone</Label>
+            <Label htmlFor="telephone" className="text-ww-muted text-xs uppercase tracking-wider font-display font-semibold">Telephone</Label>
             <Input
               id="telephone"
               type="tel"
@@ -214,16 +202,41 @@ export function ClientPopup({
             />
           </div>
 
-          {/* Existing client detection feedback */}
+          <div className="grid gap-2">
+            <Label className="text-ww-muted text-xs uppercase tracking-wider font-display font-semibold">Nombre de personnes (pax)</Label>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setPax((p) => Math.max(1, p - 1))}
+                className="w-10 h-10 rounded-lg bg-ww-surface-2 text-ww-text font-display font-bold text-lg hover:bg-ww-border transition-colors"
+              >
+                -
+              </button>
+              <span className="font-display font-extrabold text-2xl text-ww-orange w-10 text-center">{pax}</span>
+              <button
+                type="button"
+                onClick={() => setPax((p) => Math.min(20, p + 1))}
+                className="w-10 h-10 rounded-lg bg-ww-surface-2 text-ww-text font-display font-bold text-lg hover:bg-ww-border transition-colors"
+              >
+                +
+              </button>
+              {selectedPass && pax > 1 && (
+                <span className="text-sm text-ww-muted font-sans ml-2">
+                  = {(selectedPass.prix * pax).toLocaleString()} THB
+                </span>
+              )}
+            </div>
+          </div>
+
           {detectedClient && (
-            <div className="rounded-md border border-wildwood-lime/30 bg-wildwood-lime/10 p-3 space-y-2">
-              <p className="text-sm font-medium">
+            <div className="rounded-xl border border-ww-lime/30 bg-ww-lime/10 p-4 space-y-2">
+              <p className="text-sm font-medium text-ww-text">
                 Client existant: {detectedClient.prenom} {detectedClient.nom}
               </p>
               {isBungalowResident && (
-                <Badge className="bg-wildwood-lime text-white">
+                <span className="inline-flex items-center bg-ww-lime/15 border border-ww-lime/30 rounded-full px-3 py-1 text-xs text-ww-lime font-display font-bold uppercase tracking-wider">
                   Resident Bungalow - Pass Gratuit
-                </Badge>
+                </span>
               )}
             </div>
           )}
@@ -234,7 +247,6 @@ export function ClientPopup({
             Sans client
           </Button>
           <Button
-            variant="pos-accent"
             onClick={handleConfirm}
             disabled={!prenom.trim() || !nom.trim()}
           >

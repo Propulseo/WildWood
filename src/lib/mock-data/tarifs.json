@@ -1,0 +1,23 @@
+{
+  "commission_booking": 0.8142,
+  "tarifs": [
+    {
+      "id": "flex",
+      "nom": "Flexible",
+      "prix_nuit_thb": 4000,
+      "prix_net_thb": 3257,
+      "annulation": "Annulation gratuite jusqu'à 14j avant le check-in",
+      "modifiable": true,
+      "couleur": "lime"
+    },
+    {
+      "id": "non_remb",
+      "nom": "Non remboursable",
+      "prix_nuit_thb": 3600,
+      "prix_net_thb": 2931,
+      "annulation": "Non modifiable · Non remboursable",
+      "modifiable": false,
+      "couleur": "orange"
+    }
+  ]
+}

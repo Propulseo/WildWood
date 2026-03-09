@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx skills:*)",
+      "Bash(python3:*)",
+      "Bash(py:*)",
+      "Bash(node:*)",
+      "Bash(npx:*)",
+      "Skill(gsd:plan-phase)",
+      "WebSearch",
+      "Bash(printf:*)",
+      "Bash(rm:*)",
+      "Bash(npm run:*)",
+      "Skill(gsd:discuss-phase)",
+      "Skill(gsd:execute-phase)",
+      "Bash(ls:*)",
+      "Bash(wc:*)",
+      "Bash(/c/Users/etien/Desktop/WildWood/.planning/phases/03-admin-shell-dashboard/03-VERIFICATION.md:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm install:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(cp:*)",
+      "Bash(cat:*)",
+      "Bash(cat:**)"
+    ]
+  }
+}

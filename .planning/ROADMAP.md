@@ -17,8 +17,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Admin Shell + Dashboard** - Sidebar navigation layout and today's key numbers dashboard
 - [x] **Phase 4: Core Admin Modules** - Client database with search/profiles and bungalow calendar with occupancy
 - [x] **Phase 5: Accounting + Reports** - Daily/monthly/annual revenue views, expense entry, Recharts graphs
-- [ ] **Phase 6: Secondary Modules** - Newsletter contact management and Instagram stats dashboard
-- [ ] **Phase 7: Polish + Deployment** - Loading states, error handling, prototype banners enforcement, Vercel deploy
+- [x] **Phase 6: Secondary Modules** - Newsletter contact management and Instagram stats dashboard
+- [x] **Phase 7: Polish + Deployment** - Loading states, error handling, prototype banners enforcement, Vercel deploy
 
 ## Phase Details
 
@@ -120,10 +120,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Newsletter and Instagram types, mock data, and data-access functions
-- [ ] 06-02-PLAN.md — Newsletter page with contacts table, campaign dialog, and campaign history
-- [ ] 06-03-PLAN.md — Instagram page with stat cards, top posts table, and follower growth chart
-- [ ] 06-04-PLAN.md — Automated verification and visual checkpoint for Phase 6
+- [x] 06-01-PLAN.md — Newsletter and Instagram types, mock data, and data-access functions
+- [x] 06-02-PLAN.md — Newsletter page with contacts table, campaign dialog, and campaign history
+- [x] 06-03-PLAN.md — Instagram page with stat cards, top posts table, and follower growth chart
+- [x] 06-04-PLAN.md — Automated verification and visual checkpoint for Phase 6
 
 ### Phase 7: Polish + Deployment
 **Goal**: The prototype is demo-ready on Vercel with proper loading states, error handling, and clear "this is a prototype" framing throughout
@@ -134,10 +134,12 @@ Plans:
   2. Error states show a French-language message ("Quelque chose n'a pas marche") with a retry option
   3. The prototype is deployed to Vercel with a shareable demo link and noindex meta tags
   4. A "Reinitialiser les donnees" button in the admin area resets all in-memory state to mock defaults
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 07-01: TBD
+- [x] 07-01-PLAN.md — Loading skeletons for all admin pages and POS loading state
+- [x] 07-02-PLAN.md — Error boundaries with French messages and data reset button
+- [x] 07-03-PLAN.md — Automated verification and visual checkpoint for Phase 7
 
 ## Progress
 
@@ -151,5 +153,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Admin Shell + Dashboard | 2/2 | Complete | 2026-03-01 |
 | 4. Core Admin Modules | 4/4 | Complete | 2026-03-01 |
 | 5. Accounting + Reports | 3/3 | Complete | 2026-03-01 |
-| 6. Secondary Modules | 0/4 | In progress | - |
-| 7. Polish + Deployment | 0/TBD | Not started | - |
+| 6. Secondary Modules | 4/4 | Complete | 2026-03-01 |
+| 7. Polish + Deployment | 3/3 | Complete | 2026-03-01 |

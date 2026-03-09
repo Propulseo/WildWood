@@ -1,304 +1,248 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import { getClients, getBungalows } from '@/lib/data-access'
-import type { Client, Bungalow, Reservation } from '@/lib/types'
-import {
-  startOfMonth,
-  endOfMonth,
-  eachDayOfInterval,
-  eachWeekOfInterval,
-  endOfWeek,
-  addMonths,
-  subMonths,
-  format,
-  parseISO,
-  getDaysInMonth,
-  isToday,
-  isWeekend,
-} from 'date-fns'
-import { fr } from 'date-fns/locale'
-import { ChevronLeft, ChevronRight, Dumbbell } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { startOfWeek } from 'date-fns'
+import { getClients, getBungalows, getRoomCharges } from '@/lib/data-access'
+import type { Client, Bungalow, Reservation, RoomCharge, Transaction } from '@/lib/types'
+import { useTransactions } from '@/contexts/transactions-context'
+import { useMaintenance } from '@/contexts/maintenance-context'
+import { toast } from 'sonner'
+import { Plus } from 'lucide-react'
+import { useDevice } from '@/lib/useDevice'
+import { CalendrierHeader } from '@/components/bungalows/CalendrierHeader'
+import { BungalowListMobile } from '@/components/bungalows/BungalowListMobile'
+import { SearchFilterBar } from '@/components/bungalows/SearchFilterBar'
+import { VueMensuelle } from '@/components/bungalows/VueMensuelle'
+import { VueSemaine } from '@/components/bungalows/VueSemaine'
+import { ReservationModal } from '@/components/bungalows/ReservationModal'
+import { ReservationManuelleModal } from '@/components/bungalows/ReservationManuelleModal'
 
-/** Color classes by reservation status */
-const STATUS_COLORS: Record<Reservation['statut'], string> = {
-  'en-cours': 'bg-wildwood-lime text-white',
-  confirmee: 'bg-wildwood-orange text-white',
-  terminee: 'bg-muted text-muted-foreground',
-  annulee: 'bg-destructive/30 text-destructive line-through',
-}
+type ViewMode = 'mensuelle' | 'semaine'
 
 export default function BungalowsPage() {
+  const { addTransaction } = useTransactions()
+  const { getTasksByBungalow } = useMaintenance()
   const [clients, setClients] = useState<Client[]>([])
   const [bungalows, setBungalows] = useState<Bungalow[]>([])
-  const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [roomCharges, setRoomCharges] = useState<RoomCharge[]>([])
+  const [viewMode, setViewMode] = useState<ViewMode>('semaine')
+  const [currentMonth, setCurrentMonth] = useState(new Date(2026, 2, 1))
+  const [currentWeekStart, setCurrentWeekStart] = useState(
+    startOfWeek(new Date(2026, 2, 6), { weekStartsOn: 1 })
+  )
+  const [searchQuery, setSearchQuery] = useState('')
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
+  const [selectedRes, setSelectedRes] = useState<{
+    reservation: Reservation
+    bungalowNumero: number
+  } | null>(null)
+  const [showManuelModal, setShowManuelModal] = useState(false)
 
   useEffect(() => {
-    Promise.all([getClients(), getBungalows()]).then(([c, b]) => {
+    Promise.all([getClients(), getBungalows(), getRoomCharges()]).then(([c, b, rc]) => {
       setClients(c)
       setBungalows(b)
+      setRoomCharges(rc)
     })
   }, [])
 
-  // Map clientId -> "prenom nom"
   const clientMap = useMemo(() => {
     const map = new Map<string, string>()
-    for (const c of clients) {
-      map.set(c.id, `${c.prenom} ${c.nom}`)
-    }
+    for (const c of clients) map.set(c.id, `${c.prenom} ${c.nom}`)
+    for (const b of bungalows) for (const r of b.reservations) if (r.clientNom && !map.has(r.clientId)) map.set(r.clientId, r.clientNom)
     return map
-  }, [clients])
+  }, [clients, bungalows])
 
-  // Month computation
-  const monthStart = startOfMonth(currentMonth)
-  const monthEnd = endOfMonth(currentMonth)
-  const daysInMonth = getDaysInMonth(currentMonth)
-  const days = eachDayOfInterval({ start: monthStart, end: monthEnd })
+  useEffect(() => {
+    if (!dateFrom) return
+    const d = new Date(dateFrom)
+    if (isNaN(d.getTime())) return
+    setCurrentMonth(new Date(d.getFullYear(), d.getMonth(), 1))
+    setCurrentWeekStart(startOfWeek(d, { weekStartsOn: 1 }))
+  }, [dateFrom])
 
-  // Capitalize French month name
-  const monthLabel = format(currentMonth, 'MMMM yyyy', { locale: fr })
-  const capitalizedMonth = monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1)
-
-  /**
-   * Compute grid column span for a reservation, clamped to current month.
-   * Returns null if no overlap.
-   */
-  function getReservationColumns(res: Reservation): { start: number; end: number } | null {
-    const resStart = parseISO(res.dateDebut)
-    const resEnd = parseISO(res.dateFin)
-    if (resEnd < monthStart || resStart > monthEnd) return null
-    const start = resStart < monthStart ? 1 : resStart.getDate()
-    const end = resEnd > monthEnd ? daysInMonth + 1 : resEnd.getDate() + 1
-    // +1 offset for bungalow label column
-    return { start: start + 1, end: end + 1 }
+  const handleReset = () => {
+    setSearchQuery('')
+    setDateFrom('')
+    setDateTo('')
+    setCurrentMonth(new Date(2026, 2, 1))
+    setCurrentWeekStart(startOfWeek(new Date(2026, 2, 6), { weekStartsOn: 1 }))
   }
 
-  // ---------------------------------------------------------------------------
-  // Occupancy: monthly
-  // ---------------------------------------------------------------------------
-  const { occupancyRate, occupiedSlots, totalSlots } = useMemo(() => {
-    const total = 8 * daysInMonth
-    let occupied = 0
-    for (const bungalow of bungalows) {
-      for (const res of bungalow.reservations) {
-        if (res.statut === 'annulee') continue
-        const resStart = parseISO(res.dateDebut)
-        const resEnd = parseISO(res.dateFin)
-        const overlapStart = resStart < monthStart ? monthStart : resStart
-        const overlapEnd = resEnd > monthEnd ? monthEnd : resEnd
-        if (overlapStart <= overlapEnd) {
-          occupied += eachDayOfInterval({ start: overlapStart, end: overlapEnd }).length
-        }
-      }
+  const handleMarkNoShow = (resId: string) => {
+    setBungalows(prev => prev.map(b => ({
+      ...b,
+      reservations: b.reservations.map(r =>
+        r.id === resId ? { ...r, statut: 'no_show' as const } : r
+      ),
+    })))
+    if (selectedRes?.reservation.id === resId) {
+      setSelectedRes(s => s ? { ...s, reservation: { ...s.reservation, statut: 'no_show' } } : null)
     }
-    return {
-      occupancyRate: total > 0 ? Math.round((occupied / total) * 100) : 0,
-      occupiedSlots: occupied,
-      totalSlots: total,
-    }
-  }, [bungalows, monthStart, monthEnd, daysInMonth])
+  }
 
-  // ---------------------------------------------------------------------------
-  // Occupancy: weekly breakdown
-  // ---------------------------------------------------------------------------
-  const weeklyBreakdown = useMemo(() => {
-    const weeks = eachWeekOfInterval(
-      { start: monthStart, end: monthEnd },
-      { weekStartsOn: 1 }
-    )
-    return weeks.map((weekStartDate) => {
-      const weekEnd = endOfWeek(weekStartDate, { weekStartsOn: 1 })
-      const clampedStart = weekStartDate < monthStart ? monthStart : weekStartDate
-      const clampedEnd = weekEnd > monthEnd ? monthEnd : weekEnd
-      const daysInWeek = eachDayOfInterval({ start: clampedStart, end: clampedEnd }).length
-      const total = 8 * daysInWeek
-      let occupied = 0
-      for (const bungalow of bungalows) {
-        for (const res of bungalow.reservations) {
-          if (res.statut === 'annulee') continue
-          const resStart = parseISO(res.dateDebut)
-          const resEnd = parseISO(res.dateFin)
-          const overlapStart = resStart < clampedStart ? clampedStart : resStart
-          const overlapEnd = resEnd > clampedEnd ? clampedEnd : resEnd
-          if (overlapStart <= overlapEnd) {
-            occupied += eachDayOfInterval({ start: overlapStart, end: overlapEnd }).length
-          }
-        }
+  const handleCancelNoShow = (resId: string) => {
+    setBungalows(prev => prev.map(b => ({
+      ...b,
+      reservations: b.reservations.map(r =>
+        r.id === resId ? { ...r, statut: 'confirmee' as const } : r
+      ),
+    })))
+    if (selectedRes?.reservation.id === resId) {
+      setSelectedRes(s => s ? { ...s, reservation: { ...s.reservation, statut: 'confirmee' } } : null)
+    }
+  }
+
+  const handleCheckoutComplete = (resId: string, totalPaid: number) => {
+    setBungalows(prev => prev.map(b => ({
+      ...b,
+      reservations: b.reservations.map(r =>
+        r.id === resId ? { ...r, statut: 'checked_out' as const } : r
+      ),
+    })))
+    setRoomCharges(prev => prev.filter(rc => rc.reservationId !== resId))
+    if (totalPaid > 0) {
+      const res = selectedRes?.reservation
+      const name = res ? (clientMap.get(res.clientId) ?? '') : ''
+      const txn: Transaction = {
+        id: `txn-co-${Date.now()}`,
+        date: new Date().toISOString().slice(0, 19),
+        type: 'fnb', centreRevenu: 'F&B',
+        clientId: res?.clientId,
+        items: [{ produitId: 'checkout', nom: `F&B Bungalow ${selectedRes?.bungalowNumero}`, quantite: 1, prixUnitaire: totalPaid, sousTotal: totalPaid }],
+        total: totalPaid, methode: 'especes',
       }
-      return {
-        label: 'S' + format(weekStartDate, 'w'),
-        rate: total > 0 ? Math.round((occupied / total) * 100) : 0,
-      }
+      addTransaction(txn)
+    }
+    if (selectedRes?.reservation.id === resId) {
+      setSelectedRes(s => s ? { ...s, reservation: { ...s.reservation, statut: 'checked_out' } } : null)
+    }
+    const bNum = selectedRes?.bungalowNumero ?? 0
+    toast.success(`Bungalow ${bNum} cloture ✓`, {
+      description: totalPaid > 0 ? `฿ ${totalPaid.toLocaleString()} enregistres en F&B` : 'Aucune consommation',
     })
-  }, [bungalows, monthStart, monthEnd])
+  }
+
+  const handleSettleCharges = (resId: string, totalPaid: number) => {
+    setRoomCharges(prev => prev.filter(rc => rc.reservationId !== resId))
+    const res = selectedRes?.reservation
+    const txn: Transaction = {
+      id: `txn-settle-${Date.now()}`,
+      date: new Date().toISOString().slice(0, 19),
+      type: 'fnb', centreRevenu: 'F&B',
+      clientId: res?.clientId,
+      items: [{ produitId: 'settle-fnb', nom: `F&B Bungalow ${selectedRes?.bungalowNumero}`, quantite: 1, prixUnitaire: totalPaid, sousTotal: totalPaid }],
+      total: totalPaid, methode: 'especes',
+    }
+    addTransaction(txn)
+    toast.success('Note F&B reglee', { description: `฿ ${totalPaid.toLocaleString()} enregistres en compta F&B` })
+  }
+
+  const handleChecklistToggle = (field: 'checkin_fait' | 'tm30_fait' | 'clef_remise') => {
+    if (!selectedRes) return
+    const resId = selectedRes.reservation.id
+    const newVal = !selectedRes.reservation[field]
+    const updateRes = (r: Reservation): Reservation => {
+      if (r.id !== resId) return r
+      if (field === 'checkin_fait' && !newVal) return { ...r, checkin_fait: false, tm30_fait: false, clef_remise: false }
+      if (field === 'tm30_fait' && !newVal) return { ...r, tm30_fait: false, clef_remise: false }
+      return { ...r, [field]: newVal }
+    }
+    setBungalows(prev => prev.map(b => ({ ...b, reservations: b.reservations.map(updateRes) })))
+    setSelectedRes(s => s ? { ...s, reservation: updateRes(s.reservation) } : null)
+  }
+
+  const chargedResIds = useMemo(() => new Set(roomCharges.map(rc => rc.reservationId)), [roomCharges])
+
+  const handleManuelSave = (newRes: Reservation) => {
+    setBungalows(prev => prev.map(b => b.id === newRes.bungalowId ? { ...b, reservations: [...b.reservations, newRes] } : b))
+    setShowManuelModal(false)
+    const bNum = parseInt(newRes.bungalowId.replace('bung-', ''))
+    toast.success(`Reservation creee · Bungalow ${bNum} · ${newRes.clientNom} · ฿ ${newRes.montant.toLocaleString()}`)
+  }
+
+  const { isMobile } = useDevice()
+  const clientName = selectedRes ? (clientMap.get(selectedRes.reservation.clientId) ?? 'Inconnu') : ''
 
   return (
-    <div className="space-y-6">
-      {/* Page heading */}
-      <div>
-        <h1 className="font-display text-3xl font-bold">Bungalows</h1>
-        <p className="text-muted-foreground">Calendrier des reservations</p>
-      </div>
-
-      {/* Month navigation */}
-      <div className="flex items-center justify-center gap-4">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setCurrentMonth((m) => subMonths(m, 1))}
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        <h2 className="font-display text-xl font-bold min-w-[200px] text-center">
-          {capitalizedMonth}
-        </h2>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setCurrentMonth((m) => addMonths(m, 1))}
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      </div>
-
-      {/* Calendar grid */}
-      <div className="overflow-x-auto rounded-lg border border-border">
-        <div
-          className="relative"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: `120px repeat(${daysInMonth}, minmax(32px, 1fr))`,
-            gridTemplateRows: `40px repeat(8, 56px)`,
-          }}
-        >
-          {/* ---- Header row ---- */}
-          {/* Top-left empty cell */}
-          <div className="sticky left-0 z-10 bg-muted border-b border-r border-border" />
-
-          {days.map((day, i) => {
-            const weekend = isWeekend(day)
-            const today = isToday(day)
-            return (
-              <div
-                key={i}
-                className={`flex flex-col items-center justify-center text-xs border-b border-border ${
-                  today ? 'bg-wildwood-orange/10 font-bold' : weekend ? 'text-muted-foreground/60' : ''
-                }`}
-              >
-                <span>{format(day, 'd')}</span>
-                <span className="text-[10px]">{format(day, 'EEE', { locale: fr })}</span>
-              </div>
-            )
-          })}
-
-          {/* ---- Bungalow rows ---- */}
-          {bungalows
-            .sort((a, b) => a.numero - b.numero)
-            .map((bungalow) => {
-              const gridRow = bungalow.numero + 1 // header is row 1
-
-              return (
-                <div key={bungalow.id} className="contents">
-                  {/* Bungalow label */}
-                  <div
-                    className="sticky left-0 z-10 bg-background flex items-center px-3 font-medium text-sm border-b border-r border-border"
-                    style={{ gridRow, gridColumn: 1 }}
-                  >
-                    Bungalow {bungalow.numero}
-                  </div>
-
-                  {/* Day background cells */}
-                  {days.map((day, i) => {
-                    const weekend = isWeekend(day)
-                    const today = isToday(day)
-                    return (
-                      <div
-                        key={i}
-                        className={`border-b border-r border-border/30 ${
-                          today ? 'bg-wildwood-orange/5' : weekend ? 'bg-muted/30' : ''
-                        }`}
-                        style={{ gridRow, gridColumn: i + 2 }}
-                      />
-                    )
-                  })}
-
-                  {/* Reservation bars */}
-                  {bungalow.reservations.map((res) => {
-                    const cols = getReservationColumns(res)
-                    if (!cols) return null
-                    const clientName = clientMap.get(res.clientId) ?? 'Inconnu'
-                    const isActive = res.statut === 'en-cours'
-                    return (
-                      <div
-                        key={res.id}
-                        className={`${STATUS_COLORS[res.statut]} rounded-md px-2 py-1 text-xs truncate h-[40px] flex items-center gap-1 z-[5] my-auto mx-0.5`}
-                        style={{
-                          gridRow,
-                          gridColumn: `${cols.start} / ${cols.end}`,
-                        }}
-                        title={`${clientName} - ${res.nuits}n - ${res.montant.toLocaleString()} THB (${res.statut})`}
-                      >
-                        {isActive && (
-                          <Dumbbell className="h-3 w-3 shrink-0" aria-label="Acces gym inclus" />
-                        )}
-                        <span className="truncate">
-                          {clientName} - {res.nuits}n - {res.montant.toLocaleString()} THB
-                        </span>
-                      </div>
-                    )
-                  })}
-                </div>
-              )
-            })}
+    <div className="space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="font-display text-2xl md:text-3xl font-extrabold text-ww-text tracking-tight">Bungalows</h1>
+          <p className="text-ww-muted text-sm mt-1">Calendrier des reservations</p>
         </div>
+        <button onClick={() => setShowManuelModal(true)} className="flex items-center justify-center gap-2 bg-ww-orange text-white font-display font-bold text-sm px-4 py-2.5 rounded-lg transition-all duration-150 hover:bg-ww-orange/90 active:scale-[0.97]">
+          <Plus className="h-4 w-4" /> RESERVATION MANUELLE
+        </button>
       </div>
 
-      {/* Occupancy section */}
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* Monthly rate */}
-        <Card className="w-full md:w-64 shrink-0">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Taux d&apos;occupation
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold font-display text-wildwood-bois">
-              {occupancyRate}%
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              {occupiedSlots} / {totalSlots} nuits-bungalow
-            </p>
-          </CardContent>
-        </Card>
+      {!isMobile && (
+        <>
+          <CalendrierHeader viewMode={viewMode} setViewMode={setViewMode}
+            currentMonth={currentMonth} setCurrentMonth={setCurrentMonth}
+            currentWeekStart={currentWeekStart} setCurrentWeekStart={setCurrentWeekStart} />
+          <div className="flex flex-wrap items-center gap-5 text-xs font-body text-ww-muted">
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-ww-orange" /> Confirmee</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: '#6D28D9' }} /> No Show</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-ww-lime" /> Arrivee aujourd&apos;hui</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-ww-danger" /> Alerte libre J+2</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-ww-danger flex items-center justify-center text-[7px] text-white font-bold">฿</span> Note F&B a regler</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-ww-wood" /> Manuel ✏️</span>
+          </div>
+          <SearchFilterBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+            dateFrom={dateFrom} setDateFrom={setDateFrom} dateTo={dateTo}
+            setDateTo={setDateTo} onReset={handleReset} />
+        </>
+      )}
 
-        {/* Weekly breakdown */}
-        <Card className="flex-1">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Occupation par semaine
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {weeklyBreakdown.map((week) => (
-                <div key={week.label} className="flex items-center gap-3">
-                  <span className="text-xs font-medium w-8 shrink-0">{week.label}</span>
-                  <div className="flex-1 h-5 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-wildwood-lime rounded-full transition-all"
-                      style={{ width: `${week.rate}%` }}
-                    />
-                  </div>
-                  <span className="text-xs font-medium w-10 text-right">{week.rate}%</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {isMobile ? (
+        <BungalowListMobile
+          bungalows={bungalows}
+          clientMap={clientMap}
+          currentMonth={currentMonth}
+          chargedResIds={chargedResIds}
+          onReservationClick={(res, num) => setSelectedRes({ reservation: res, bungalowNumero: num })}
+        />
+      ) : viewMode === 'mensuelle' ? (
+        <VueMensuelle
+          bungalows={bungalows}
+          clientMap={clientMap}
+          currentMonth={currentMonth}
+          searchQuery={searchQuery}
+          chargedResIds={chargedResIds}
+          onReservationClick={(res, num) => setSelectedRes({ reservation: res, bungalowNumero: num })}
+        />
+      ) : (
+        <VueSemaine
+          bungalows={bungalows}
+          clientMap={clientMap}
+          weekStart={currentWeekStart}
+          searchQuery={searchQuery}
+          chargedResIds={chargedResIds}
+          onReservationClick={(res, num) => setSelectedRes({ reservation: res, bungalowNumero: num })}
+        />
+      )}
+
+      <ReservationManuelleModal open={showManuelModal} onClose={() => setShowManuelModal(false)}
+        bungalows={bungalows} clientMap={clientMap} onSave={handleManuelSave} />
+
+      <ReservationModal
+        reservation={selectedRes?.reservation ?? null}
+        clientName={clientName}
+        bungalowNumero={selectedRes?.bungalowNumero ?? 0}
+        open={selectedRes !== null}
+        onClose={() => setSelectedRes(null)}
+        onMarkNoShow={handleMarkNoShow}
+        onCancelNoShow={handleCancelNoShow}
+        onChecklistToggle={handleChecklistToggle}
+        roomCharges={selectedRes ? roomCharges.filter((rc) => rc.reservationId === selectedRes.reservation.id) : []}
+        onCheckoutComplete={handleCheckoutComplete}
+        onSettleCharges={handleSettleCharges}
+        maintenanceTasks={selectedRes ? getTasksByBungalow(
+          bungalows.find((b) => b.numero === selectedRes.bungalowNumero)?.id ?? ''
+        ) : []}
+      />
     </div>
   )
 }

@@ -2,14 +2,12 @@
 
 import { useState } from 'react'
 import type { Client } from '@/lib/types'
-import type { CartItem } from './pos-register'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Minus, Plus, X } from 'lucide-react'
+import type { CartItem } from './cart-reducer'
+import { X } from 'lucide-react'
+import { CashChangeDialog } from './cash-change-dialog'
 
 // =============================================================================
-// Cart Sidebar — Displays cart items, total, payment toggle, and checkout
+// Cart Bottom Bar — Horizontal sticky bar at bottom of POS
 // =============================================================================
 
 interface CartSidebarProps {
@@ -18,7 +16,9 @@ interface CartSidebarProps {
   isBungalowResident: boolean
   onRemoveItem: (produitId: string) => void
   onUpdateQuantity: (produitId: string, quantite: number) => void
-  onCheckout: (methode: 'especes' | 'virement') => void
+  onCheckout: () => void
+  onFnbAssign?: () => void
+  activeTableName?: string | null
 }
 
 export function CartSidebar({
@@ -28,160 +28,88 @@ export function CartSidebar({
   onRemoveItem,
   onUpdateQuantity,
   onCheckout,
+  onFnbAssign,
+  activeTableName,
 }: CartSidebarProps) {
-  const [methode, setMethode] = useState<'especes' | 'virement'>('especes')
+  const [cashDialogOpen, setCashDialogOpen] = useState(false)
 
-  // Calculate total: gym-pass items are free for bungalow residents
   const total = items.reduce((sum, item) => {
     if (isBungalowResident && item.type === 'gym-pass') return sum
     return sum + item.prixUnitaire * item.quantite
   }, 0)
 
-  const hasGymPassItems =
-    isBungalowResident && items.some((i) => i.type === 'gym-pass')
+  const hasFnbOnly = items.length > 0 && items.every((i) => i.type === 'fnb')
+
+  function handleEncaisser() {
+    if (hasFnbOnly && onFnbAssign) {
+      onFnbAssign()
+      return
+    }
+    setCashDialogOpen(true)
+  }
 
   return (
-    <div className="flex flex-col h-full">
-      {/* A) Header */}
-      <div className="p-4 border-b border-border">
-        <h2 className="font-display text-lg font-bold uppercase tracking-wider">
-          Panier
-        </h2>
-        {client && (
-          <p className="text-sm text-muted-foreground mt-1">
-            {client.prenom} {client.nom}
-          </p>
-        )}
-        {isBungalowResident && (
-          <Badge className="bg-wildwood-lime text-white mt-1">
-            Resident Bungalow
-          </Badge>
-        )}
-      </div>
-
-      {/* B) Items list */}
-      <ScrollArea className="flex-1">
-        {items.length === 0 ? (
-          <div className="flex items-center justify-center h-32">
-            <p className="text-muted-foreground text-sm">Aucun article</p>
-          </div>
-        ) : (
-          <div className="p-4 space-y-3">
-            {items.map((item) => {
-              const itemFree =
-                isBungalowResident && item.type === 'gym-pass'
-              const subtotal = itemFree
-                ? 0
-                : item.prixUnitaire * item.quantite
-
-              return (
-                <div
-                  key={item.produitId}
-                  className="flex items-start gap-2 rounded-lg border border-border p-3"
+    <div className="bg-ww-surface-2 border-t border-ww-border">
+      {/* Main cart bar - always visible */}
+      <div className="h-auto md:h-20 px-3 md:px-5 py-3 md:py-0 flex flex-col md:flex-row md:items-center gap-3 md:gap-4">
+        {/* Left: item pills */}
+        <div className="flex-1 flex items-center gap-2 overflow-x-auto min-w-0">
+          {items.length === 0 ? (
+            <span className="text-ww-muted text-sm font-sans">Aucun article</span>
+          ) : (
+            items.map((item) => (
+              <span
+                key={item.produitId}
+                className="inline-flex items-center gap-1.5 bg-ww-surface border border-ww-border rounded-full px-3 py-1.5 text-sm text-ww-text shrink-0"
+              >
+                <span className="font-sans">
+                  {item.nom}
+                  {item.quantite > 1 && (
+                    <span className="text-ww-muted ml-1">x{item.quantite}</span>
+                  )}
+                </span>
+                <button
+                  onClick={() => onRemoveItem(item.produitId)}
+                  className="text-ww-muted hover:text-ww-danger transition-colors ml-0.5"
                 >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{item.nom}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {itemFree
-                        ? 'Offert'
-                        : `${item.prixUnitaire.toLocaleString()} THB`}
-                    </p>
-                  </div>
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </span>
+            ))
+          )}
+          {isBungalowResident && (
+            <span className="inline-flex items-center bg-ww-lime/15 border border-ww-lime/30 rounded-full px-3 py-1.5 text-xs text-ww-lime shrink-0 font-display font-bold uppercase tracking-wider">
+              Resident
+            </span>
+          )}
+          {activeTableName && (
+            <span className="inline-flex items-center bg-ww-orange/15 border border-ww-orange/30 rounded-full px-3 py-1.5 text-xs text-ww-orange shrink-0 font-display font-bold uppercase tracking-wider">
+              Ajout a {activeTableName}
+            </span>
+          )}
+        </div>
 
-                  {/* Quantity controls */}
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon-xs"
-                      onClick={() =>
-                        onUpdateQuantity(item.produitId, item.quantite - 1)
-                      }
-                    >
-                      <Minus />
-                    </Button>
-                    <span className="text-sm font-medium w-6 text-center">
-                      {item.quantite}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon-xs"
-                      onClick={() =>
-                        onUpdateQuantity(item.produitId, item.quantite + 1)
-                      }
-                    >
-                      <Plus />
-                    </Button>
-                  </div>
-
-                  {/* Subtotal */}
-                  <span className="text-sm font-medium w-16 text-right">
-                    {subtotal.toLocaleString()} THB
-                  </span>
-
-                  {/* Remove */}
-                  <Button
-                    variant="ghost"
-                    size="icon-xs"
-                    className="text-muted-foreground hover:text-destructive"
-                    onClick={() => onRemoveItem(item.produitId)}
-                  >
-                    <X />
-                  </Button>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </ScrollArea>
-
-      {/* C) Total section */}
-      <div className="p-4 border-t border-border">
-        {hasGymPassItems && (
-          <p className="text-xs text-wildwood-lime mb-2">
-            Pass gym offert (resident bungalow)
-          </p>
-        )}
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">Total</span>
-          <span className="text-xl font-bold text-wildwood-orange">
-            {total.toLocaleString()} THB
+        {/* Right: total + checkout */}
+        <div className="flex items-center gap-3 md:gap-4 shrink-0">
+          <span className="font-display font-extrabold text-2xl md:text-[28px] text-ww-orange tracking-tight">
+            ฿ {total.toLocaleString()}
           </span>
+          <button
+            disabled={items.length === 0}
+            onClick={handleEncaisser}
+            className="bg-ww-orange text-white font-display font-bold text-sm md:text-base uppercase tracking-wider px-4 py-2.5 md:px-6 md:py-3 rounded-lg flex-1 md:flex-none md:min-w-[160px] h-12 md:h-auto transition-all duration-150 hover:bg-ww-orange/90 active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {activeTableName ? 'AJOUTER A LA TABLE' : 'ENCAISSER'}
+          </button>
         </div>
       </div>
 
-      {/* D) Payment method toggle */}
-      <div className="px-4 pb-2">
-        <div className="flex gap-2">
-          <Button
-            variant={methode === 'especes' ? 'pos-accent' : 'pos'}
-            size="sm"
-            className="flex-1"
-            onClick={() => setMethode('especes')}
-          >
-            Especes
-          </Button>
-          <Button
-            variant={methode === 'virement' ? 'pos-accent' : 'pos'}
-            size="sm"
-            className="flex-1"
-            onClick={() => setMethode('virement')}
-          >
-            Virement
-          </Button>
-        </div>
-      </div>
-
-      {/* E) Encaisser button */}
-      <div className="p-4 pt-2">
-        <Button
-          variant="pos-accent"
-          className="w-full h-12 text-lg font-bold"
-          disabled={items.length === 0}
-          onClick={() => onCheckout(methode)}
-        >
-          Encaisser
-        </Button>
-      </div>
+      <CashChangeDialog
+        total={total}
+        open={cashDialogOpen}
+        onConfirm={() => { setCashDialogOpen(false); onCheckout() }}
+        onCancel={() => setCashDialogOpen(false)}
+      />
     </div>
   )
 }

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "ap-001",
+    "qrToken": "WW-PASS-A1B2",
+    "clientId": "cli-001",
+    "clientNom": "Pierre Dumont",
+    "passId": "pass-1m",
+    "passNom": "1 mois",
+    "dateAchat": "2026-02-10",
+    "dateExpiration": "2026-03-12",
+    "actif": true,
+    "checkins": [
+      { "date": "2026-02-28", "heure": "07:15" },
+      { "date": "2026-03-01", "heure": "07:30" },
+      { "date": "2026-03-02", "heure": "07:20" },
+      { "date": "2026-03-03", "heure": "07:45" },
+      { "date": "2026-03-04", "heure": "07:10" },
+      { "date": "2026-03-05", "heure": "07:30" },
+      { "date": "2026-03-06", "heure": "07:30" }
+    ]
+  },
+  {
+    "id": "ap-002",
+    "qrToken": "WW-PASS-C3D4",
+    "clientId": "cli-009",
+    "clientNom": "Camille Rousseau",
+    "passId": "pass-1s",
+    "passNom": "1 semaine",
+    "dateAchat": "2026-03-01",
+    "dateExpiration": "2026-03-08",
+    "actif": true,
+    "checkins": [
+      { "date": "2026-03-01", "heure": "08:00" },
+      { "date": "2026-03-02", "heure": "08:15" },
+      { "date": "2026-03-04", "heure": "09:00" },
+      { "date": "2026-03-05", "heure": "08:30" }
+    ]
+  },
+  {
+    "id": "ap-003",
+    "qrToken": "WW-PASS-E5F6",
+    "clientId": "cli-010",
+    "clientNom": "Ben Carter",
+    "passId": "pass-3j",
+    "passNom": "3 jours",
+    "dateAchat": "2026-03-04",
+    "dateExpiration": "2026-03-07",
+    "actif": true,
+    "checkins": [
+      { "date": "2026-03-04", "heure": "10:00" },
+      { "date": "2026-03-05", "heure": "09:30" },
+      { "date": "2026-03-06", "heure": "09:45" }
+    ]
+  },
+  {
+    "id": "ap-004",
+    "qrToken": "WW-PASS-G7H8",
+    "clientId": "cli-012",
+    "clientNom": "Sophie Dupont",
+    "passId": "pass-1m",
+    "passNom": "1 mois",
+    "dateAchat": "2026-02-20",
+    "dateExpiration": "2026-03-22",
+    "actif": true,
+    "checkins": [
+      { "date": "2026-02-28", "heure": "08:30" },
+      { "date": "2026-03-01", "heure": "09:00" },
+      { "date": "2026-03-03", "heure": "08:45" },
+      { "date": "2026-03-05", "heure": "08:50" }
+    ]
+  },
+  {
+    "id": "ap-005",
+    "qrToken": "WW-PASS-I9J0",
+    "clientId": "cli-019",
+    "clientNom": "Thomas Muller",
+    "passId": "pass-1s",
+    "passNom": "1 semaine",
+    "dateAchat": "2026-03-02",
+    "dateExpiration": "2026-03-09",
+    "actif": true,
+    "checkins": [
+      { "date": "2026-03-02", "heure": "08:00" },
+      { "date": "2026-03-03", "heure": "08:10" },
+      { "date": "2026-03-04", "heure": "08:20" },
+      { "date": "2026-03-05", "heure": "08:00" },
+      { "date": "2026-03-06", "heure": "08:10" }
+    ]
+  },
+  {
+    "id": "ap-006",
+    "qrToken": "WW-PASS-K1L2",
+    "clientId": "cli-014",
+    "clientNom": "Hannah Clarke",
+    "passId": "pass-10j",
+    "passNom": "10 jours",
+    "dateAchat": "2026-02-25",
+    "dateExpiration": "2026-05-26",
+    "actif": true,
+    "checkins": [
+      { "date": "2026-02-28", "heure": "09:00" },
+      { "date": "2026-03-01", "heure": "09:15" },
+      { "date": "2026-03-03", "heure": "09:00" },
+      { "date": "2026-03-04", "heure": "09:10" },
+      { "date": "2026-03-05", "heure": "09:20" },
+      { "date": "2026-03-06", "heure": "09:00" }
+    ]
+  },
+  {
+    "id": "ap-007",
+    "qrToken": "WW-PASS-M3N4",
+    "clientId": "cli-020",
+    "clientNom": "Chloe Martin",
+    "passId": "pass-3j",
+    "passNom": "3 jours",
+    "dateAchat": "2026-03-05",
+    "dateExpiration": "2026-03-08",
+    "actif": true,
+    "checkins": [
+      { "date": "2026-03-05", "heure": "08:40" },
+      { "date": "2026-03-06", "heure": "08:50" }
+    ]
+  },
+  {
+    "id": "ap-008",
+    "qrToken": "WW-PASS-O5P6",
+    "clientId": "cli-002",
+    "clientNom": "Sarah Mitchell",
+    "passId": "pass-6m",
+    "passNom": "6 mois",
+    "dateAchat": "2025-12-01",
+    "dateExpiration": "2026-05-30",
+    "actif": true,
+    "checkins": [
+      { "date": "2026-02-28", "heure": "07:45" },
+      { "date": "2026-03-01", "heure": "07:50" },
+      { "date": "2026-03-02", "heure": "08:00" },
+      { "date": "2026-03-03", "heure": "07:40" },
+      { "date": "2026-03-05", "heure": "07:55" }
+    ]
+  }
+]

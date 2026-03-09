@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { useTransactions } from '@/contexts/transactions-context'
 import { useExpenses } from '@/contexts/expenses-context'
 import { isToday, parseISO } from 'date-fns'
+import { txnNet } from '@/lib/commission'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -13,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { CATEGORY_LABELS } from '@/components/depenses/depenses-shared'
 
 export default function VueJournaliere() {
   const { transactions } = useTransactions()
@@ -24,7 +26,7 @@ export default function VueJournaliere() {
         isToday(parseISO(txn.date))
       )
 
-      const todayRevenue = todayTxns.reduce((sum, txn) => sum + txn.total, 0)
+      const todayRevenue = todayTxns.reduce((sum, txn) => sum + txnNet(txn), 0)
 
       const revenueByCenter = {
         Gym: todayTxns
@@ -35,7 +37,7 @@ export default function VueJournaliere() {
           .reduce((s, t) => s + t.total, 0),
         Bungalows: todayTxns
           .filter((t) => t.centreRevenu === 'Bungalows')
-          .reduce((s, t) => s + t.total, 0),
+          .reduce((s, t) => s + txnNet(t), 0),
       }
 
       const todayExpenses = expenses.filter((exp) =>
@@ -43,7 +45,7 @@ export default function VueJournaliere() {
       )
 
       const totalExpenses = todayExpenses.reduce(
-        (sum, exp) => sum + exp.montant,
+        (sum, exp) => sum + exp.montant_thb,
         0
       )
 
@@ -58,7 +60,7 @@ export default function VueJournaliere() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="ww-label">
               Revenu du jour
             </CardTitle>
           </CardHeader>
@@ -71,12 +73,12 @@ export default function VueJournaliere() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="ww-label">
               Depenses du jour
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold font-display text-red-500">
+            <div className="text-3xl font-bold font-display text-ww-danger">
               {totalExpenses.toLocaleString()} THB
             </div>
           </CardContent>
@@ -84,14 +86,14 @@ export default function VueJournaliere() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="ww-label">
               Solde net
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div
               className={`text-3xl font-bold font-display ${
-                soldeNet >= 0 ? 'text-green-600' : 'text-red-500'
+                soldeNet >= 0 ? 'text-ww-success' : 'text-ww-danger'
               }`}
             >
               {soldeNet.toLocaleString()} THB
@@ -105,12 +107,12 @@ export default function VueJournaliere() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="ww-label">
               Gym
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-display text-wildwood-orange">
+            <div className="text-2xl font-bold font-display text-ww-orange">
               {revenueByCenter.Gym.toLocaleString()} THB
             </div>
           </CardContent>
@@ -118,12 +120,12 @@ export default function VueJournaliere() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="ww-label">
               F&B
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-display text-wildwood-lime">
+            <div className="text-2xl font-bold font-display text-ww-lime">
               {revenueByCenter['F&B'].toLocaleString()} THB
             </div>
           </CardContent>
@@ -131,12 +133,12 @@ export default function VueJournaliere() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="ww-label">
               Bungalows
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-display text-wildwood-bois">
+            <div className="text-2xl font-bold font-display text-ww-wood">
               {revenueByCenter.Bungalows.toLocaleString()} THB
             </div>
           </CardContent>
@@ -146,7 +148,7 @@ export default function VueJournaliere() {
       {/* Today's expenses */}
       <h2 className="font-display text-xl font-bold">Depenses du jour</h2>
       {todayExpenses.length === 0 ? (
-        <p className="text-muted-foreground">Aucune depense aujourd&apos;hui</p>
+        <p className="text-ww-muted">Aucune depense aujourd&apos;hui</p>
       ) : (
         <Card>
           <Table>
@@ -160,11 +162,11 @@ export default function VueJournaliere() {
             <TableBody>
               {todayExpenses.map((exp) => (
                 <TableRow key={exp.id}>
-                  <TableCell>{exp.categorie}</TableCell>
-                  <TableCell className="font-display font-bold text-red-500">
-                    {exp.montant.toLocaleString()} THB
+                  <TableCell>{CATEGORY_LABELS[exp.categorie] || exp.categorie}</TableCell>
+                  <TableCell className="font-display font-bold text-ww-danger">
+                    {exp.montant_thb.toLocaleString()} THB
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="text-ww-muted">
                     {exp.note || '-'}
                   </TableCell>
                 </TableRow>

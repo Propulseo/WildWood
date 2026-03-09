@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import { useTransactions } from '@/contexts/transactions-context'
 import { parseISO, getMonth, getYear } from 'date-fns'
+import { txnNet } from '@/lib/commission'
 import { Card } from '@/components/ui/card'
 import {
   Table,
@@ -62,7 +63,7 @@ export default function VueAnnuelle() {
 
       const bungalows = monthTxns
         .filter((t) => t.centreRevenu === 'Bungalows')
-        .reduce((s, t) => s + t.total, 0)
+        .reduce((s, t) => s + txnNet(t), 0)
 
       return {
         mois,
@@ -88,7 +89,7 @@ export default function VueAnnuelle() {
 
   return (
     <div className="space-y-6 pt-4">
-      <h2 className="font-display text-xl font-bold">
+      <h2 className="font-display font-extrabold text-ww-text text-xl">
         Revenus annuels par centre
       </h2>
       <Card>
@@ -106,13 +107,13 @@ export default function VueAnnuelle() {
             {rows.map((row) => (
               <TableRow key={row.mois}>
                 <TableCell>{row.mois}</TableCell>
-                <TableCell className="text-right font-display text-wildwood-orange">
+                <TableCell className="text-right font-display text-ww-orange">
                   {row.gym.toLocaleString()} THB
                 </TableCell>
-                <TableCell className="text-right font-display text-wildwood-lime">
+                <TableCell className="text-right font-display text-ww-lime">
                   {row.fnb.toLocaleString()} THB
                 </TableCell>
-                <TableCell className="text-right font-display text-wildwood-bois">
+                <TableCell className="text-right font-display text-ww-wood">
                   {row.bungalows.toLocaleString()} THB
                 </TableCell>
                 <TableCell className="text-right font-display font-bold">
@@ -124,13 +125,13 @@ export default function VueAnnuelle() {
           <TableFooter>
             <TableRow>
               <TableCell className="font-bold text-base">TOTAL</TableCell>
-              <TableCell className="text-right font-display font-bold text-base text-wildwood-orange">
+              <TableCell className="text-right font-display font-bold text-base text-ww-orange">
                 {totals.gym.toLocaleString()} THB
               </TableCell>
-              <TableCell className="text-right font-display font-bold text-base text-wildwood-lime">
+              <TableCell className="text-right font-display font-bold text-base text-ww-lime">
                 {totals.fnb.toLocaleString()} THB
               </TableCell>
-              <TableCell className="text-right font-display font-bold text-base text-wildwood-bois">
+              <TableCell className="text-right font-display font-bold text-base text-ww-wood">
                 {totals.bungalows.toLocaleString()} THB
               </TableCell>
               <TableCell className="text-right font-display font-bold text-base">

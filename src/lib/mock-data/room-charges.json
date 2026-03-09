@@ -1,0 +1,67 @@
+[
+  {
+    "id": "rc-001",
+    "bungalowId": "bung-1",
+    "reservationId": "res-102",
+    "clientId": "cli-002",
+    "items": [
+      { "produitId": "fnb-001", "nom": "Acai Bowl", "quantite": 2, "prixUnitaire": 220, "sousTotal": 440 },
+      { "produitId": "fnb-007", "nom": "Espresso", "quantite": 2, "prixUnitaire": 70, "sousTotal": 140 }
+    ],
+    "total": 580,
+    "date": "2026-03-04T09:15:00",
+    "staff": "Somchai",
+    "signature_base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "signed_at": "2026-03-04T09:16:00",
+    "signed_by": "Sophie Martin"
+  },
+  {
+    "id": "rc-002",
+    "bungalowId": "bung-1",
+    "reservationId": "res-102",
+    "clientId": "cli-002",
+    "items": [
+      { "produitId": "fnb-011", "nom": "Mango Smoothie", "quantite": 1, "prixUnitaire": 120, "sousTotal": 120 },
+      { "produitId": "fnb-017", "nom": "Biere", "quantite": 2, "prixUnitaire": 100, "sousTotal": 200 }
+    ],
+    "total": 320,
+    "date": "2026-03-05T17:30:00",
+    "staff": "Noi",
+    "signature_base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "signed_at": "2026-03-05T17:31:00",
+    "signed_by": "Sophie Martin"
+  },
+  {
+    "id": "rc-003",
+    "bungalowId": "bung-4",
+    "reservationId": "res-402",
+    "clientId": "cli-008",
+    "items": [
+      { "produitId": "fnb-009", "nom": "Latte", "quantite": 1, "prixUnitaire": 70, "sousTotal": 70 },
+      { "produitId": "fnb-018", "nom": "Banana Pancake", "quantite": 1, "prixUnitaire": 120, "sousTotal": 120 }
+    ],
+    "total": 190,
+    "date": "2026-03-06T08:45:00",
+    "staff": "Somchai",
+    "signature_base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "signed_at": "2026-03-06T08:46:00",
+    "signed_by": "Thomas Dubois"
+  },
+  {
+    "id": "rc-004",
+    "bungalowId": "bung-5",
+    "reservationId": "res-502",
+    "clientId": "cli-010",
+    "items": [
+      { "produitId": "fnb-013", "nom": "Green Detox", "quantite": 2, "prixUnitaire": 120, "sousTotal": 240 },
+      { "produitId": "fnb-014", "nom": "Eau", "quantite": 3, "prixUnitaire": 40, "sousTotal": 120 },
+      { "produitId": "fnb-020", "nom": "Toast Avocat", "quantite": 1, "prixUnitaire": 150, "sousTotal": 150 }
+    ],
+    "total": 510,
+    "date": "2026-03-07T12:00:00",
+    "staff": "Noi",
+    "signature_base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "signed_at": "2026-03-07T12:01:00",
+    "signed_by": "Emma Wilson"
+  }
+]

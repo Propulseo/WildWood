@@ -8,22 +8,14 @@ import type { Client, Bungalow } from '@/lib/types'
 import { format, parseISO, subDays, isAfter, startOfYear } from 'date-fns'
 import { Search } from 'lucide-react'
 import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
+  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from '@/components/ui/table'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { ClientsSkeleton } from '@/components/clients/clients-skeleton'
 
 const ITEMS_PER_PAGE = 10
 
@@ -51,12 +43,8 @@ export default function ClientsPage() {
     getBungalows().then(setBungalows)
   }, [])
 
-  // Reset page to 1 when any filter changes
-  useEffect(() => {
-    setPage(1)
-  }, [search, filterPass, filterPeriode])
+  useEffect(() => { setPage(1) }, [search, filterPass, filterPeriode])
 
-  // Derive type de pass per client from transactions
   const clientsWithPass = useMemo(() => {
     return clients.map((client) => {
       const gymPassTxns = transactions
@@ -72,7 +60,6 @@ export default function ClientsPage() {
     })
   }, [clients, transactions])
 
-  // Derive unique pass type options
   const passOptions = useMemo(() => {
     const types = new Set<string>()
     clientsWithPass.forEach((c) => {
@@ -81,7 +68,6 @@ export default function ClientsPage() {
     return Array.from(types).sort()
   }, [clientsWithPass])
 
-  // Apply filters
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
     const now = new Date()
@@ -123,22 +109,19 @@ export default function ClientsPage() {
     })
   }, [clientsWithPass, search, filterPass, filterPeriode])
 
-  // Pagination
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
-  const paginated = filtered.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
-  )
-
+  const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
   const startIndex = (page - 1) * ITEMS_PER_PAGE + 1
   const endIndex = Math.min(page * ITEMS_PER_PAGE, filtered.length)
+
+  if (clients.length === 0) return <ClientsSkeleton />
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="font-display text-3xl font-bold">Clients</h1>
-        <p className="text-muted-foreground">{filtered.length} clients</p>
+        <h1 className="font-display text-3xl font-extrabold text-ww-text tracking-tight">Clients</h1>
+        <p className="text-ww-muted text-sm mt-1">{filtered.length} clients</p>
       </div>
 
       {/* Search + Filters */}
@@ -180,14 +163,14 @@ export default function ClientsPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-md border">
+      <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Nom</TableHead>
               <TableHead>Prenom</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Telephone</TableHead>
+              <TableHead className="hidden md:table-cell">Email</TableHead>
+              <TableHead className="hidden md:table-cell">Telephone</TableHead>
               <TableHead>Type de pass</TableHead>
               <TableHead>Derniere visite</TableHead>
               <TableHead className="text-right">Nb visites</TableHead>
@@ -204,13 +187,13 @@ export default function ClientsPage() {
               paginated.map((client) => (
                 <TableRow
                   key={client.id}
-                  className="cursor-pointer hover:bg-muted/50"
+                  className="cursor-pointer"
                   onClick={() => router.push(`/clients/${client.id}`)}
                 >
                   <TableCell className="font-medium">{client.nom}</TableCell>
                   <TableCell>{client.prenom}</TableCell>
-                  <TableCell>{client.email ?? '-'}</TableCell>
-                  <TableCell>{client.telephone ?? '-'}</TableCell>
+                  <TableCell className="hidden md:table-cell">{client.email ?? '-'}</TableCell>
+                  <TableCell className="hidden md:table-cell">{client.telephone ?? '-'}</TableCell>
                   <TableCell>{client.typePass}</TableCell>
                   <TableCell>
                     {client.derniereVisite
@@ -229,7 +212,7 @@ export default function ClientsPage() {
 
       {/* Pagination */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-ww-muted">
           {filtered.length > 0
             ? `${startIndex} - ${endIndex} sur ${filtered.length} clients`
             : '0 clients'}
@@ -243,7 +226,7 @@ export default function ClientsPage() {
           >
             Precedent
           </Button>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-ww-muted">
             Page {page} sur {totalPages}
           </span>
           <Button

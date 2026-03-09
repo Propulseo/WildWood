@@ -1,0 +1,36 @@
+[
+  { "id": "chk-001", "client_nom": "Pierre Dumont", "client_id": "cli-001", "type_entree": "gym_pass", "type_pass": "1_mois", "prix_paye": 2000, "heure_entree": "07:30", "date_entree": "2026-03-06", "upgrade_effectue": false },
+  { "id": "chk-002", "client_nom": "Katarina Novak", "client_id": "cli-025", "type_entree": "hotel_resident", "type_pass": "resident", "prix_paye": 0, "heure_entree": "08:00", "date_entree": "2026-03-06", "bungalow_numero": 1, "upgrade_effectue": false },
+  { "id": "chk-003", "client_nom": "Thomas Muller", "client_id": "cli-019", "type_entree": "gym_pass", "type_pass": "1_semaine", "prix_paye": 1200, "heure_entree": "08:15", "date_entree": "2026-03-06", "upgrade_effectue": false },
+  { "id": "chk-004", "client_nom": "Tyler Anderson", "client_id": "cli-026", "type_entree": "hotel_resident", "type_pass": "resident", "prix_paye": 0, "heure_entree": "07:45", "date_entree": "2026-03-06", "bungalow_numero": 2, "upgrade_effectue": false },
+  { "id": "chk-005", "client_nom": "Alexei Sokolov", "client_id": "cli-017", "type_entree": "hotel_resident", "type_pass": "resident", "prix_paye": 0, "heure_entree": "08:00", "date_entree": "2026-03-06", "bungalow_numero": 3, "upgrade_effectue": false },
+  { "id": "chk-006", "client_nom": "Ben Carter", "client_id": "cli-010", "type_entree": "gym_pass", "type_pass": "3_jours", "prix_paye": 800, "heure_entree": "09:45", "date_entree": "2026-03-06", "upgrade_effectue": false },
+  { "id": "chk-007", "client_nom": "Sophie Dupont", "client_id": "cli-012", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "09:14", "date_entree": "2026-03-06", "upgrade_effectue": false },
+  { "id": "chk-008", "client_nom": "Hannah Clarke", "client_id": "cli-014", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "10:20", "date_entree": "2026-03-06", "upgrade_effectue": false },
+  { "id": "chk-009", "client_nom": "Chloe Martin", "client_id": "cli-020", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "10:45", "date_entree": "2026-03-06", "upgrade_effectue": false },
+  { "id": "chk-010", "client_nom": "Lea Fischer", "client_id": "cli-033", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "11:00", "date_entree": "2026-03-06", "upgrade_effectue": false },
+  { "id": "chk-011", "client_nom": "Hugo Moreau", "client_id": "cli-023", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "09:00", "date_entree": "2026-03-05", "upgrade_effectue": false },
+  { "id": "chk-012", "client_nom": "Liam Scott", "client_id": "cli-024", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "10:30", "date_entree": "2026-03-05", "upgrade_effectue": false },
+  { "id": "chk-013", "client_nom": "Felix Schneider", "client_id": "cli-030", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "08:45", "date_entree": "2026-03-05", "upgrade_effectue": false },
+
+  { "id": "chk-014", "client_nom": "Elena Kuznetsova", "client_id": "cli-029", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "08:00", "date_entree": "2026-03-07", "upgrade_effectue": false },
+  { "id": "chk-015", "client_nom": "Max Bernard", "client_id": "cli-015", "type_entree": "gym_pass", "type_pass": "3_jours", "prix_paye": 800, "heure_entree": "09:00", "date_entree": "2026-03-07", "upgrade_effectue": false },
+  { "id": "chk-016", "client_nom": "Ryan O'Brien", "client_id": "cli-021", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "10:15", "date_entree": "2026-03-07", "upgrade_effectue": false },
+  { "id": "chk-017", "client_nom": "Felix Schneider", "client_id": "cli-030", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "10:45", "date_entree": "2026-03-07", "upgrade_effectue": false },
+  { "id": "chk-018", "client_nom": "Carlos Rodriguez", "client_id": "cli-manual-901", "type_entree": "hotel_resident", "type_pass": "resident", "prix_paye": 0, "heure_entree": "08:30", "date_entree": "2026-03-07", "bungalow_numero": 4, "upgrade_effectue": false },
+  { "id": "chk-019", "client_nom": "Yuki Tanaka", "client_id": "cli-manual-902", "type_entree": "hotel_resident", "type_pass": "resident", "prix_paye": 0, "heure_entree": "09:00", "date_entree": "2026-03-07", "bungalow_numero": 6, "upgrade_effectue": false },
+
+  { "id": "chk-020", "client_nom": "Ben Carter", "client_id": "cli-010", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "08:15", "date_entree": "2026-03-08", "upgrade_effectue": false },
+  { "id": "chk-021", "client_nom": "Hannah Clarke", "client_id": "cli-014", "type_entree": "gym_pass", "type_pass": "1_semaine", "prix_paye": 1200, "heure_entree": "09:15", "date_entree": "2026-03-08", "upgrade_effectue": false },
+  { "id": "chk-022", "client_nom": "Charlotte Hughes", "client_id": "cli-031", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "09:45", "date_entree": "2026-03-08", "upgrade_effectue": false },
+  { "id": "chk-023", "client_nom": "Dmitri Volkov", "client_id": "cli-003", "type_entree": "hotel_resident", "type_pass": "resident", "prix_paye": 0, "heure_entree": "07:45", "date_entree": "2026-03-08", "bungalow_numero": 3, "upgrade_effectue": false },
+  { "id": "chk-024", "client_nom": "Oliver Brown", "client_id": "cli-028", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 200, "heure_entree": "15:00", "date_entree": "2026-03-08", "upgrade_effectue": false },
+
+  { "id": "chk-025", "client_nom": "James Wilson", "client_id": "cli-013", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "07:45", "date_entree": "2026-03-09", "upgrade_effectue": false },
+  { "id": "chk-026", "client_nom": "Dmitri Volkov", "client_id": "cli-003", "type_entree": "hotel_resident", "type_pass": "resident", "prix_paye": 0, "heure_entree": "08:00", "date_entree": "2026-03-09", "bungalow_numero": 3, "upgrade_effectue": false },
+  { "id": "chk-027", "client_nom": "Elena Kuznetsova", "client_id": "cli-029", "type_entree": "hotel_resident", "type_pass": "resident", "prix_paye": 0, "heure_entree": "08:15", "date_entree": "2026-03-09", "bungalow_numero": 2, "upgrade_effectue": false },
+  { "id": "chk-028", "client_nom": "Ryan O'Brien", "client_id": "cli-021", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "08:30", "date_entree": "2026-03-09", "upgrade_effectue": false },
+  { "id": "chk-029", "client_nom": "Lea Fischer", "client_id": "cli-033", "type_entree": "gym_pass", "type_pass": "1_semaine", "prix_paye": 1200, "heure_entree": "09:45", "date_entree": "2026-03-09", "upgrade_effectue": false },
+  { "id": "chk-030", "client_nom": "Max Bernard", "client_id": "cli-015", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "10:45", "date_entree": "2026-03-09", "upgrade_effectue": false },
+  { "id": "chk-031", "client_nom": "Mia Johansson", "client_id": "cli-022", "type_entree": "gym_pass", "type_pass": "1_jour", "prix_paye": 350, "heure_entree": "10:15", "date_entree": "2026-03-09", "upgrade_effectue": false }
+]

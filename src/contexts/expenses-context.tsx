@@ -13,6 +13,8 @@ import { getExpenses } from '@/lib/data-access'
 interface ExpensesContextType {
   expenses: Expense[]
   addExpense: (exp: Expense) => void
+  deleteExpense: (id: string) => void
+  resetExpenses: () => void
 }
 
 const ExpensesContext = createContext<ExpensesContextType | null>(null)
@@ -28,8 +30,16 @@ export function ExpensesProvider({ children }: { children: ReactNode }) {
     setExpenses((prev) => [exp, ...prev])
   }
 
+  function deleteExpense(id: string) {
+    setExpenses((prev) => prev.filter((e) => e.id !== id))
+  }
+
+  function resetExpenses() {
+    getExpenses().then(setExpenses)
+  }
+
   return (
-    <ExpensesContext value={{ expenses, addExpense }}>
+    <ExpensesContext value={{ expenses, addExpense, deleteExpense, resetExpenses }}>
       {children}
     </ExpensesContext>
   )

@@ -1,0 +1,17 @@
+[
+  { "id": "cl-001", "date": "2026-02-19", "ca_jour": 8450, "cash_compte": 8450, "ecart": 0, "soumis_par": "Nok", "soumis_a": "22:15", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-02-20T08:30:00" },
+  { "id": "cl-002", "date": "2026-02-20", "ca_jour": 11200, "cash_compte": 11200, "ecart": 0, "soumis_par": "Nok", "soumis_a": "22:00", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-02-21T09:00:00" },
+  { "id": "cl-003", "date": "2026-02-21", "ca_jour": 6800, "cash_compte": 6600, "ecart": -200, "note_ecart": "Erreur de monnaie rendue client", "soumis_par": "Ploy", "soumis_a": "21:45", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-02-22T08:15:00" },
+  { "id": "cl-004", "date": "2026-02-22", "ca_jour": 9350, "cash_compte": 9350, "ecart": 0, "soumis_par": "Nok", "soumis_a": "22:30", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-02-23T09:10:00" },
+  { "id": "cl-005", "date": "2026-02-23", "ca_jour": 14500, "cash_compte": 14500, "ecart": 0, "soumis_par": "Ploy", "soumis_a": "22:10", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-02-24T08:45:00" },
+  { "id": "cl-006", "date": "2026-02-24", "ca_jour": 7200, "cash_compte": 7000, "ecart": -200, "note_ecart": "Billet 200 manquant dans caisse", "soumis_par": "Nok", "soumis_a": "21:50", "statut": "litige", "valide_par": "Etienne", "valide_at": "2026-02-25T08:30:00" },
+  { "id": "cl-007", "date": "2026-02-25", "ca_jour": 10800, "cash_compte": 10800, "ecart": 0, "soumis_par": "Ploy", "soumis_a": "22:20", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-02-26T09:00:00" },
+  { "id": "cl-008", "date": "2026-02-26", "ca_jour": 8900, "cash_compte": 8900, "ecart": 0, "soumis_par": "Nok", "soumis_a": "22:05", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-02-27T08:20:00" },
+  { "id": "cl-009", "date": "2026-02-27", "ca_jour": 12300, "cash_compte": 12500, "ecart": 200, "note_ecart": "Client a laisse un pourboire en caisse", "soumis_par": "Ploy", "soumis_a": "22:00", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-02-28T09:05:00" },
+  { "id": "cl-010", "date": "2026-02-28", "ca_jour": 9700, "cash_compte": 9700, "ecart": 0, "soumis_par": "Nok", "soumis_a": "22:15", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-03-01T08:30:00" },
+  { "id": "cl-011", "date": "2026-03-01", "ca_jour": 13400, "cash_compte": 13400, "ecart": 0, "soumis_par": "Ploy", "soumis_a": "22:30", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-03-02T09:00:00" },
+  { "id": "cl-012", "date": "2026-03-02", "ca_jour": 7600, "cash_compte": 7600, "ecart": 0, "soumis_par": "Nok", "soumis_a": "21:55", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-03-03T08:45:00" },
+  { "id": "cl-013", "date": "2026-03-03", "ca_jour": 11100, "cash_compte": 10800, "ecart": -300, "note_ecart": "Erreur sur transaction F&B", "soumis_par": "Ploy", "soumis_a": "22:10", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-03-04T09:15:00" },
+  { "id": "cl-014", "date": "2026-03-04", "ca_jour": 8200, "cash_compte": 8200, "ecart": 0, "soumis_par": "Nok", "soumis_a": "22:00", "statut": "valide_admin", "valide_par": "Etienne", "valide_at": "2026-03-05T08:30:00" },
+  { "id": "cl-015", "date": "2026-03-05", "ca_jour": 10500, "cash_compte": 10300, "ecart": -200, "note_ecart": "Difference non expliquee", "soumis_par": "Ploy", "soumis_a": "22:20", "statut": "soumis" }
+]

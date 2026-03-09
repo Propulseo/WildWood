@@ -13,6 +13,7 @@ import { getTransactions } from '@/lib/data-access'
 interface TransactionsContextType {
   transactions: Transaction[]
   addTransaction: (txn: Transaction) => void
+  resetTransactions: () => void
 }
 
 const TransactionsContext = createContext<TransactionsContextType | null>(null)
@@ -28,8 +29,12 @@ export function TransactionsProvider({ children }: { children: ReactNode }) {
     setTransactions((prev) => [txn, ...prev])
   }
 
+  function resetTransactions() {
+    getTransactions().then(setTransactions)
+  }
+
   return (
-    <TransactionsContext value={{ transactions, addTransaction }}>
+    <TransactionsContext value={{ transactions, addTransaction, resetTransactions }}>
       {children}
     </TransactionsContext>
   )

@@ -1,0 +1,126 @@
+[
+  {
+    "id": "staff-001",
+    "nom": "Dupont",
+    "prenom": "Jean-Luc",
+    "poste": "reception",
+    "avatar_initiales": "JL",
+    "couleur_avatar": "#C94E0A",
+    "pointages": [
+      { "date": "2026-02-16", "heure_arrivee": "08:30", "heure_depart": "17:00" },
+      { "date": "2026-02-17", "heure_arrivee": "08:15", "heure_depart": "17:30" },
+      { "date": "2026-02-18", "heure_arrivee": "08:30", "heure_depart": "17:00" },
+      { "date": "2026-02-19", "heure_arrivee": "08:45", "heure_depart": "17:15" },
+      { "date": "2026-02-20", "heure_arrivee": "08:30", "heure_depart": "17:00" },
+      { "date": "2026-02-21", "heure_arrivee": "08:30", "heure_depart": "16:30" },
+      { "date": "2026-02-23", "heure_arrivee": "08:30", "heure_depart": "17:00" },
+      { "date": "2026-02-24", "heure_arrivee": "08:15", "heure_depart": "17:30" },
+      { "date": "2026-02-25", "heure_arrivee": "08:30", "heure_depart": "17:00" },
+      { "date": "2026-02-26", "heure_arrivee": "08:45", "heure_depart": "17:15" },
+      { "date": "2026-02-27", "heure_arrivee": "08:30", "heure_depart": "17:00" },
+      { "date": "2026-02-28", "heure_arrivee": "08:30", "heure_depart": "16:45" },
+      { "date": "2026-03-02", "heure_arrivee": "08:30", "heure_depart": null }
+    ]
+  },
+  {
+    "id": "staff-002",
+    "nom": "Rattana",
+    "prenom": "Sunny",
+    "poste": "reception",
+    "avatar_initiales": "SR",
+    "couleur_avatar": "#4A9ECC",
+    "pointages": [
+      { "date": "2026-02-16", "heure_arrivee": "07:45", "heure_depart": "16:45" },
+      { "date": "2026-02-18", "heure_arrivee": "07:30", "heure_depart": "16:30" },
+      { "date": "2026-02-19", "heure_arrivee": "07:45", "heure_depart": "16:45" },
+      { "date": "2026-02-20", "heure_arrivee": "07:30", "heure_depart": "16:30" },
+      { "date": "2026-02-21", "heure_arrivee": "07:45", "heure_depart": "16:45" },
+      { "date": "2026-02-22", "heure_arrivee": "07:30", "heure_depart": "16:30" },
+      { "date": "2026-02-23", "heure_arrivee": "07:45", "heure_depart": "16:45" },
+      { "date": "2026-02-25", "heure_arrivee": "07:30", "heure_depart": "16:30" },
+      { "date": "2026-02-26", "heure_arrivee": "07:45", "heure_depart": "16:45" },
+      { "date": "2026-02-27", "heure_arrivee": "07:30", "heure_depart": "16:30" },
+      { "date": "2026-02-28", "heure_arrivee": "07:45", "heure_depart": "16:45" },
+      { "date": "2026-03-01", "heure_arrivee": "07:30", "heure_depart": "16:30" },
+      { "date": "2026-03-02", "heure_arrivee": "07:45", "heure_depart": null }
+    ]
+  },
+  {
+    "id": "staff-003",
+    "nom": "Lefevre",
+    "prenom": "Emily",
+    "poste": "reception",
+    "avatar_initiales": "EL",
+    "couleur_avatar": "#22C55E",
+    "pointages": [
+      { "date": "2026-02-16", "heure_arrivee": "08:15", "heure_depart": "17:15" },
+      { "date": "2026-02-17", "heure_arrivee": "08:00", "heure_depart": "17:00" },
+      { "date": "2026-02-18", "heure_arrivee": "08:15", "heure_depart": "17:15" },
+      { "date": "2026-02-19", "heure_arrivee": "08:00", "heure_depart": "17:00" },
+      { "date": "2026-02-21", "heure_arrivee": "08:15", "heure_depart": "17:15" },
+      { "date": "2026-02-22", "heure_arrivee": "08:00", "heure_depart": "17:00" },
+      { "date": "2026-02-23", "heure_arrivee": "08:15", "heure_depart": "17:15" },
+      { "date": "2026-02-24", "heure_arrivee": "08:00", "heure_depart": "17:00" },
+      { "date": "2026-02-25", "heure_arrivee": "08:15", "heure_depart": "17:15" },
+      { "date": "2026-02-26", "heure_arrivee": "08:00", "heure_depart": "17:00" },
+      { "date": "2026-02-28", "heure_arrivee": "08:15", "heure_depart": "17:15" },
+      { "date": "2026-03-01", "heure_arrivee": "08:00", "heure_depart": "17:00" },
+      { "date": "2026-03-02", "heure_arrivee": "08:15", "heure_depart": "12:30" }
+    ]
+  },
+  {
+    "id": "staff-004",
+    "nom": "Rossi",
+    "prenom": "Marco",
+    "poste": "bar",
+    "avatar_initiales": "MR",
+    "couleur_avatar": "#7AB648",
+    "pointages": [
+      { "date": "2026-02-17", "heure_arrivee": "10:00", "heure_depart": "19:00" },
+      { "date": "2026-02-18", "heure_arrivee": "10:30", "heure_depart": "19:30" },
+      { "date": "2026-02-19", "heure_arrivee": "10:00", "heure_depart": "19:00" },
+      { "date": "2026-02-20", "heure_arrivee": "10:15", "heure_depart": "19:15" },
+      { "date": "2026-02-21", "heure_arrivee": "10:00", "heure_depart": "20:00" },
+      { "date": "2026-02-22", "heure_arrivee": "10:00", "heure_depart": "20:00" },
+      { "date": "2026-02-24", "heure_arrivee": "10:00", "heure_depart": "19:00" },
+      { "date": "2026-02-25", "heure_arrivee": "10:30", "heure_depart": "19:30" },
+      { "date": "2026-02-26", "heure_arrivee": "10:00", "heure_depart": "19:00" },
+      { "date": "2026-02-27", "heure_arrivee": "10:15", "heure_depart": "19:15" },
+      { "date": "2026-02-28", "heure_arrivee": "10:00", "heure_depart": "20:00" },
+      { "date": "2026-03-01", "heure_arrivee": "10:00", "heure_depart": "20:00" },
+      { "date": "2026-03-02", "heure_arrivee": "10:00", "heure_depart": null }
+    ]
+  },
+  {
+    "id": "staff-005",
+    "nom": "Prasert",
+    "prenom": "Nok",
+    "poste": "bar",
+    "avatar_initiales": "NP",
+    "couleur_avatar": "#E8913A",
+    "pointages": [
+      { "date": "2026-02-16", "heure_arrivee": "11:00", "heure_depart": "20:00" },
+      { "date": "2026-02-17", "heure_arrivee": "11:00", "heure_depart": "20:00" },
+      { "date": "2026-02-18", "heure_arrivee": "11:30", "heure_depart": "20:30" },
+      { "date": "2026-02-20", "heure_arrivee": "11:00", "heure_depart": "20:00" },
+      { "date": "2026-02-21", "heure_arrivee": "11:00", "heure_depart": "21:00" },
+      { "date": "2026-02-22", "heure_arrivee": "11:00", "heure_depart": "21:00" },
+      { "date": "2026-02-23", "heure_arrivee": "11:00", "heure_depart": "20:00" },
+      { "date": "2026-02-24", "heure_arrivee": "11:00", "heure_depart": "20:00" },
+      { "date": "2026-02-25", "heure_arrivee": "11:30", "heure_depart": "20:30" },
+      { "date": "2026-02-27", "heure_arrivee": "11:00", "heure_depart": "20:00" },
+      { "date": "2026-02-28", "heure_arrivee": "11:00", "heure_depart": "21:00" },
+      { "date": "2026-03-01", "heure_arrivee": "11:00", "heure_depart": "21:00" },
+      { "date": "2026-03-02", "heure_arrivee": "11:00", "heure_depart": null }
+    ]
+  },
+  {
+    "id": "staff-006",
+    "nom": "Proprietaire",
+    "prenom": "Admin",
+    "poste": "admin",
+    "avatar_initiales": "AP",
+    "couleur_avatar": "#8B6B3D",
+    "pointages": []
+  }
+]
