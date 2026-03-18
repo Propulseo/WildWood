@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import type { Client } from '@/lib/types'
 import type { CartItem } from './cart-reducer'
 import { X } from 'lucide-react'
@@ -31,6 +32,8 @@ export function CartSidebar({
   onFnbAssign,
   activeTableName,
 }: CartSidebarProps) {
+  const t = useTranslations('pos')
+  const tc = useTranslations('common')
   const [cashDialogOpen, setCashDialogOpen] = useState(false)
 
   const total = items.reduce((sum, item) => {
@@ -55,7 +58,7 @@ export function CartSidebar({
         {/* Left: item pills */}
         <div className="flex-1 flex items-center gap-2 overflow-x-auto min-w-0">
           {items.length === 0 ? (
-            <span className="text-ww-muted text-sm font-sans">Aucun article</span>
+            <span className="text-ww-muted text-sm font-sans">{tc('noItems')}</span>
           ) : (
             items.map((item) => (
               <span
@@ -79,12 +82,12 @@ export function CartSidebar({
           )}
           {isBungalowResident && (
             <span className="inline-flex items-center bg-ww-lime/15 border border-ww-lime/30 rounded-full px-3 py-1.5 text-xs text-ww-lime shrink-0 font-display font-bold uppercase tracking-wider">
-              Resident
+              {tc('resident')}
             </span>
           )}
           {activeTableName && (
             <span className="inline-flex items-center bg-ww-orange/15 border border-ww-orange/30 rounded-full px-3 py-1.5 text-xs text-ww-orange shrink-0 font-display font-bold uppercase tracking-wider">
-              Ajout a {activeTableName}
+              {t('addToTable')} {activeTableName}
             </span>
           )}
         </div>
@@ -99,7 +102,7 @@ export function CartSidebar({
             onClick={handleEncaisser}
             className="bg-ww-orange text-white font-display font-bold text-sm md:text-base uppercase tracking-wider px-4 py-2.5 md:px-6 md:py-3 rounded-lg flex-1 md:flex-none md:min-w-[160px] h-12 md:h-auto transition-all duration-150 hover:bg-ww-orange/90 active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {activeTableName ? 'AJOUTER A LA TABLE' : 'ENCAISSER'}
+            {activeTableName ? t('addToTable').toUpperCase() : t('collect').toUpperCase()}
           </button>
         </div>
       </div>

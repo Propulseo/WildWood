@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Menu } from 'lucide-react'
+import { useAuth } from '@/lib/contexts/auth-context'
 import { RoleToggle } from '@/components/role-toggle'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { MobileDrawer } from '@/components/layout/MobileDrawer'
@@ -21,33 +22,37 @@ import { ReportingProvider } from '@/contexts/reporting-context'
 import { ClosingsProvider } from '@/contexts/closings-context'
 import { MessagesWAProvider } from '@/contexts/messages-wa-context'
 import { Toaster } from '@/components/ui/sonner'
+import { I18nProvider, useLocale } from '@/lib/i18n/provider'
+import { useTranslations } from 'next-intl'
 
 const STORAGE_KEY = 'ww_sidebar_collapsed'
 
-const pageTitles: Record<string, string> = {
-  '/dashboard': 'Dashboard',
-  '/statistiques': 'Statistiques',
-  '/clients': 'Clients',
-  '/bungalows': 'Bungalows',
-  '/maintenance': 'Maintenance',
-  '/comptabilite': 'Comptabilite',
-  '/revenus': 'Revenus',
-  '/depenses': 'Depenses',
-  '/presence': 'Presence',
-  '/checkin': 'Entrees du jour',
-  '/parametres/produits': 'Parametres — Produits',
-  '/pos': 'Caisse POS',
-  '/tables': 'Tables ouvertes',
-  '/pointage': 'Pointage',
-  '/planning': 'Planning',
-  '/reporting': 'Reporting',
-  '/communications': 'Communications',
-  '/parametres/messages': 'Templates WhatsApp',
+const PAGE_KEYS: Record<string, string> = {
+  '/dashboard': 'dashboard',
+  '/statistiques': 'statistiques',
+  '/clients': 'clients',
+  '/bungalows': 'bungalows',
+  '/maintenance': 'maintenance',
+  '/comptabilite': 'comptabilite',
+  '/revenus': 'revenus',
+  '/depenses': 'depenses',
+  '/presence': 'presence',
+  '/checkin': 'checkin',
+  '/parametres/produits': 'produits',
+  '/pos': 'pos',
+  '/tables': 'tables',
+  '/pointage': 'pointage',
+  '/planning': 'planning',
+  '/reporting': 'reporting',
+  '/communications': 'communications',
+  '/parametres/messages': 'templatesWA',
 }
 
 function TodayDate() {
+  const { locale } = useLocale()
+  const loc = locale === 'th' ? 'th-TH' : locale === 'en' ? 'en-GB' : 'fr-FR'
   const today = new Date()
-  return today.toLocaleDateString('fr-FR', {
+  return today.toLocaleDateString(loc, {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -55,8 +60,31 @@ function TodayDate() {
   })
 }
 
+const BAR_ROUTES = ['/pos', '/pointage', '/tables']
+const RECEPTION_ROUTES = [...BAR_ROUTES, '/bungalows', '/checkin', '/communications']
+
+function isAllowed(role: string | null, path: string): boolean {
+  if (role === 'admin') return true
+  const routes = role === 'reception' ? RECEPTION_ROUTES : BAR_ROUTES
+  return routes.some((r) => path === r || path.startsWith(r + '/') || path.startsWith(r + '?'))
+}
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { role, isAuthenticated } = useAuth()
+
+  return (
+    <I18nProvider role={role}>
+      <AdminLayoutInner role={role} isAuthenticated={isAuthenticated}>
+        {children}
+      </AdminLayoutInner>
+    </I18nProvider>
+  )
+}
+
+function AdminLayoutInner({ children, role, isAuthenticated }: { children: React.ReactNode; role: string | null; isAuthenticated: boolean }) {
   const pathname = usePathname()
+  const router = useRouter()
+  const t = useTranslations('pages')
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isHydrated, setIsHydrated] = useState(false)
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false)
@@ -69,6 +97,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     setIsHydrated(true)
   }, [])
 
+  useEffect(() => {
+    if (!isAuthenticated) { router.replace('/login'); return }
+    if (role && !isAllowed(role, pathname)) {
+      router.replace(role === 'bar' ? '/pos?tab=fnb' : '/pos?tab=gym')
+    }
+  }, [isAuthenticated, role, pathname, router])
+
   function toggleSidebar() {
     setIsCollapsed((prev) => {
       const next = !prev
@@ -77,9 +112,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     })
   }
 
-  const currentPage = Object.entries(pageTitles).find(
+  const currentPageEntry = Object.entries(PAGE_KEYS).find(
     ([href]) => pathname === href || pathname.startsWith(href + '/')
   )
+  const currentPageTitle = currentPageEntry ? t(currentPageEntry[1]) : null
 
   if (!isHydrated) return null
 
@@ -107,8 +143,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Mobile: WW logo + page title + hamburger */}
                 <div className="flex md:hidden items-center gap-2 flex-1 min-w-0">
                   <span className="font-display font-extrabold text-ww-orange text-lg shrink-0">WW</span>
-                  {currentPage && (
-                    <span className="text-ww-text font-sans font-medium text-sm truncate">{currentPage[1]}</span>
+                  {currentPageTitle && (
+                    <span className="text-ww-text font-sans font-medium text-sm truncate">{currentPageTitle}</span>
                   )}
                 </div>
                 <button
@@ -121,10 +157,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Desktop: breadcrumb + date + role */}
                 <div className="hidden md:flex items-center gap-2 text-sm">
                   <span className="text-ww-muted font-sans">WildWood</span>
-                  {currentPage && (
+                  {currentPageTitle && (
                     <>
                       <span className="text-ww-border">/</span>
-                      <span className="text-ww-text font-sans font-medium">{currentPage[1]}</span>
+                      <span className="text-ww-text font-sans font-medium">{currentPageTitle}</span>
                     </>
                   )}
                 </div>
@@ -161,3 +197,4 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </ProductsProvider>
   )
 }
+

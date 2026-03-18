@@ -1,6 +1,7 @@
 'use client'
 
 import { useReducer, useState, useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 import type { Client, GymPass, FnbProduct, Bungalow, Transaction, RoomCharge, TableOuverte } from '@/lib/types'
 import { useAuth } from '@/lib/contexts/auth-context'
 import { ProductGrid } from './product-grid'
@@ -16,9 +17,11 @@ import { useTransactions } from '@/contexts/transactions-context'
 import { useActivePasses } from '@/contexts/active-passes-context'
 import { useTables } from '@/contexts/tables-context'
 import { toast } from 'sonner'
+import * as tablesQ from '@/lib/supabase/queries/tables-bar'
+import * as bungalowsQ from '@/lib/supabase/queries/bungalows'
 import { cartReducer, initialCartState } from './cart-reducer'
 
-type TabId = 'gym' | 'fnb' | 'serviettes'
+import type { TabId } from './product-grid'
 
 interface PosRegisterProps {
   gymPasses: GymPass[]
@@ -33,8 +36,9 @@ function nowISO() { return new Date().toISOString().slice(0, 19) }
 function todayISO() { return new Date().toISOString().slice(0, 10) }
 
 export function PosRegister({ gymPasses, fnbProducts, clients, bungalows, defaultTab }: PosRegisterProps) {
-  const { role } = useAuth()
-  const visibleTabs: TabId[] = role === 'bar' ? ['fnb'] : role === 'reception' ? ['gym', 'serviettes'] : ['gym', 'fnb', 'serviettes']
+  const t = useTranslations('pos')
+  const { role, staffMember } = useAuth()
+  const visibleTabs: TabId[] = role === 'bar' ? ['fnb'] : role === 'reception' ? ['gym', 'membres', 'serviettes'] : ['gym', 'fnb', 'serviettes']
   const [cart, dispatch] = useReducer(cartReducer, initialCartState)
   const [selectedPass, setSelectedPass] = useState<GymPass | null>(null)
   const [clientDialogOpen, setClientDialogOpen] = useState(false)
@@ -87,7 +91,7 @@ export function PosRegister({ gymPasses, fnbProducts, clients, bungalows, defaul
       total: 0, methode: 'especes',
     })
     createGymPassActivePass(client.id, `${client.prenom} ${client.nom}`, pass.id, pass.nom, 1)
-    toast.success(`${client.prenom} ${client.nom} enregistre`, { description: 'Guest Hotel - Gratuit' })
+    toast.success(`${client.prenom} ${client.nom} enregistre`, { description: t('guestHotelFree') })
   }
 
   const handleAddFnbItem = (product: FnbProduct) => {
@@ -124,36 +128,34 @@ export function PosRegister({ gymPasses, fnbProducts, clients, bungalows, defaul
       }
     }
     dispatch({ type: 'CLEAR_CART' })
-    toast.success('Transaction enregistree', { description: `Total: ${total.toLocaleString()} THB` })
+    toast.success(t('transactionRecorded'), { description: `Total: ${total.toLocaleString()} THB` })
   }
 
   const handleFnbEncaisser = () => {
     if (activeTableId && activeTable) {
       addItemsToTable(activeTableId, fnbItems.map((i) => ({ nom: i.nom, prix: i.prixUnitaire, quantite: i.quantite })))
       dispatch({ type: 'CLEAR_CART' }); setActiveTableId(null)
-      toast.success(`Articles ajoutes a ${activeTable.nom_table}`)
+      toast.success(`${t('itemsAddedToTable')} ${activeTable.nom_table}`)
       return
     }
     setChoixOpen(true)
   }
 
-  const handlePaiementConfirm = () => {
+  const handlePaiementConfirm = async () => {
     if (paiementTable) {
-      addTransaction({
-        id: makeTxnId(), date: nowISO(), type: 'fnb', centreRevenu: 'F&B',
-        items: paiementTable.items.map((i) => ({ produitId: `fnb-${i.nom.toLowerCase().replace(/\s+/g, '-')}`, nom: i.nom, quantite: i.quantite, prixUnitaire: i.prix, sousTotal: i.prix * i.quantite })),
-        total: paiementTable.total_thb, methode: 'especes',
-      })
-      encaisserTable(paiementTable.id)
+      encaisserTable(paiementTable.id, staffMember?.id)
       toast.success(`Table ${paiementTable.nom_table} encaissee`, { description: `฿ ${paiementTable.total_thb.toLocaleString()}` })
     } else {
-      addTransaction({
-        id: makeTxnId(), date: nowISO(), type: 'fnb', centreRevenu: 'F&B',
-        items: fnbItems.map((item) => ({ produitId: item.produitId, nom: item.nom, quantite: item.quantite, prixUnitaire: item.prixUnitaire, sousTotal: item.prixUnitaire * item.quantite })),
-        total: fnbTotal, methode: 'especes',
-      })
-      dispatch({ type: 'CLEAR_CART' })
-      toast.success('Transaction enregistree', { description: `฿ ${fnbTotal.toLocaleString()}` })
+      try {
+        await tablesQ.encaisserDirect({
+          items: fnbItems.map((i) => ({ nom: i.nom, prix_unitaire: i.prixUnitaire, quantite: i.quantite })),
+          staffId: staffMember?.id ?? '',
+        })
+        dispatch({ type: 'CLEAR_CART' })
+        toast.success(t('transactionRecorded'), { description: `฿ ${fnbTotal.toLocaleString()}` })
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : 'Erreur encaissement')
+      }
     }
     setPaiementCashOpen(false); setPaiementTable(null)
   }
@@ -163,28 +165,38 @@ export function PosRegister({ gymPasses, fnbProducts, clients, bungalows, defaul
     setSignatureClient({ client, bungalowNumero }); setSignatureModalOpen(true)
   }
 
-  const handleSignatureConfirm = (signatureBase64: string) => {
+  const handleSignatureConfirm = async (signatureBase64: string) => {
     if (!signatureClient) return
     const { client, bungalowNumero } = signatureClient
     const bungalow = bungalows.find((b) => b.numero === bungalowNumero)
     const activeRes = bungalow?.reservations.find((r) => r.clientId === client.id && (r.statut === 'confirmee' || r.statut === 'en-cours'))
     const total = fnbItems.reduce((s, i) => s + i.prixUnitaire * i.quantite, 0)
-    const rc: RoomCharge = {
-      id: `rc-${Date.now()}`, bungalowId: bungalow?.id ?? '', reservationId: activeRes?.id ?? '', clientId: client.id,
-      items: fnbItems.map((item) => ({ produitId: item.produitId, nom: item.nom, quantite: item.quantite, prixUnitaire: item.prixUnitaire, sousTotal: item.prixUnitaire * item.quantite })),
-      total, date: nowISO(), staff: 'Staff POS', signature_base64: signatureBase64, signed_at: nowISO(), signed_by: `${client.prenom} ${client.nom}`,
-    }
-    console.log('Room charge created:', rc)
+    const bungalowId = bungalow?.id ? Number(bungalow.id.replace('bung-', '')) : 0
+
     setSignatureModalOpen(false); setSignatureClient(null); dispatch({ type: 'CLEAR_CART' })
-    toast.success('Note de bungalow enregistree', { description: `฿ ${total.toLocaleString()} — Signe par ${rc.signed_by}` })
+
+    try {
+      await bungalowsQ.createRoomChargeFromBar({
+        reservationId: activeRes?.id ?? '',
+        bungalowId,
+        items: fnbItems.map((i) => ({ nom: i.nom, prix_unitaire: i.prixUnitaire, quantite: i.quantite })),
+        signatureBase64,
+        staffId: staffMember?.id ?? '',
+      })
+      toast.success(`Commande assignee · Bungalow ${bungalowNumero}`, {
+        description: `฿ ${total.toLocaleString()} ajoute a la note de ${client.prenom} ${client.nom}`,
+      })
+    } catch {
+      toast.error('Erreur enregistrement room charge')
+    }
   }
 
   const handleOuvrirTable = (clientNom: string, nomTable: string) => {
     const items = fnbItems.map((i) => ({ nom: i.nom, prix: i.prixUnitaire, quantite: i.quantite }))
     const total = items.reduce((s, i) => s + i.prix * i.quantite, 0)
-    addTable({ id: `tab-${Date.now()}`, nom_table: nomTable, client_nom: clientNom, type_client: 'externe', bungalow_id: null, items, total_thb: total, heure_ouverture: nowISO(), statut: 'ouverte', staff_ouverture: 'Staff POS' })
+    addTable({ id: `tab-${Date.now()}`, nom_table: nomTable, client_nom: clientNom, type_client: 'externe', bungalow_id: null, items, total_thb: total, heure_ouverture: nowISO(), statut: 'ouverte', staff_ouverture: staffMember?.id ?? '' })
     dispatch({ type: 'CLEAR_CART' })
-    toast.success(`Table ouverte: ${nomTable}`, { description: `${clientNom} - ฿ ${total.toLocaleString()}` })
+    toast.success(`${t('tableOpened')}: ${nomTable}`, { description: `${clientNom} - ฿ ${total.toLocaleString()}` })
   }
 
   return (
@@ -192,7 +204,9 @@ export function PosRegister({ gymPasses, fnbProducts, clients, bungalows, defaul
       <div className="flex-1 overflow-auto">
         <ProductGrid gymPasses={gymPasses} fnbProducts={fnbProducts} onSelectGymPass={handleSelectGymPass} onAddFnbItem={handleAddFnbItem} visibleTabs={visibleTabs} defaultTab={defaultTab} />
       </div>
-      <CartSidebar items={cart.items} client={cart.client} isBungalowResident={cart.isBungalowResident} onRemoveItem={(id) => dispatch({ type: 'REMOVE_ITEM', payload: { produitId: id } })} onUpdateQuantity={(id, q) => dispatch({ type: 'UPDATE_QUANTITY', payload: { produitId: id, quantite: q } })} onCheckout={handleCheckout} onFnbAssign={handleFnbEncaisser} activeTableName={activeTable?.nom_table} />
+      {(cart.items.length > 0 || activeTable) && (
+        <CartSidebar items={cart.items} client={cart.client} isBungalowResident={cart.isBungalowResident} onRemoveItem={(id) => dispatch({ type: 'REMOVE_ITEM', payload: { produitId: id } })} onUpdateQuantity={(id, q) => dispatch({ type: 'UPDATE_QUANTITY', payload: { produitId: id, quantite: q } })} onCheckout={handleCheckout} onFnbAssign={handleFnbEncaisser} activeTableName={activeTable?.nom_table} />
+      )}
       <ClientPopup open={clientDialogOpen} onOpenChange={setClientDialogOpen} selectedPass={selectedPass} clients={clients} bungalows={bungalows} onConfirm={handleClientConfirm} />
       <GuestHotelPopup open={guestHotelOpen} onOpenChange={setGuestHotelOpen} selectedPass={selectedPass} clients={clients} bungalows={bungalows} onConfirm={handleGuestHotelConfirm} />
       <ChoixEncaissementModal open={choixOpen} onClose={() => setChoixOpen(false)} total={fnbTotal} itemsSummary={itemsSummary} onEncaisserMaintenant={() => { setPaiementTable(null); setPaiementCashOpen(true) }} onOuvrirTable={() => setOuvrirTableOpen(true)} onBungalow={() => setFnbBungalowOpen(true)} />

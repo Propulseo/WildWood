@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import type { TableOuverte } from '@/lib/types'
 
 const BILLETS = [20, 50, 100, 500, 1000] as const
@@ -15,6 +16,8 @@ interface PaiementCashModalProps {
 }
 
 export function PaiementCashModal({ open, total, onConfirm, onCancel, table }: PaiementCashModalProps) {
+  const t = useTranslations('pos')
+  const tc = useTranslations('common')
   const [montantRecu, setMontantRecu] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -40,7 +43,7 @@ export function PaiementCashModal({ open, total, onConfirm, onCancel, table }: P
           <X className="h-5 w-5" />
         </button>
 
-        <h3 className="font-display text-lg font-bold text-ww-text mb-1">PAIEMENT ESPECES</h3>
+        <h3 className="font-display text-lg font-bold text-ww-text mb-1">{t('cashPayment').toUpperCase()}</h3>
         <p className="text-xs text-ww-muted font-sans mb-4">
           Total : <span className="font-bold text-ww-orange">&#3647; {total.toLocaleString()}</span>
         </p>
@@ -63,7 +66,7 @@ export function PaiementCashModal({ open, total, onConfirm, onCancel, table }: P
 
         {/* Input */}
         <div className="mb-3">
-          <label className="text-xs text-ww-muted block mb-1.5">Montant recu</label>
+          <label className="text-xs text-ww-muted block mb-1.5">{t('cashReceived')}</label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-ww-muted font-bold">&#3647;</span>
             <input
@@ -87,7 +90,7 @@ export function PaiementCashModal({ open, total, onConfirm, onCancel, table }: P
             onClick={() => setMontantRecu(String(total))}
             className="px-3 py-1.5 rounded-lg text-xs font-bold bg-ww-lime/15 text-ww-lime border border-ww-lime/30 hover:bg-ww-lime/25 transition-colors"
           >
-            Exact
+            {tc('exact')}
           </button>
           {BILLETS.filter((b) => b >= total).slice(0, 3).map((billet) => (
             <button
@@ -111,17 +114,17 @@ export function PaiementCashModal({ open, total, onConfirm, onCancel, table }: P
                 : 'bg-ww-danger/10 border border-ww-danger/30'
           }`}>
             {isExact ? (
-              <p className="text-ww-lime font-bold text-lg">Compte exact</p>
+              <p className="text-ww-lime font-bold text-lg">{t('exactAmount')}</p>
             ) : isValid ? (
               <>
-                <p className="text-xs text-ww-muted mb-1">Monnaie a rendre</p>
+                <p className="text-xs text-ww-muted mb-1">{t('changeToReturn')}</p>
                 <p className="text-ww-orange font-extrabold text-2xl font-display">
                   &#3647; {monnaie.toLocaleString()}
                 </p>
               </>
             ) : (
               <p className="text-ww-danger font-bold text-sm">
-                Il manque &#3647; {Math.abs(monnaie).toLocaleString()}
+                {t('missing')} &#3647; {Math.abs(monnaie).toLocaleString()}
               </p>
             )}
           </div>
@@ -134,7 +137,7 @@ export function PaiementCashModal({ open, total, onConfirm, onCancel, table }: P
             onClick={onCancel}
             className="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-ww-surface-2 text-ww-muted border border-ww-border hover:bg-ww-surface-2/80 transition-colors"
           >
-            Annuler
+            {tc('cancel')}
           </button>
           <button
             type="button"
@@ -142,7 +145,7 @@ export function PaiementCashModal({ open, total, onConfirm, onCancel, table }: P
             onClick={onConfirm}
             className="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold bg-ww-orange text-white hover:bg-ww-orange/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            Confirmer
+            {tc('confirm')}
           </button>
         </div>
       </div>

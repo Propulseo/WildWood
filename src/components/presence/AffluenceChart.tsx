@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useActivePasses } from '@/contexts/active-passes-context'
 
-const TODAY = '2026-03-06'
+const TODAY = new Date().toISOString().split('T')[0]
 
 function last14Days(): string[] {
   const days: string[] = []

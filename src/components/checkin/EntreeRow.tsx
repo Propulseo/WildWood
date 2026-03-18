@@ -9,6 +9,20 @@ const PASS_LABELS: Record<string, string> = {
   '1_semaine': 'PASS 1 SEMAINE',
   '1_mois': 'PASS 1 MOIS',
   resident: 'RESIDENT',
+  '1j': 'PASS 1 JOUR',
+  '3j': 'PASS 3 JOURS',
+  '1s': 'PASS 1 SEMAINE',
+  '10j': 'PASS 10 JOURS',
+  '1m': 'PASS 1 MOIS',
+  '6m': 'PASS 6 MOIS',
+  '1a': 'PASS 1 AN',
+  'spa': 'SPA PASS',
+  'spa-monthly': 'SPA MENSUEL',
+  'pool': 'POOL PASS',
+  'guest-hotel': 'GUEST HOTEL',
+  'yoga': 'YOGA',
+  'yoga-daily': 'YOGA + DAILY',
+  'fitness-class': 'FITNESS CLASS',
 }
 
 function formatHeure(h: string) {
@@ -34,7 +48,7 @@ export function EntreeRow({ entry, isToday, onUpgrade }: EntreeRowProps) {
     .toUpperCase()
 
   const isResident = entry.type_entree === 'hotel_resident'
-  const is1Jour = entry.type_pass === '1_jour'
+  const is1Jour = entry.type_pass === '1_jour' || entry.type_pass === '1j'
   const upgraded = entry.upgrade_effectue !== false
 
   const canUpgrade = is1Jour && isToday && !upgraded
@@ -58,7 +72,7 @@ export function EntreeRow({ entry, isToday, onUpgrade }: EntreeRowProps) {
             <span className="inline-flex items-center px-2.5 py-1 rounded text-xs font-display font-bold uppercase tracking-wide bg-ww-orange/15 text-ww-orange">
               {upgraded && entry.upgrade_effectue
                 ? PASS_LABELS[entry.upgrade_effectue.vers] || entry.upgrade_effectue.vers
-                : PASS_LABELS[entry.type_pass]}
+                : PASS_LABELS[entry.type_pass] || entry.type_pass.toUpperCase()}
             </span>
           )}
         </div>

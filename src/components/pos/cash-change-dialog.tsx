@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from '@/components/ui/dialog'
@@ -18,6 +19,8 @@ export function CashChangeDialog({
   onConfirm: () => void
   onCancel: () => void
 }) {
+  const t = useTranslations('pos')
+  const tc = useTranslations('common')
   const [montantRecu, setMontantRecu] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -37,16 +40,16 @@ export function CashChangeDialog({
     <Dialog open={open} onOpenChange={(o) => { if (!o) onCancel() }}>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Paiement especes</DialogTitle>
+          <DialogTitle>{t('cashPayment')}</DialogTitle>
           <DialogDescription>
-            Total a encaisser : <span className="font-bold text-ww-orange">฿ {total.toLocaleString()}</span>
+            {t('totalToCollect')} : <span className="font-bold text-ww-orange">฿ {total.toLocaleString()}</span>
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           {/* Input montant recu */}
           <div>
-            <label className="text-xs text-ww-muted block mb-1.5">Montant recu</label>
+            <label className="text-xs text-ww-muted block mb-1.5">{t('cashReceived')}</label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-ww-muted font-bold">฿</span>
               <input
@@ -70,7 +73,7 @@ export function CashChangeDialog({
               onClick={() => setMontantRecu(String(total))}
               className="px-3 py-1.5 rounded-lg text-xs font-bold bg-ww-lime/15 text-ww-lime border border-ww-lime/30 hover:bg-ww-lime/25 transition-colors"
             >
-              Exact
+              {tc('exact')}
             </button>
             {BILLETS.filter((b) => b >= total).slice(0, 3).map((billet) => (
               <button
@@ -94,17 +97,17 @@ export function CashChangeDialog({
                   : 'bg-ww-danger/10 border border-ww-danger/30'
             }`}>
               {isExact ? (
-                <p className="text-ww-lime font-bold text-lg">Compte exact</p>
+                <p className="text-ww-lime font-bold text-lg">{t('exactAmount')}</p>
               ) : isValid ? (
                 <>
-                  <p className="text-xs text-ww-muted mb-1">Monnaie a rendre</p>
+                  <p className="text-xs text-ww-muted mb-1">{t('changeToReturn')}</p>
                   <p className="text-ww-orange font-extrabold text-2xl font-display">
                     ฿ {monnaie.toLocaleString()}
                   </p>
                 </>
               ) : (
                 <p className="text-ww-danger font-bold text-sm">
-                  Il manque ฿ {Math.abs(monnaie).toLocaleString()}
+                  {t('missing')} ฿ {Math.abs(monnaie).toLocaleString()}
                 </p>
               )}
             </div>
@@ -118,7 +121,7 @@ export function CashChangeDialog({
             onClick={onCancel}
             className="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-ww-surface-2 text-ww-muted border border-ww-border hover:bg-ww-surface-2/80 transition-colors"
           >
-            Annuler
+            {tc('cancel')}
           </button>
           <button
             type="button"
@@ -126,7 +129,7 @@ export function CashChangeDialog({
             onClick={onConfirm}
             className="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold bg-ww-orange text-white hover:bg-ww-orange/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            Confirmer
+            {tc('confirm')}
           </button>
         </div>
       </DialogContent>

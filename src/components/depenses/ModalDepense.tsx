@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog'
 import { Plus, ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAuth } from '@/lib/contexts/auth-context'
 import type { Expense, GrandeCategorie, CategorieDepense, ModePaiement } from '@/lib/types'
 import { GRANDE_CATEGORIE_LABELS } from './depenses-shared'
 import { SelectCategorie } from './SelectCategorie'
@@ -20,6 +21,7 @@ import { CaptureFacture } from './CaptureFacture'
 
 export function ModalDepense() {
   const { addExpense } = useExpenses()
+  const { staffMember } = useAuth()
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState<1 | 2>(1)
   const [grandeCategorie, setGrandeCategorie] = useState<GrandeCategorie | ''>('')
@@ -65,7 +67,7 @@ export function ModalDepense() {
       categorie: categorie as CategorieDepense,
       mode_paiement: modePaiement as ModePaiement,
       photo_base64: photoBase64,
-      staff_saisie: 'staff-006',
+      staff_saisie: staffMember?.id,
       created_at: new Date().toISOString(),
     }
     addExpense(expense)

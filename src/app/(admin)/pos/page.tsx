@@ -1,5 +1,5 @@
 import { getGymPasses, getFnbProducts, getClients, getBungalows } from '@/lib/data-access'
-import { PosRegister } from '@/components/pos/pos-register'
+import { PosRouter } from './pos-router'
 
 type TabId = 'gym' | 'fnb' | 'serviettes'
 const VALID_TABS: TabId[] = ['gym', 'fnb', 'serviettes']
@@ -18,7 +18,7 @@ export default async function PosPage({ searchParams }: { searchParams: Promise<
   const defaultTab = VALID_TABS.includes(params.tab as TabId) ? (params.tab as TabId) : undefined
 
   return (
-    <PosRegister
+    <PosRouter
       gymPasses={gymPasses}
       fnbProducts={fnbProducts}
       clients={clients}

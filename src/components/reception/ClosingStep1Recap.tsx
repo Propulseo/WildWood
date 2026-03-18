@@ -6,6 +6,7 @@ import { format, parseISO } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Receipt } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface RecapLine {
   label: string
@@ -13,6 +14,7 @@ interface RecapLine {
 }
 
 export default function ClosingStep1Recap({ onNext }: { onNext: (caJour: number) => void }) {
+  const t = useTranslations('closing')
   const { revenues, mockToday } = useReporting()
 
   const { lines, total } = useMemo(() => {
@@ -51,14 +53,14 @@ export default function ClosingStep1Recap({ onNext }: { onNext: (caJour: number)
           <Receipt className="h-5 w-5 text-ww-orange" />
         </div>
         <div>
-          <h2 className="font-display text-xl font-bold text-ww-text">Recap du jour</h2>
+          <h2 className="font-display text-xl font-bold text-ww-text">{t('recap')}</h2>
           <p className="text-sm text-ww-muted capitalize">{dateLabel}</p>
         </div>
       </div>
 
       <div className="flex-1 space-y-2">
         {lines.length === 0 ? (
-          <p className="text-ww-muted text-sm py-8 text-center">Aucun revenu enregistre aujourd&apos;hui</p>
+          <p className="text-ww-muted text-sm py-8 text-center">{t('noRevenue')}</p>
         ) : (
           lines.map((l) => (
             <div key={l.label} className="flex items-center justify-between py-2 px-3 rounded-lg bg-ww-surface-2 border border-ww-border/50">
@@ -73,13 +75,13 @@ export default function ClosingStep1Recap({ onNext }: { onNext: (caJour: number)
 
       <div className="mt-6 pt-4 border-t border-ww-border">
         <div className="flex items-center justify-between mb-4">
-          <span className="font-display font-bold text-lg text-ww-text">CA du jour</span>
+          <span className="font-display font-bold text-lg text-ww-text">{t('dailyRevenue')}</span>
           <span className="font-display font-extrabold text-2xl text-ww-orange">
             {total.toLocaleString()} <span className="text-sm text-ww-muted">THB</span>
           </span>
         </div>
         <Button onClick={() => onNext(total)} className="w-full gap-2" disabled={total === 0}>
-          Passer au comptage <ArrowRight className="h-4 w-4" />
+          {t('goToCounting')} <ArrowRight className="h-4 w-4" />
         </Button>
       </div>
     </div>

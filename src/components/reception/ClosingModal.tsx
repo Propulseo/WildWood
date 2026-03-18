@@ -9,15 +9,17 @@ import { Dialog, DialogContent } from '@/components/ui/dialog'
 import ClosingStep1Recap from './ClosingStep1Recap'
 import ClosingStep2Comptage from './ClosingStep2Comptage'
 import ClosingStep3Confirmation from './ClosingStep3Confirmation'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-const STEPS = ['Recap', 'Comptage', 'Confirmation'] as const
+const STEP_KEYS = ['recap', 'counting', 'confirmation'] as const
 
 export default function ClosingModal({ open, onOpenChange }: Props) {
+  const t = useTranslations('closing')
   const { mockToday } = useReporting()
   const { addClosing } = useClosings()
   const { getStaffActif } = useShift()
@@ -71,17 +73,17 @@ export default function ClosingModal({ open, onOpenChange }: Props) {
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto p-6">
         {/* Step indicator */}
         <div className="flex items-center gap-2 mb-4">
-          {STEPS.map((s, i) => (
-            <div key={s} className="flex items-center gap-2">
+          {STEP_KEYS.map((key, i) => (
+            <div key={key} className="flex items-center gap-2">
               <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
                 i <= step ? 'bg-ww-orange text-white' : 'bg-ww-surface-2 text-ww-muted border border-ww-border'
               }`}>
                 {i + 1}
               </div>
               <span className={`text-xs ${i === step ? 'text-ww-text font-medium' : 'text-ww-muted'}`}>
-                {s}
+                {t(key)}
               </span>
-              {i < STEPS.length - 1 && (
+              {i < STEP_KEYS.length - 1 && (
                 <div className={`w-8 h-px ${i < step ? 'bg-ww-orange' : 'bg-ww-border'}`} />
               )}
             </div>

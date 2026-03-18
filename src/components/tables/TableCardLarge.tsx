@@ -2,6 +2,7 @@
 
 import type { TableOuverte } from '@/lib/types'
 import { Plus, CreditCard, Clock } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface TableCardLargeProps {
   table: TableOuverte
@@ -10,13 +11,15 @@ interface TableCardLargeProps {
 }
 
 export function TableCardLarge({ table, onAdd, onEncaisser }: TableCardLargeProps) {
+  const t = useTranslations('tables')
+  const tc = useTranslations('common')
   const heure = new Date(table.heure_ouverture).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
   const isHotel = table.type_client === 'hotel'
 
   const typeBadge = {
-    externe: { label: 'Externe', cls: 'bg-ww-surface-2 text-ww-muted border-ww-border' },
+    externe: { label: t('external'), cls: 'bg-ww-surface-2 text-ww-muted border-ww-border' },
     gym: { label: 'Gym', cls: 'bg-ww-lime/15 text-ww-lime border-ww-lime/30' },
-    hotel: { label: 'Hotel', cls: 'bg-ww-wood/20 text-ww-wood border-ww-wood/30' },
+    hotel: { label: t('hotel'), cls: 'bg-ww-wood/20 text-ww-wood border-ww-wood/30' },
   }[table.type_client]
 
   return (
@@ -33,12 +36,12 @@ export function TableCardLarge({ table, onAdd, onEncaisser }: TableCardLargeProp
           <p className="text-sm text-ww-text font-sans font-medium">{table.client_nom}</p>
           <div className="flex items-center gap-1 mt-1 text-xs text-ww-muted">
             <Clock className="h-3 w-3" />
-            <span>Ouvert a {heure} par {table.staff_ouverture}</span>
+            <span>{t('openedAt')} {heure} {t('openedBy')} {table.staff_ouverture}</span>
           </div>
         </div>
         <div className="text-right shrink-0">
           <p className="font-display font-extrabold text-xl text-ww-orange">&#3647; {table.total_thb.toLocaleString()}</p>
-          <p className="text-[10px] text-ww-muted">{table.items.length} article{table.items.length > 1 ? 's' : ''}</p>
+          <p className="text-[10px] text-ww-muted">{table.items.length} {t('articles')}</p>
         </div>
       </div>
 
@@ -54,7 +57,7 @@ export function TableCardLarge({ table, onAdd, onEncaisser }: TableCardLargeProp
           </div>
         ))}
         <div className="border-t border-ww-border pt-1.5 flex justify-between">
-          <span className="font-display font-bold text-sm text-ww-text">TOTAL</span>
+          <span className="font-display font-bold text-sm text-ww-text">{tc('total').toUpperCase()}</span>
           <span className="font-display font-extrabold text-ww-orange">&#3647; {table.total_thb.toLocaleString()}</span>
         </div>
       </div>
@@ -62,7 +65,7 @@ export function TableCardLarge({ table, onAdd, onEncaisser }: TableCardLargeProp
       {/* Hotel notice */}
       {isHotel && (
         <div className="text-xs font-display font-bold uppercase tracking-wider text-ww-wood bg-ww-wood/10 border border-ww-wood/20 rounded-lg px-3 py-2 text-center">
-          Reglement au check-out
+          {t('hotelCheckout')}
         </div>
       )}
 
@@ -74,7 +77,7 @@ export function TableCardLarge({ table, onAdd, onEncaisser }: TableCardLargeProp
           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-ww-surface-2 border border-ww-border text-sm font-display font-bold text-ww-text hover:border-ww-orange hover:text-ww-orange transition-all duration-150 active:scale-[0.97]"
         >
           <Plus className="h-4 w-4" />
-          AJOUTER
+          {t('addItems').toUpperCase()}
         </a>
         {!isHotel && (
           <button
@@ -82,7 +85,7 @@ export function TableCardLarge({ table, onAdd, onEncaisser }: TableCardLargeProp
             className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-ww-orange text-white text-sm font-display font-bold hover:bg-ww-orange/90 transition-all duration-150 active:scale-[0.97]"
           >
             <CreditCard className="h-4 w-4" />
-            ENCAISSER
+            {t('collect').toUpperCase()}
           </button>
         )}
       </div>

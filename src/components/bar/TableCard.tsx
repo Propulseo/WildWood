@@ -2,6 +2,7 @@
 
 import type { TableOuverte } from '@/lib/types'
 import { Plus, CreditCard } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface TableCardProps {
   table: TableOuverte
@@ -10,6 +11,7 @@ interface TableCardProps {
 }
 
 export function TableCard({ table, onAdd, onEncaisser }: TableCardProps) {
+  const t = useTranslations('tables')
   const heure = new Date(table.heure_ouverture).toLocaleTimeString('fr-FR', {
     hour: '2-digit',
     minute: '2-digit',
@@ -18,9 +20,9 @@ export function TableCard({ table, onAdd, onEncaisser }: TableCardProps) {
   const isHotel = table.type_client === 'hotel'
 
   const typeBadge = {
-    externe: { label: 'Externe', cls: 'bg-ww-surface-2 text-ww-muted' },
+    externe: { label: t('external'), cls: 'bg-ww-surface-2 text-ww-muted' },
     gym: { label: 'Gym', cls: 'bg-ww-lime/15 text-ww-lime' },
-    hotel: { label: 'Hotel', cls: 'bg-ww-wood/20 text-ww-wood' },
+    hotel: { label: t('hotel'), cls: 'bg-ww-wood/20 text-ww-wood' },
   }[table.type_client]
 
   return (
@@ -54,14 +56,14 @@ export function TableCard({ table, onAdd, onEncaisser }: TableCardProps) {
           </div>
         ))}
         {table.items.length > 4 && (
-          <p className="text-[10px] text-ww-muted">+{table.items.length - 4} autres</p>
+          <p className="text-[10px] text-ww-muted">+{table.items.length - 4} {t('other')}</p>
         )}
       </div>
 
       {/* Hotel notice */}
       {isHotel && (
         <div className="text-[10px] font-display font-bold uppercase tracking-wider text-ww-wood bg-ww-wood/10 rounded px-2 py-1 text-center">
-          Reglement au check-out
+          {t('hotelCheckout')}
         </div>
       )}
 
@@ -72,7 +74,7 @@ export function TableCard({ table, onAdd, onEncaisser }: TableCardProps) {
           className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-ww-surface-2 border border-ww-border text-xs font-display font-bold text-ww-text hover:border-ww-orange hover:text-ww-orange transition-all duration-150 active:scale-[0.97]"
         >
           <Plus className="h-3.5 w-3.5" />
-          AJOUTER
+          {t('addItems').toUpperCase()}
         </button>
         {!isHotel && (
           <button
@@ -80,7 +82,7 @@ export function TableCard({ table, onAdd, onEncaisser }: TableCardProps) {
             className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-ww-orange text-white text-xs font-display font-bold hover:bg-ww-orange/90 transition-all duration-150 active:scale-[0.97]"
           >
             <CreditCard className="h-3.5 w-3.5" />
-            ENCAISSER
+            {t('collect').toUpperCase()}
           </button>
         )}
       </div>

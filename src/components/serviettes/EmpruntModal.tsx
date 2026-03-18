@@ -32,13 +32,14 @@ export function EmpruntModal({ open, onOpenChange }: EmpruntModalProps) {
       heure_emprunt: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
       deposit_montant: 500,
       statut: 'en_cours',
+      etat: 'propre',
       date_retour: null,
       staff_emprunt: staffEmprunt,
       staff_retour: null,
     }
 
     addEmprunt(entry)
-    toast.success('Serviette enregistree', { description: 'Depot 500 THB encaisse' })
+    toast.success('Serviette enregistree', { description: 'Depot 100 THB encaisse' })
     setClientNom('')
     setStaffEmprunt('')
     onOpenChange(false)
@@ -74,7 +75,7 @@ export function EmpruntModal({ open, onOpenChange }: EmpruntModalProps) {
               </SelectTrigger>
               <SelectContent>
                 {staff.map((s) => (
-                  <SelectItem key={s.id} value={s.prenom}>{s.prenom} {s.nom}</SelectItem>
+                  <SelectItem key={s.id} value={s.id}>{s.prenom} {s.nom}</SelectItem>
                 ))}
               </SelectContent>
             </Select>

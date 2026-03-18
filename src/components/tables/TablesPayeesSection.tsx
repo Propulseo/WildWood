@@ -3,12 +3,14 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronUp, Check } from 'lucide-react'
 import type { TableOuverte } from '@/lib/types'
+import { useTranslations } from 'next-intl'
 
 interface TablesPayeesSectionProps {
   tables: TableOuverte[]
 }
 
 export function TablesPayeesSection({ tables }: TablesPayeesSectionProps) {
+  const t = useTranslations('tables')
   const [expanded, setExpanded] = useState(false)
 
   if (tables.length === 0) return null
@@ -23,7 +25,7 @@ export function TablesPayeesSection({ tables }: TablesPayeesSectionProps) {
       >
         {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         <span className="font-display font-bold uppercase tracking-wider">
-          {tables.length} table{tables.length > 1 ? 's' : ''} encaissee{tables.length > 1 ? 's' : ''}
+          {tables.length} {t('paidTables')}
         </span>
         <span className="text-ww-lime">&middot; &#3647; {total.toLocaleString()}</span>
       </button>

@@ -23,7 +23,7 @@ import { AlertsStrip } from '@/components/dashboard/alerts-strip'
 import { PlanningEncart } from '@/components/dashboard/planning-encart'
 
 export default function DashboardPage() {
-  const { transactions } = useTransactions()
+  const { transactions, loading: txnLoading } = useTransactions()
   const { expenses } = useExpenses()
   const { activePasses } = useActivePasses()
   const { getTablesOuvertes } = useTables()
@@ -33,8 +33,8 @@ export default function DashboardPage() {
   const [clients, setClients] = useState<Client[]>([])
 
   useEffect(() => {
-    getBungalows().then(setBungalows)
-    getClients().then(setClients)
+    getBungalows().then(setBungalows).catch(() => {})
+    getClients().then(setClients).catch(() => {})
   }, [])
 
   // --- KPIs ---
@@ -166,7 +166,7 @@ export default function DashboardPage() {
   const rDepuis = getShiftInfo('reception')?.depuis?.replace(':', 'h') ?? '--'
   const bDepuis = getShiftInfo('bar')?.depuis?.replace(':', 'h') ?? '--'
 
-  if (transactions.length === 0) return <DashboardSkeleton />
+  if (txnLoading) return <DashboardSkeleton />
 
   return (
     <div className="space-y-6">

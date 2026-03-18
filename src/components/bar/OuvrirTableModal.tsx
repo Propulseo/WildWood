@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 const EMPLACEMENTS = [
   'Table 1', 'Table 2', 'Table 3', 'Table 4', 'Table 5',
@@ -15,6 +16,7 @@ interface OuvrirTableModalProps {
 }
 
 export function OuvrirTableModal({ open, onClose, onConfirm }: OuvrirTableModalProps) {
+  const t = useTranslations('pos')
   const [clientNom, setClientNom] = useState('')
   const [selected, setSelected] = useState<string | null>(null)
 
@@ -42,11 +44,11 @@ export function OuvrirTableModal({ open, onClose, onConfirm }: OuvrirTableModalP
           <X className="h-5 w-5" />
         </button>
 
-        <h3 className="font-display text-lg font-bold text-ww-text mb-1">OUVRIR UNE TABLE</h3>
-        <p className="text-xs text-ww-muted font-sans mb-5">Les articles du panier seront ajoutes a cette table.</p>
+        <h3 className="font-display text-lg font-bold text-ww-text mb-1">{t('openTableLabel').toUpperCase()}</h3>
+        <p className="text-xs text-ww-muted font-sans mb-5">{t('openTableHint')}</p>
 
         {/* Client name */}
-        <label className="text-xs text-ww-muted block mb-1.5">Nom du client (optionnel)</label>
+        <label className="text-xs text-ww-muted block mb-1.5">{t('clientName')}</label>
         <input
           type="text"
           value={clientNom}
@@ -57,7 +59,7 @@ export function OuvrirTableModal({ open, onClose, onConfirm }: OuvrirTableModalP
         />
 
         {/* Emplacement pills */}
-        <label className="text-xs text-ww-muted block mb-2">Emplacement</label>
+        <label className="text-xs text-ww-muted block mb-2">{t('location')}</label>
         <div className="flex flex-wrap gap-2 mb-6">
           {EMPLACEMENTS.map((emp) => (
             <button
@@ -80,7 +82,7 @@ export function OuvrirTableModal({ open, onClose, onConfirm }: OuvrirTableModalP
           disabled={!selected}
           className="w-full py-3 rounded-lg bg-ww-orange text-white font-display font-bold text-sm uppercase tracking-wider hover:bg-ww-orange/90 transition-all active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          OUVRIR LA TABLE
+          {t('openTheTable').toUpperCase()}
         </button>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { Barlow_Condensed, DM_Sans, DM_Mono } from "next/font/google"
 import { AuthProvider } from "@/lib/contexts/auth-context"
-import { PrototypeBanner } from "@/components/prototype-banner"
 import "./globals.css"
 
 const barlowCondensed = Barlow_Condensed({
@@ -38,8 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${barlowCondensed.variable} ${dmSans.variable} ${dmMono.variable}`}>
-      <body className="pt-7">
-        <PrototypeBanner />
+      <body>
         <AuthProvider>
           {children}
         </AuthProvider>

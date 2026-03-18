@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback } from 'react'
 import { useAuth } from '@/lib/contexts/auth-context'
-import { usePlanning } from '@/contexts/planning-context'
+import { usePlanning } from '@/lib/hooks/usePlanning'
 import { useExpenses } from '@/contexts/expenses-context'
 import { useShift } from '@/contexts/shift-context'
 import type { PlanningShift, Expense } from '@/lib/types'
@@ -13,7 +13,7 @@ import { BandeauPublication } from '@/components/planning/BandeauPublication'
 import { ShiftModal } from '@/components/planning/ShiftModal'
 import { toast } from 'sonner'
 
-const TODAY = '2026-03-06'
+const TODAY = new Date().toISOString().split('T')[0]
 const REPAS_MONTANT = 120
 
 function getWeekDates(offset: number): string[] {
@@ -35,9 +35,29 @@ function formatWeekLabel(dates: string[]) {
   return `Semaine du ${start.getDate()} au ${end.getDate()} ${mois[end.getMonth()]} ${end.getFullYear()}`
 }
 
+function PlanningSkeleton() {
+  return (
+    <div className="space-y-5 animate-pulse">
+      <div className="flex items-center justify-between">
+        <div className="h-9 w-48 bg-ww-surface rounded-lg" />
+        <div className="flex gap-2">
+          <div className="h-8 w-20 bg-ww-surface rounded-lg" />
+          <div className="h-8 w-20 bg-ww-surface rounded-lg" />
+        </div>
+      </div>
+      <div className="h-12 bg-ww-surface border border-ww-border rounded-xl" />
+      <div className="grid grid-cols-7 gap-2">
+        {Array.from({ length: 21 }).map((_, i) => (
+          <div key={i} className="h-20 bg-ww-surface rounded-lg" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function PlanningPage() {
   const { role } = useAuth()
-  const { shifts, publierSemaine } = usePlanning()
+  const { shifts, publierSemaine, loading, error, refetch } = usePlanning()
   const { expenses, addExpense } = useExpenses()
   const { shiftState } = useShift()
   const isAdmin = role === 'admin'
@@ -66,9 +86,9 @@ export default function PlanningPage() {
     return null
   }, [role, shiftState])
 
-  const handlePublier = useCallback(() => {
+  const handlePublier = useCallback(async () => {
     const unpublished = shifts.filter((s) => weekDates.includes(s.date) && !s.publie)
-    publierSemaine(weekDates)
+    await publierSemaine(weekDates)
 
     const repasShifts = unpublished.filter((s) => s.repas_inclus && s.date === TODAY)
     let count = 0
@@ -110,6 +130,9 @@ export default function PlanningPage() {
 
   const { isMobile } = useDevice()
   const showEmptyNextWeek = !isAdmin && weekOffset > 0 && visibleShifts.length === 0
+
+  if (loading) return <PlanningSkeleton />
+  if (error) return <p className="text-center py-16 text-ww-danger font-sans">{error}</p>
 
   return (
     <div className="space-y-5">
@@ -183,7 +206,7 @@ export default function PlanningPage() {
       {modalState.open && (
         <ShiftModal weekDates={weekDates} editShift={modalState.shift}
           defaultDate={modalState.defaultDate}
-          onClose={() => setModalState({ open: false, shift: null })}
+          onClose={() => { setModalState({ open: false, shift: null }); refetch() }}
         />
       )}
     </div>

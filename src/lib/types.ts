@@ -25,6 +25,8 @@ export interface Client {
 /** Type de pass gym avec tarification reelle WildWood */
 export interface GymPass {
   id: string
+  /** Slug court pour identifier le type: "1j", "3j", "1s", "1m", "spa", etc. */
+  slug: string
   /** Nom affiche: "1 jour", "3 jours", "1 semaine", etc. */
   nom: string
   /** Prix en baht thailandais (entier, pas de decimales) */
@@ -212,7 +214,7 @@ export interface CheckinEntry {
   client_nom: string
   client_id: string
   type_entree: 'gym_pass' | 'hotel_resident'
-  type_pass: '1_jour' | '3_jours' | '1_semaine' | '1_mois' | 'resident'
+  type_pass: string
   prix_paye: number
   heure_entree: string
   date_entree: string
@@ -284,11 +286,22 @@ export interface Serviette {
   date_emprunt: string
   heure_emprunt: string
   deposit_montant: number
-  statut: 'en_cours' | 'rendue' | 'perdue'
+  statut: 'disponible' | 'en_cours' | 'rendue' | 'perdue'
+  etat: 'propre' | 'sale' | 'en_lavage'
   date_retour: string | null
   staff_emprunt: string
   staff_retour: string | null
   note?: string
+}
+
+/** Log de reception de lavage */
+export interface ReceptionLavage {
+  id: string
+  date: string
+  nb_comptees: number
+  nb_remises_stock: number
+  nb_creees: number
+  staff_id: string
 }
 
 // --- Room Charges ---
@@ -307,6 +320,8 @@ export interface RoomCharge {
   date: string
   /** Nom du staff ayant pris la commande */
   staff: string
+  /** Statut du paiement */
+  statut: 'en_attente' | 'paye'
   /** Signature manuscrite en base64 PNG */
   signature_base64: string
   /** Horodatage de la signature -- format ISO */

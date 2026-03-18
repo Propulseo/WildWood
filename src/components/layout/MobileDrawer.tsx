@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useAuth } from '@/lib/contexts/auth-context'
 import { useTables } from '@/contexts/tables-context'
 import { getNavSections } from './sidebar-nav-config'
@@ -18,6 +19,8 @@ interface MobileDrawerProps {
 export function MobileDrawer({ open, onClose, pathname }: MobileDrawerProps) {
   const { role } = useAuth()
   const { getTablesOuvertes } = useTables()
+  const tSections = useTranslations('sections')
+  const tNav = useTranslations('nav')
 
   useEffect(() => {
     if (open) document.body.style.overflow = 'hidden'
@@ -35,7 +38,6 @@ export function MobileDrawer({ open, onClose, pathname }: MobileDrawerProps) {
 
   return (
     <>
-      {/* Backdrop */}
       <div
         className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-200 ${
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -43,7 +45,6 @@ export function MobileDrawer({ open, onClose, pathname }: MobileDrawerProps) {
         onClick={onClose}
       />
 
-      {/* Drawer */}
       <aside
         className={`fixed top-0 left-0 z-50 h-full w-72 bg-ww-surface border-r border-ww-border flex flex-col transition-transform duration-200 ease-out ${
           open ? 'translate-x-0' : '-translate-x-full'
@@ -58,9 +59,9 @@ export function MobileDrawer({ open, onClose, pathname }: MobileDrawerProps) {
 
         <nav className="flex-1 overflow-y-auto py-2">
           {sections.map((section) => (
-            <div key={section.label} className="mb-2">
+            <div key={section.labelKey} className="mb-2">
               <p className="px-4 py-2 text-[10px] font-display font-bold uppercase tracking-widest text-ww-muted">
-                {section.label}
+                {tSections(section.labelKey)}
               </p>
               {section.items.map((item) => {
                 const Icon = item.icon
@@ -88,7 +89,7 @@ export function MobileDrawer({ open, onClose, pathname }: MobileDrawerProps) {
                         </span>
                       )}
                     </span>
-                    <span className="truncate">{item.label}</span>
+                    <span className="truncate">{tNav(item.labelKey)}</span>
                   </Link>
                 )
               })}

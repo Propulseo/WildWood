@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useStaff } from '@/contexts/staff-context'
 import type { StaffMember } from '@/lib/types'
-import { toast } from 'sonner'
 
 const POSTES: StaffMember['poste'][] = ['reception', 'bar', 'admin']
 const COLORS = ['#C94E0A', '#7AB648', '#4A9ECC', '#9B6DB7', '#E8913A', '#22C55E', '#8B6B3D', '#C94E73']
@@ -37,7 +36,6 @@ export function AddStaffDialog({ open, onOpenChange }: AddStaffDialogProps) {
     }
 
     addStaffMember(member)
-    toast.success(`${prenom} ${nom} ajoute au staff`)
     setPrenom('')
     setNom('')
     setPoste('reception')

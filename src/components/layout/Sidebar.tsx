@@ -37,8 +37,8 @@ export function Sidebar({ isCollapsed, onToggle, pathname }: SidebarProps) {
       <nav className="flex-1 overflow-y-auto overflow-visible py-2">
         {sections.map((section, i) => (
           <SidebarSection
-            key={section.label}
-            label={section.label}
+            key={section.labelKey}
+            labelKey={section.labelKey}
             items={section.items}
             isFirst={i === 0}
             isCollapsed={isCollapsed}

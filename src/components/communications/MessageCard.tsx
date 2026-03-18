@@ -49,7 +49,9 @@ export function MessageCard({ message }: { message: MessageClientWA }) {
             {message.client_nom}
           </span>
         </div>
-        <span className="text-xs text-ww-muted font-mono shrink-0">B{message.bungalow_id.replace('bung-', '')}</span>
+        {message.bungalow_id && (
+          <span className="text-xs text-ww-muted font-mono shrink-0">B{message.bungalow_id.replace('bung-', '')}</span>
+        )}
       </div>
 
       <p className="text-xs text-ww-muted font-mono">

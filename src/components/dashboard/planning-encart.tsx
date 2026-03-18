@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePlanning } from '@/contexts/planning-context'
 
-const TODAY = '2026-03-06'
+const TODAY = new Date().toISOString().split('T')[0]
 
 function formatHeure(h: string) {
   return h.replace(':', 'h')
@@ -27,7 +27,7 @@ export function PlanningEncart() {
       </div>
       <div className="space-y-1.5">
         {todayShifts.map((s) => {
-          const prenom = s.staff_nom.split(' ')[0]
+          const prenom = (s.staff_nom ?? '').split(' ')[0] || '—'
           return (
             <div key={s.id} className="flex items-center gap-3 text-[13px] font-body">
               <span className="font-mono text-ww-muted w-[90px] shrink-0">

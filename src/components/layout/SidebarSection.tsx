@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import type { NavItem } from './sidebar-nav-config'
 import { SidebarItem } from './SidebarItem'
 
@@ -8,7 +9,7 @@ interface BadgeCounts {
 }
 
 interface SidebarSectionProps {
-  label: string
+  labelKey: string
   items: NavItem[]
   isFirst: boolean
   isCollapsed: boolean
@@ -17,15 +18,18 @@ interface SidebarSectionProps {
 }
 
 export function SidebarSection({
-  label, items, isFirst, isCollapsed, pathname, badgeCounts,
+  labelKey, items, isFirst, isCollapsed, pathname, badgeCounts,
 }: SidebarSectionProps) {
+  const tSections = useTranslations('sections')
+  const tNav = useTranslations('nav')
+
   return (
     <div>
       {!isFirst && <div className="h-px bg-ww-border mx-3" />}
 
       {!isCollapsed && (
         <p className="text-[10px] font-sans uppercase tracking-widest text-ww-muted pt-5 pb-1 px-4">
-          {label}
+          {tSections(labelKey)}
         </p>
       )}
 
@@ -41,9 +45,9 @@ export function SidebarSection({
             <SidebarItem
               key={item.href}
               href={item.href}
-              label={item.label}
+              label={tNav(item.labelKey)}
               icon={item.icon}
-              sectionLabel={label}
+              sectionLabel={tSections(labelKey)}
               isActive={isActive}
               isCollapsed={isCollapsed}
               badge={badge}

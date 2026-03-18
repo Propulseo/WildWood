@@ -1,7 +1,7 @@
-import { getStaff } from '@/lib/data-access'
+'use client'
+
 import { PresenceContent } from './presence-content'
 
-export default async function PresencePage() {
-  const staff = await getStaff()
-  return <PresenceContent initialStaff={staff} />
+export default function PresencePage() {
+  return <PresenceContent />
 }

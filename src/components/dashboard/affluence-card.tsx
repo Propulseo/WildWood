@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { Card } from '@/components/ui/card'
 import type { ActiveGymPass, Client } from '@/lib/types'
 
-const TODAY = '2026-03-06'
+const TODAY = new Date().toISOString().split('T')[0]
 
 function last7Days(): string[] {
   const days: string[] = []

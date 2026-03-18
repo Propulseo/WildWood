@@ -12,6 +12,7 @@ import {
 import { useStaff } from '@/contexts/staff-context'
 import { useShift } from '@/contexts/shift-context'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 interface PriseDeShiftModalProps {
   open: boolean
@@ -25,6 +26,9 @@ function nowHHmm() {
 }
 
 export function PriseDeShiftModal({ open, onOpenChange, poste }: PriseDeShiftModalProps) {
+  const t = useTranslations('shift')
+  const tc = useTranslations('common')
+  const tRoles = useTranslations('roles')
   const { staff } = useStaff()
   const { prendreShift, getStaffActif } = useShift()
   const [selectedStaffId, setSelectedStaffId] = useState('')
@@ -32,7 +36,6 @@ export function PriseDeShiftModal({ open, onOpenChange, poste }: PriseDeShiftMod
 
   const staffForPoste = staff.filter((s) => s.poste === poste)
   const currentStaff = getStaffActif(poste)
-  const posteLabel = poste === 'reception' ? 'Reception' : 'Bar'
 
   function handleConfirm() {
     if (!selectedStaffId) return
@@ -42,8 +45,8 @@ export function PriseDeShiftModal({ open, onOpenChange, poste }: PriseDeShiftMod
     prendreShift(poste, selectedStaffId, note || undefined)
 
     const heure = nowHHmm().replace(':', 'h')
-    toast.success(`Shift repris — ${member.prenom} ${member.nom}`, {
-      description: `${posteLabel} · ${heure}`,
+    toast.success(`${t('shiftTaken')} — ${member.prenom} ${member.nom}`, {
+      description: `${tRoles(poste)} · ${heure}`,
     })
 
     setSelectedStaffId('')
@@ -56,22 +59,22 @@ export function PriseDeShiftModal({ open, onOpenChange, poste }: PriseDeShiftMod
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="font-display text-xl font-bold uppercase tracking-wide">
-            Prise de shift — {posteLabel}
+            {t('shiftTakeover')} — {tRoles(poste)}
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           {currentStaff && (
             <p className="text-sm text-ww-muted font-sans">
-              Shift actuel : <span className="text-ww-text font-medium">{currentStaff.prenom} {currentStaff.nom}</span>
+              {t('currentShift')} : <span className="text-ww-text font-medium">{currentStaff.prenom} {currentStaff.nom}</span>
             </p>
           )}
 
           <div className="space-y-2">
-            <label className="text-xs text-ww-muted font-sans">Nouveau staff</label>
+            <label className="text-xs text-ww-muted font-sans">{t('newStaff')}</label>
             <Select value={selectedStaffId} onValueChange={setSelectedStaffId}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Choisir un membre du staff" />
+                <SelectValue placeholder={t('chooseStaff')} />
               </SelectTrigger>
               <SelectContent>
                 {staffForPoste.map((s) => (
@@ -84,9 +87,9 @@ export function PriseDeShiftModal({ open, onOpenChange, poste }: PriseDeShiftMod
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs text-ww-muted font-sans">Note de transmission</label>
+            <label className="text-xs text-ww-muted font-sans">{t('note')}</label>
             <Textarea
-              placeholder="Notes pour la prise de shift..."
+              placeholder={t('handoverNotes')}
               value={note}
               onChange={(e) => setNote(e.target.value)}
               rows={3}
@@ -96,10 +99,10 @@ export function PriseDeShiftModal({ open, onOpenChange, poste }: PriseDeShiftMod
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Annuler
+            {tc('cancel')}
           </Button>
           <Button onClick={handleConfirm} disabled={!selectedStaffId}>
-            PRENDRE LE SHIFT
+            {t('takeShift').toUpperCase()}
           </Button>
         </DialogFooter>
       </DialogContent>

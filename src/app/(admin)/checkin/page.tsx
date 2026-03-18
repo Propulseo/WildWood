@@ -1,11 +1,13 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { toast } from 'sonner'
 import { useActivePasses } from '@/contexts/active-passes-context'
 import { useTransactions } from '@/contexts/transactions-context'
-import { getCheckins } from '@/lib/data-access'
+import { useCheckins } from '@/lib/hooks/useCheckins'
+import { upgradePass } from '@/lib/supabase/queries/gym'
 import type { CheckinEntry } from '@/lib/types'
+import { useTranslations } from 'next-intl'
 import { LiveCounter } from '@/components/checkin/LiveCounter'
 import { SearchBar } from '@/components/checkin/SearchBar'
 import { ClientResultCard } from '@/components/checkin/ClientResultCard'
@@ -14,7 +16,7 @@ import { KpiCards } from '@/components/checkin/KpiCards'
 import { UpgradeModal } from '@/components/checkin/UpgradeModal'
 import { HourlyActivityChart } from '@/components/checkin/HourlyActivityChart'
 
-const TODAY = '2026-03-06'
+const TODAY = new Date().toISOString().split('T')[0]
 
 const PASS_LABELS: Record<string, string> = {
   '3_jours': '3j',
@@ -28,15 +30,12 @@ function formatDate(iso: string) {
 }
 
 export default function CheckinPage() {
+  const t = useTranslations('checkin')
   const { activePasses, addCheckin } = useActivePasses()
-  const { transactions, addTransaction } = useTransactions()
+  const { transactions } = useTransactions()
   const [search, setSearch] = useState('')
-  const [checkins, setCheckins] = useState<CheckinEntry[]>([])
+  const { checkins, setCheckins, refetch } = useCheckins()
   const [upgrading, setUpgrading] = useState<CheckinEntry | null>(null)
-
-  useEffect(() => {
-    getCheckins().then(setCheckins)
-  }, [])
 
   const activeOnly = useMemo(
     () => activePasses.filter((p) => p.actif && p.dateExpiration >= TODAY),
@@ -67,38 +66,32 @@ export default function CheckinPage() {
     addCheckin(passId, { date: TODAY, heure })
   }
 
-  function handleUpgradeConfirm(entry: CheckinEntry, vers: string, prixUpgrade: number) {
-    const now = new Date()
-    const heure = `${String(now.getHours()).padStart(2, '0')}h${String(now.getMinutes()).padStart(2, '0')}`
+  async function handleUpgradeConfirm(entry: CheckinEntry, vers: string, prixUpgrade: number) {
+    // Find the old pass to get its ID
+    const oldPass = activePasses.find((p) =>
+      p.checkins.some((c) => c.date === TODAY) &&
+      p.clientNom === entry.client_nom
+    )
 
-    setCheckins((prev) =>
-      prev.map((c) =>
-        c.id === entry.id
-          ? { ...c, upgrade_effectue: { vers, prix_upgrade: prixUpgrade, heure } }
-          : c
+    try {
+      await upgradePass({
+        oldPassId: oldPass?.id ?? '',
+        checkinId: entry.id,
+        clientNom: entry.client_nom,
+        clientId: entry.client_id || undefined,
+        versType: vers,
+        prixUpgrade,
+      })
+
+      toast.success(
+        `${entry.client_nom} upgradee · PASS ${(PASS_LABELS[vers] || vers).toUpperCase()} · ฿ ${prixUpgrade.toLocaleString('fr-FR')} encaisses`
       )
-    )
-
-    addTransaction({
-      id: `txn-upg-${Date.now()}`,
-      date: new Date().toISOString(),
-      type: 'upgrade_pass',
-      centreRevenu: 'Gym',
-      clientId: entry.client_id,
-      items: [{
-        produitId: `pass-${vers}`,
-        nom: `Upgrade 1j → ${PASS_LABELS[vers] || vers} · ${entry.client_nom}`,
-        quantite: 1,
-        prixUnitaire: prixUpgrade,
-        sousTotal: prixUpgrade,
-      }],
-      total: prixUpgrade,
-      methode: 'especes',
-    })
-
-    toast.success(
-      `${entry.client_nom} upgradee · PASS ${(PASS_LABELS[vers] || vers).toUpperCase()} · ฿ ${prixUpgrade.toLocaleString('fr-FR')} encaisses`
-    )
+      refetch()
+    } catch (e) {
+      toast.error('Erreur upgrade', {
+        description: e instanceof Error ? e.message : 'Erreur inconnue',
+      })
+    }
 
     setUpgrading(null)
   }
@@ -107,7 +100,7 @@ export default function CheckinPage() {
     <div className="w-full px-6 py-6 space-y-6">
       <div>
         <h1 className="font-display text-3xl font-extrabold text-ww-text tracking-tight uppercase">
-          Entrees du jour
+          {t('title')}
         </h1>
         <p className="text-ww-muted text-sm mt-1 font-sans">{formatDate(TODAY)}</p>
       </div>
@@ -150,7 +143,7 @@ export default function CheckinPage() {
             totalEncaisse={totalEncaisse}
           />
           <button className="w-full py-3 rounded-lg bg-ww-orange text-ww-bg font-display font-bold text-base uppercase tracking-wide hover:translate-y-[-2px] active:scale-[0.97] transition-all duration-150">
-            Enregistrer une entree
+            {t('registerEntry')}
           </button>
         </div>
       </div>

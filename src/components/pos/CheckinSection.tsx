@@ -5,7 +5,7 @@ import { Search, UserCheck, ChevronDown, ChevronUp } from 'lucide-react'
 import { useActivePasses } from '@/contexts/active-passes-context'
 import { toast } from 'sonner'
 
-const TODAY = '2026-03-06'
+const TODAY = new Date().toISOString().split('T')[0]
 const MIN_H = 52
 const DEFAULT_H = 280
 const MAX_H = 600

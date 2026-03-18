@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { ArrowUp, X } from 'lucide-react'
 import type { CheckinEntry } from '@/lib/types'
 
@@ -22,6 +23,8 @@ interface UpgradeModalProps {
 }
 
 export function UpgradeModal({ entry, onClose, onConfirm }: UpgradeModalProps) {
+  const t = useTranslations('checkin')
+  const tc = useTranslations('common')
   const [selected, setSelected] = useState<string | null>(null)
 
   const prixDaily = entry.prix_paye
@@ -39,7 +42,7 @@ export function UpgradeModal({ entry, onClose, onConfirm }: UpgradeModalProps) {
       <div className="bg-ww-surface border border-ww-border rounded-xl w-full max-w-md mx-4 shadow-[0_0_40px_rgba(201,78,10,0.15)]">
         <div className="flex items-center justify-between p-5 border-b border-ww-border">
           <h2 className="font-display text-xl font-bold uppercase tracking-wide text-ww-text">
-            Upgrade Pass
+            {t('upgradePass')}
           </h2>
           <button
             onClick={onClose}
@@ -56,11 +59,11 @@ export function UpgradeModal({ entry, onClose, onConfirm }: UpgradeModalProps) {
 
           <div className="space-y-2 text-sm font-sans">
             <div className="flex justify-between text-ww-text">
-              <span>Pass actuel : <span className="font-display font-bold">1 JOUR</span></span>
+              <span>{t('currentPass')} : <span className="font-display font-bold">1 JOUR</span></span>
               <span className="font-mono">฿ {prixDaily.toLocaleString('fr-FR')}</span>
             </div>
             <div className="flex justify-between text-ww-muted">
-              <span>Deduit</span>
+              <span>{t('deducted')}</span>
               <span className="font-mono">-฿ {prixDaily.toLocaleString('fr-FR')}</span>
             </div>
           </div>
@@ -68,7 +71,7 @@ export function UpgradeModal({ entry, onClose, onConfirm }: UpgradeModalProps) {
           <div className="border-t border-ww-border" />
 
           <p className="text-ww-muted text-sm font-sans">
-            Choisir le nouvel abonnement :
+            {t('choosePass')} :
           </p>
 
           <div className="grid grid-cols-3 gap-3">
@@ -100,7 +103,7 @@ export function UpgradeModal({ entry, onClose, onConfirm }: UpgradeModalProps) {
 
           <p className="text-ww-muted text-xs font-sans flex items-center gap-1.5">
             <span className="text-base">⚠️</span>
-            Upgrade possible aujourd&apos;hui uniquement
+            {t('onlyToday')}
           </p>
         </div>
 
@@ -109,7 +112,7 @@ export function UpgradeModal({ entry, onClose, onConfirm }: UpgradeModalProps) {
             onClick={onClose}
             className="flex-1 px-4 py-2.5 rounded-lg border border-ww-border text-ww-muted font-display font-bold text-sm uppercase tracking-wide hover:text-ww-text hover:border-ww-text/30 transition-all duration-150"
           >
-            Annuler
+            {tc('cancel')}
           </button>
           <button
             disabled={!selectedOption}
@@ -122,7 +125,7 @@ export function UpgradeModal({ entry, onClose, onConfirm }: UpgradeModalProps) {
                 : 'bg-ww-surface-2 text-ww-muted cursor-not-allowed'
             }`}
           >
-            Confirmer <ArrowUp className="h-4 w-4" />
+            {tc('confirm')} <ArrowUp className="h-4 w-4" />
           </button>
         </div>
       </div>

@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 interface KpiCardsProps {
   gymCount: number
   residentCount: number
@@ -7,10 +9,11 @@ interface KpiCardsProps {
 }
 
 export function KpiCards({ gymCount, residentCount, totalEncaisse }: KpiCardsProps) {
+  const t = useTranslations('checkin')
   const cards = [
-    { value: String(gymCount), label: 'GYM' },
-    { value: String(residentCount), label: 'RESIDENTS' },
-    { value: `฿ ${totalEncaisse.toLocaleString('fr-FR')}`, label: 'ENCAISSES' },
+    { value: String(gymCount), label: t('gym') },
+    { value: String(residentCount), label: t('residents') },
+    { value: `฿ ${totalEncaisse.toLocaleString('fr-FR')}`, label: t('collected') },
   ]
 
   return (

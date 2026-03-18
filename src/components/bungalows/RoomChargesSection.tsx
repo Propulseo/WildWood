@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { format, parseISO } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import type { RoomCharge } from '@/lib/types'
@@ -19,6 +19,10 @@ export function RoomChargesSection({ roomCharges, clientName, bungalowNumero, on
   const [chargesOpen, setChargesOpen] = useState(defaultOpen)
   const [selectedCharge, setSelectedCharge] = useState<RoomCharge | null>(null)
   const [settleOpen, setSettleOpen] = useState(false)
+
+  const enAttente = useMemo(() => roomCharges.filter(rc => rc.statut === 'en_attente'), [roomCharges])
+  const totalEnAttente = useMemo(() => enAttente.reduce((s, rc) => s + rc.total, 0), [enAttente])
+  const allPaid = enAttente.length === 0
 
   if (roomCharges.length === 0) return null
 
@@ -41,7 +45,12 @@ export function RoomChargesSection({ roomCharges, clientName, bungalowNumero, on
                   <p className="text-xs text-ww-muted font-body">
                     {format(parseISO(rc.date), "dd/MM HH'h'mm", { locale: fr })} — {rc.staff}
                   </p>
-                  <p className="text-sm font-display font-bold text-ww-text">฿ {rc.total.toLocaleString()}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-display font-bold text-ww-text">฿ {rc.total.toLocaleString()}</p>
+                    {rc.statut === 'paye' && (
+                      <span className="text-[10px] font-display font-bold text-[var(--ww-lime)] uppercase">paye</span>
+                    )}
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -52,17 +61,26 @@ export function RoomChargesSection({ roomCharges, clientName, bungalowNumero, on
                 </button>
               </div>
             ))}
-            <p className="text-xs text-ww-muted font-body text-right">
-              Total notes: ฿ {roomCharges.reduce((s, rc) => s + rc.total, 0).toLocaleString()}
-            </p>
-            {onSettleCharges && (
-              <button
-                type="button"
-                onClick={() => setSettleOpen(true)}
-                className="w-full py-2.5 rounded-lg bg-ww-orange text-white text-sm font-display font-bold uppercase tracking-wider transition-all hover:bg-ww-orange/90 active:scale-[0.97] mt-2"
-              >
-                REGLER NOTE F&B
-              </button>
+
+            {allPaid ? (
+              <p className="text-sm text-[var(--ww-lime)] font-sans text-center py-2">
+                Aucune consommation en attente
+              </p>
+            ) : (
+              <>
+                <p className="text-xs text-ww-muted font-body text-right">
+                  En attente: ฿ {totalEnAttente.toLocaleString()}
+                </p>
+                {onSettleCharges && (
+                  <button
+                    type="button"
+                    onClick={() => setSettleOpen(true)}
+                    className="w-full py-2.5 rounded-lg bg-ww-orange text-white text-sm font-display font-bold uppercase tracking-wider transition-all hover:bg-ww-orange/90 active:scale-[0.97] mt-2"
+                  >
+                    REGLER NOTE F&B · ฿ {totalEnAttente.toLocaleString()}
+                  </button>
+                )}
+              </>
             )}
           </div>
         )}
@@ -81,7 +99,7 @@ export function RoomChargesSection({ roomCharges, clientName, bungalowNumero, on
       {settleOpen && onSettleCharges && (
         <SettleChargesModal
           open={settleOpen}
-          roomCharges={roomCharges}
+          roomCharges={enAttente}
           clientName={clientName}
           bungalowNumero={bungalowNumero}
           onClose={() => setSettleOpen(false)}

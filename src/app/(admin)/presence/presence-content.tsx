@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { Plus } from 'lucide-react'
-import { useStaff } from '@/contexts/staff-context'
+import { useStaff } from '@/lib/hooks/useStaff'
 import { StaffStatusCard } from '@/components/presence/StaffStatusCard'
 import { WeeklyTable } from '@/components/presence/WeeklyTable'
 import { PresenceKpiCards } from '@/components/presence/PresenceKpiCards'
@@ -12,10 +12,7 @@ import { toast } from 'sonner'
 
 function todayFormatted(): string {
   return new Date().toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
 }
 
@@ -58,38 +55,58 @@ function computeWeeklyMinutes(members: StaffMember[], today: string): number {
   return total
 }
 
-interface PresenceContentProps {
-  initialStaff: StaffMember[]
+function PresenceSkeleton() {
+  return (
+    <div className="w-full px-6 py-6 space-y-8 animate-pulse">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="h-8 w-52 bg-ww-surface rounded-lg" />
+        <div className="h-6 w-40 bg-ww-surface rounded-lg" />
+        <div className="ml-auto h-9 w-28 bg-ww-surface rounded-lg" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-36 bg-ww-surface rounded-xl border border-ww-border" />
+        ))}
+      </div>
+      <div className="grid grid-cols-3 gap-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="h-24 bg-ww-surface rounded-xl border border-ww-border" />
+        ))}
+      </div>
+    </div>
+  )
 }
 
-export function PresenceContent({ initialStaff }: PresenceContentProps) {
-  const { staff, removeStaffMember } = useStaff()
+export function PresenceContent() {
+  const { staff, removeStaffMember, loading, error, refetch } = useStaff()
   const [addOpen, setAddOpen] = useState(false)
-  const displayStaff = staff.length > 0 ? staff : initialStaff
   const today = todayStr()
 
   const presentsToday = useMemo(
-    () => displayStaff.filter((s) => s.pointages.some((p) => p.date === today)).length,
-    [displayStaff, today]
+    () => staff.filter((s) => s.pointages.some((p) => p.date === today)).length,
+    [staff, today]
   )
 
   const enCoursCount = useMemo(
-    () => displayStaff.filter((s) =>
+    () => staff.filter((s) =>
       s.pointages.some((p) => p.date === today && !p.heure_depart)
     ).length,
-    [displayStaff, today]
+    [staff, today]
   )
 
   const weeklyMinutes = useMemo(
-    () => computeWeeklyMinutes(displayStaff, today),
-    [displayStaff, today]
+    () => computeWeeklyMinutes(staff, today),
+    [staff, today]
   )
 
   function handleRemove(id: string) {
-    const member = displayStaff.find((s) => s.id === id)
+    const member = staff.find((s) => s.id === id)
     removeStaffMember(id)
     if (member) toast.success(`${member.prenom} ${member.nom} retire du staff`)
   }
+
+  if (loading) return <PresenceSkeleton />
+  if (error) return <p className="text-center py-16 text-ww-danger font-sans">{error}</p>
 
   return (
     <div className="w-full px-6 py-6 space-y-8">
@@ -111,7 +128,7 @@ export function PresenceContent({ initialStaff }: PresenceContentProps) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayStaff.map((member) => (
+          {staff.map((member) => (
             <StaffStatusCard key={member.id} member={member} todayStr={today} onRemove={handleRemove} />
           ))}
         </div>
@@ -126,10 +143,10 @@ export function PresenceContent({ initialStaff }: PresenceContentProps) {
       <div className="border-t border-ww-border" />
 
       <section>
-        <WeeklyTable staff={displayStaff} />
+        <WeeklyTable staff={staff} />
       </section>
 
-      <AddStaffDialog open={addOpen} onOpenChange={setAddOpen} />
+      <AddStaffDialog open={addOpen} onOpenChange={(v) => { setAddOpen(v); if (!v) refetch() }} />
     </div>
   )
 }

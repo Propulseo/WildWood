@@ -33,14 +33,15 @@ export default function ClientsPage() {
 
   const [clients, setClients] = useState<Client[]>([])
   const [bungalows, setBungalows] = useState<Bungalow[]>([])
+  const [clientsLoading, setClientsLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [filterPass, setFilterPass] = useState('tous')
   const [filterPeriode, setFilterPeriode] = useState('tous')
   const [page, setPage] = useState(1)
 
   useEffect(() => {
-    getClients().then(setClients)
-    getBungalows().then(setBungalows)
+    getClients().then(setClients).catch(() => {}).finally(() => setClientsLoading(false))
+    getBungalows().then(setBungalows).catch(() => {})
   }, [])
 
   useEffect(() => { setPage(1) }, [search, filterPass, filterPeriode])
@@ -114,7 +115,7 @@ export default function ClientsPage() {
   const startIndex = (page - 1) * ITEMS_PER_PAGE + 1
   const endIndex = Math.min(page * ITEMS_PER_PAGE, filtered.length)
 
-  if (clients.length === 0) return <ClientsSkeleton />
+  if (clientsLoading) return <ClientsSkeleton />
 
   return (
     <div className="space-y-6">

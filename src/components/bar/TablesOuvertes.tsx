@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useTables } from '@/contexts/tables-context'
+import { useTranslations } from 'next-intl'
 import { TableCard } from './TableCard'
 
 interface TablesOuvertesProps {
@@ -11,6 +12,7 @@ interface TablesOuvertesProps {
 }
 
 export function TablesOuvertes({ onAddToTable, onEncaisserTable }: TablesOuvertesProps) {
+  const t = useTranslations('tables')
   const { getTablesOuvertes } = useTables()
   const [expanded, setExpanded] = useState(true)
 
@@ -27,9 +29,9 @@ export function TablesOuvertes({ onAddToTable, onEncaisserTable }: TablesOuverte
         className="w-full flex items-center justify-between px-5 py-3 hover:bg-ww-surface transition-colors"
       >
         <span className="font-display font-bold text-sm text-ww-text uppercase tracking-wider">
-          {ouvertes.length} TABLE{ouvertes.length > 1 ? 'S' : ''} OUVERTE{ouvertes.length > 1 ? 'S' : ''}
+          {ouvertes.length} {t('openTables').toUpperCase()}
           <span className="text-ww-muted mx-2">&middot;</span>
-          <span className="text-ww-orange">&#3647; {totalEnAttente.toLocaleString()} EN ATTENTE</span>
+          <span className="text-ww-orange">&#3647; {totalEnAttente.toLocaleString()} {t('pending').toUpperCase()}</span>
         </span>
         {expanded ? (
           <ChevronUp className="h-4 w-4 text-ww-muted" />

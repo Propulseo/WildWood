@@ -2,8 +2,12 @@
 
 import { format, addMonths, subMonths, addWeeks, subWeeks, endOfWeek } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import { enUS as en } from 'date-fns/locale/en-US'
+import { th } from 'date-fns/locale/th'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useTranslations } from 'next-intl'
+import { useLocale } from '@/lib/i18n/provider'
 
 type ViewMode = 'mensuelle' | 'semaine'
 
@@ -22,11 +26,17 @@ export function CalendrierHeader({
   currentWeekStart: Date
   setCurrentWeekStart: (d: Date) => void
 }) {
-  const monthLabel = format(currentMonth, 'MMMM yyyy', { locale: fr })
+  const t = useTranslations('bungalows')
+  const { locale } = useLocale()
+  const dateFnsLocale = locale === 'th' ? th : locale === 'en' ? en : fr
+
+  const monthLabel = format(currentMonth, 'MMMM yyyy', { locale: dateFnsLocale })
   const capitalizedMonth = monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1)
 
   const weekEnd = endOfWeek(currentWeekStart, { weekStartsOn: 1 })
-  const weekLabel = `Semaine du ${format(currentWeekStart, 'd', { locale: fr })} au ${format(weekEnd, 'd', { locale: fr })}`
+  const weekStart = format(currentWeekStart, 'd', { locale: dateFnsLocale })
+  const weekEndDay = format(weekEnd, 'd', { locale: dateFnsLocale })
+  const weekLabel = t('weekOf', { start: weekStart, end: weekEndDay })
 
   const navigateBack = () => {
     if (viewMode === 'mensuelle') setCurrentMonth(subMonths(currentMonth, 1))
@@ -66,7 +76,7 @@ export function CalendrierHeader({
               : 'bg-ww-surface-2 text-ww-muted hover:text-ww-text'
           }`}
         >
-          VUE MENSUELLE
+          {t('monthView').toUpperCase()}
         </button>
         <button
           onClick={() => setViewMode('semaine')}
@@ -76,7 +86,7 @@ export function CalendrierHeader({
               : 'bg-ww-surface-2 text-ww-muted hover:text-ww-text'
           }`}
         >
-          VUE SEMAINE
+          {t('weekView').toUpperCase()}
         </button>
       </div>
     </div>

@@ -32,9 +32,9 @@ export default function ClientProfilePage() {
 
   useEffect(() => {
     if (params.id) {
-      getClientById(params.id).then((c) => setClient(c ?? null))
-      getBungalows().then(setBungalows)
-      getRoomCharges().then(setRoomCharges)
+      getClientById(params.id).then((c) => setClient(c ?? null)).catch(() => {})
+      getBungalows().then(setBungalows).catch(() => {})
+      getRoomCharges().then(setRoomCharges).catch(() => {})
     }
   }, [params.id])
 

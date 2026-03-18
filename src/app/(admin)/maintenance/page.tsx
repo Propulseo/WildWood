@@ -1,21 +1,40 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { getBungalows } from '@/lib/data-access'
-import type { Bungalow } from '@/lib/types'
-import { useMaintenance } from '@/contexts/maintenance-context'
+import { useState } from 'react'
+import { useMaintenance } from '@/lib/hooks/useMaintenance'
 import { BungalowMaintenanceCard } from '@/components/maintenance/BungalowMaintenanceCard'
 import { AjoutTacheModal } from '@/components/maintenance/AjoutTacheModal'
 
+function MaintenanceSkeleton() {
+  return (
+    <div className="space-y-5 animate-pulse">
+      <div className="flex items-start justify-between">
+        <div>
+          <div className="h-9 w-56 bg-ww-surface rounded-lg" />
+          <div className="flex gap-3 mt-3">
+            <div className="h-7 w-24 bg-ww-surface rounded-full" />
+            <div className="h-7 w-28 bg-ww-surface rounded-full" />
+            <div className="h-7 w-24 bg-ww-surface rounded-full" />
+          </div>
+        </div>
+        <div className="h-10 w-44 bg-ww-surface rounded-lg" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-48 bg-ww-surface rounded-xl border border-ww-border" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function MaintenancePage() {
-  const [bungalows, setBungalows] = useState<Bungalow[]>([])
+  const { bungalows, tasks, countByStatut, getTasksByBungalow, addTask, loading, error, refetch } = useMaintenance()
   const [showAjout, setShowAjout] = useState(false)
   const [ajoutBungalowId, setAjoutBungalowId] = useState('bung-1')
-  const { tasks, countByStatut, getTasksByBungalow, addTask } = useMaintenance()
 
-  useEffect(() => {
-    getBungalows().then((b) => setBungalows([...b].sort((a, b) => a.numero - b.numero).slice(0, 6)))
-  }, [])
+  if (loading) return <MaintenanceSkeleton />
+  if (error) return <p className="text-center py-16 text-ww-danger font-sans">{error}</p>
 
   const aFaire = countByStatut('a_faire')
   const enCours = countByStatut('en_cours')
@@ -28,7 +47,6 @@ export default function MaintenancePage() {
 
   return (
     <div className="space-y-5">
-      {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="font-display text-3xl font-extrabold text-ww-text tracking-tight">
@@ -57,7 +75,6 @@ export default function MaintenancePage() {
         </button>
       </div>
 
-      {/* Bungalow grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         {bungalows.map((b) => (
           <BungalowMaintenanceCard
@@ -72,7 +89,7 @@ export default function MaintenancePage() {
       <AjoutTacheModal
         bungalowId={ajoutBungalowId}
         open={showAjout}
-        onClose={() => setShowAjout(false)}
+        onClose={() => { setShowAjout(false); refetch() }}
         onAdd={addTask}
       />
     </div>

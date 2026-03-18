@@ -12,19 +12,19 @@ import { TopProductsChart, ExpenseDonutChart, OccupancyChart, AvgTransactionChar
 import { StatsKpiRow, BottomSummaryCards } from '@/components/statistiques/summary-cards'
 
 export default function StatistiquesPage() {
-  const { transactions } = useTransactions()
+  const { transactions, loading: txnLoading } = useTransactions()
   const { expenses } = useExpenses()
   const [bungalows, setBungalows] = useState<Bungalow[]>([])
   const [clients, setClients] = useState<Client[]>([])
 
   useEffect(() => {
-    getBungalows().then(setBungalows)
-    getClients().then(setClients)
+    getBungalows().then(setBungalows).catch(() => {})
+    getClients().then(setClients).catch(() => {})
   }, [])
 
   const stats = useStatsData(transactions, expenses, bungalows, clients)
 
-  if (transactions.length === 0) return <StatsSkeleton />
+  if (txnLoading) return <StatsSkeleton />
 
   return (
     <div className="space-y-8">

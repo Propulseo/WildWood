@@ -1,157 +1,142 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { useTransactions } from '@/contexts/transactions-context'
-import {
-  parseISO,
-  isWithinInterval,
-  startOfDay,
-  endOfDay,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
-  startOfYear,
-  endOfYear,
-  subDays,
-  subWeeks,
-  subMonths,
-  subYears,
-} from 'date-fns'
-import { KpiRevenus } from '@/components/revenus/KpiRevenus'
-import { GraphiqueEvolution } from '@/components/revenus/GraphiqueEvolution'
-import { DonutRepartition } from '@/components/revenus/DonutRepartition'
-import { DetailBungalows } from '@/components/revenus/DetailBungalows'
-import { DetailGym } from '@/components/revenus/DetailGym'
-import { DetailFnB } from '@/components/revenus/DetailFnB'
-import { ComparaisonMois } from '@/components/revenus/ComparaisonMois'
+import { useState, useEffect, useCallback } from 'react'
+import { toast } from 'sonner'
+import { createClient } from '@/lib/supabase/client'
+import { getPeriodeDates } from '@/lib/supabase/queries/reporting'
+import { calculerEtInsererRevenuResort } from '@/lib/supabase/queries/resort'
+import { useAuth } from '@/lib/contexts/auth-context'
+import { AjouterRevenuManuelModal } from '@/components/revenus/AjouterRevenuManuelModal'
+import { RevenusKpi } from '@/components/revenus/RevenusKpi'
+import { RevenusListe } from '@/components/revenus/RevenusListe'
 
-type Periode = 'today' | 'week' | 'month' | 'year' | 'custom'
+type Periode = 'today' | 'week' | 'month' | 'year'
 
-const PERIOD_LABELS: { value: Periode; label: string }[] = [
-  { value: 'today', label: "AUJOURD'HUI" },
-  { value: 'week', label: 'CETTE SEMAINE' },
-  { value: 'month', label: 'CE MOIS' },
-  { value: 'year', label: 'CETTE ANNEE' },
-  { value: 'custom', label: 'PERSONNALISE' },
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TxRow = any
+
+const PERIODES = [
+  { value: 'today' as const, label: "AUJOURD'HUI" },
+  { value: 'week' as const, label: 'CETTE SEMAINE' },
+  { value: 'month' as const, label: 'CE MOIS' },
+  { value: 'year' as const, label: 'CETTE ANNEE' },
 ]
 
-function getInterval(periode: Periode, dateDebut: string, dateFin: string) {
-  const now = new Date()
-  switch (periode) {
-    case 'today':
-      return { start: startOfDay(now), end: endOfDay(now) }
-    case 'week':
-      return { start: startOfWeek(now, { weekStartsOn: 1 }), end: endOfWeek(now, { weekStartsOn: 1 }) }
-    case 'month':
-      return { start: startOfMonth(now), end: endOfMonth(now) }
-    case 'year':
-      return { start: startOfYear(now), end: endOfYear(now) }
-    case 'custom':
-      return {
-        start: dateDebut ? startOfDay(parseISO(dateDebut)) : startOfMonth(now),
-        end: dateFin ? endOfDay(parseISO(dateFin)) : endOfDay(now),
-      }
-  }
-}
-
-function getPreviousInterval(periode: Periode, dateDebut: string, dateFin: string) {
-  const now = new Date()
-  switch (periode) {
-    case 'today':
-      return { start: startOfDay(subDays(now, 1)), end: endOfDay(subDays(now, 1)) }
-    case 'week': {
-      const prev = startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 })
-      return { start: prev, end: endOfWeek(prev, { weekStartsOn: 1 }) }
-    }
-    case 'month': {
-      const prev = startOfMonth(subMonths(now, 1))
-      return { start: prev, end: endOfMonth(prev) }
-    }
-    case 'year': {
-      const prev = startOfYear(subYears(now, 1))
-      return { start: prev, end: endOfYear(prev) }
-    }
-    case 'custom': {
-      const s = dateDebut ? parseISO(dateDebut) : startOfMonth(now)
-      const e = dateFin ? parseISO(dateFin) : now
-      const duration = e.getTime() - s.getTime()
-      const prevEnd = new Date(s.getTime() - 1)
-      const prevStart = new Date(prevEnd.getTime() - duration)
-      return { start: startOfDay(prevStart), end: endOfDay(prevEnd) }
-    }
-  }
-}
+const BU_CONFIG = {
+  gym:    { label: 'GYM',       color: 'text-ww-orange' },
+  fnb:    { label: 'F&B',       color: 'text-ww-lime' },
+  resort: { label: 'BUNGALOWS', color: 'text-ww-wood' },
+} as const
 
 export default function RevenusPage() {
-  const { transactions } = useTransactions()
-  const [periode, setPeriode] = useState<Periode>('year')
-  const [dateDebut, setDateDebut] = useState('')
-  const [dateFin, setDateFin] = useState('')
+  const { staffMember } = useAuth()
+  const [periode, setPeriode] = useState<Periode>('today')
+  const [transactions, setTransactions] = useState<TxRow[]>([])
+  const [loading, setLoading] = useState(true)
+  const [showAddManuel, setShowAddManuel] = useState(false)
+  const [calculatingResort, setCalculatingResort] = useState(false)
 
-  const interval = useMemo(() => getInterval(periode, dateDebut, dateFin), [periode, dateDebut, dateFin])
-  const prevInterval = useMemo(() => getPreviousInterval(periode, dateDebut, dateFin), [periode, dateDebut, dateFin])
+  const fetchTransactions = useCallback(async () => {
+    const { from, to } = getPeriodeDates(periode)
+    setLoading(true)
+    const supabase = createClient()
+    const { data, error } = await supabase
+      .from('transactions')
+      .select('*')
+      .eq('type', 'income')
+      .gte('date', from)
+      .lte('date', to)
+      .order('date', { ascending: false })
+      .order('created_at', { ascending: false })
 
-  const filtered = useMemo(
-    () => transactions.filter((t) => isWithinInterval(parseISO(t.date), interval)),
-    [transactions, interval]
-  )
+    if (!error) setTransactions(data ?? [])
+    setLoading(false)
+  }, [periode])
 
-  const previousFiltered = useMemo(
-    () => transactions.filter((t) => isWithinInterval(parseISO(t.date), prevInterval)),
-    [transactions, prevInterval]
-  )
+  useEffect(() => { fetchTransactions() }, [fetchTransactions])
+
+  const totaux = transactions.reduce((acc: Record<string, number>, t: TxRow) => {
+    acc.total += t.montant_thb
+    acc[t.business_unit] = (acc[t.business_unit] || 0) + t.montant_thb
+    return acc
+  }, { total: 0, gym: 0, fnb: 0, resort: 0 })
+
+  const handleCalculerResort = async () => {
+    if (!staffMember) return
+    setCalculatingResort(true)
+    try {
+      const today = new Date().toISOString().split('T')[0]
+      const result = await calculerEtInsererRevenuResort(today, staffMember.id)
+      if (result) {
+        toast.success('Revenu resort calcule et enregistre')
+        fetchTransactions()
+      } else {
+        toast('Aucun bungalow occupe aujourd\'hui')
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erreur calcul resort')
+    } finally {
+      setCalculatingResort(false)
+    }
+  }
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-3xl font-extrabold text-ww-text">REVENUS</h1>
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <h1 className="font-display text-5xl font-bold">REVENUS</h1>
+        <div className="flex gap-2">
+          <button onClick={handleCalculerResort}
+            disabled={calculatingResort || periode !== 'today'}
+            className="flex items-center gap-2 border border-ww-wood text-ww-wood
+                       px-4 py-2 rounded-xl text-sm hover:bg-ww-wood/10
+                       disabled:opacity-40 transition-all">
+            {calculatingResort ? 'Calcul...' : 'Calcul resort'}
+          </button>
+          <button onClick={() => setShowAddManuel(true)}
+            className="flex items-center gap-2 bg-ww-orange text-white
+                       px-4 py-2 rounded-xl text-sm hover:bg-ww-orange/90">
+            + Ajouter un revenu
+          </button>
+        </div>
+      </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        {PERIOD_LABELS.map(({ value, label }) => (
-          <button
-            key={value}
-            onClick={() => setPeriode(value)}
-            className={`px-4 py-1.5 rounded-full text-sm font-display font-bold transition-all duration-150 ${
-              periode === value
+      {/* Filtres période */}
+      <div className="flex gap-2 flex-wrap">
+        {PERIODES.map(p => (
+          <button key={p.value} onClick={() => setPeriode(p.value)}
+            className={`px-4 py-2 rounded-lg font-display text-sm transition-all ${
+              periode === p.value
                 ? 'bg-ww-orange text-white'
-                : 'bg-ww-surface-2 text-ww-muted hover:text-ww-text'
-            }`}
-          >
-            {label}
+                : 'bg-ww-surface-2 border border-ww-border text-ww-muted'
+            }`}>
+            {p.label}
           </button>
         ))}
-        {periode === 'custom' && (
-          <div className="flex items-center gap-2 ml-2">
-            <input
-              type="date"
-              value={dateDebut}
-              onChange={(e) => setDateDebut(e.target.value)}
-              className="bg-ww-surface-2 border border-ww-border text-ww-text text-sm rounded-lg px-3 py-1.5 font-sans"
-            />
-            <span className="text-ww-muted">→</span>
-            <input
-              type="date"
-              value={dateFin}
-              onChange={(e) => setDateFin(e.target.value)}
-              className="bg-ww-surface-2 border border-ww-border text-ww-text text-sm rounded-lg px-3 py-1.5 font-sans"
-            />
-          </div>
-        )}
       </div>
 
-      <KpiRevenus transactions={filtered} previousTransactions={previousFiltered} />
+      {/* KPI + Total */}
+      <RevenusKpi totaux={totaux} buConfig={BU_CONFIG} nbTransactions={transactions.length} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <GraphiqueEvolution transactions={filtered} periode={periode} />
-        </div>
-        <DonutRepartition transactions={filtered} />
-      </div>
+      {/* Liste par date */}
+      <RevenusListe
+        transactions={transactions}
+        loading={loading}
+        buConfig={BU_CONFIG}
+      />
 
-      <DetailBungalows transactions={filtered} />
-      <DetailGym transactions={filtered} />
-      <DetailFnB transactions={filtered} />
-      <ComparaisonMois transactions={transactions} />
+      {/* Modal ajout manuel */}
+      {showAddManuel && staffMember && (
+        <AjouterRevenuManuelModal
+          staffId={staffMember.id}
+          onClose={() => setShowAddManuel(false)}
+          onSuccess={() => {
+            toast.success('Revenu enregistre')
+            fetchTransactions()
+            setShowAddManuel(false)
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ArrowRight, ArrowLeft, RotateCcw, Banknote } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 const BILLS = [20, 50, 100, 500, 1000] as const
 
@@ -14,6 +15,8 @@ interface Props {
 }
 
 export default function ClosingStep2Comptage({ caJour, onNext, onBack }: Props) {
+  const t = useTranslations('closing')
+  const tc = useTranslations('common')
   const [counts, setCounts] = useState<Record<number, number>>({})
   const [noteEcart, setNoteEcart] = useState('')
 
@@ -38,14 +41,14 @@ export default function ClosingStep2Comptage({ caJour, onNext, onBack }: Props) 
           <Banknote className="h-5 w-5 text-ww-orange" />
         </div>
         <div>
-          <h2 className="font-display text-xl font-bold text-ww-text">Comptage especes</h2>
-          <p className="text-sm text-ww-muted">Comptez les billets dans la caisse</p>
+          <h2 className="font-display text-xl font-bold text-ww-text">{t('counting')}</h2>
+          <p className="text-sm text-ww-muted">{t('countBills')}</p>
         </div>
       </div>
 
       {/* Live total */}
       <div className="text-center mb-6 p-4 rounded-xl bg-ww-surface-2 border border-ww-border">
-        <p className="text-[10px] uppercase text-ww-muted mb-1">Total compte</p>
+        <p className="text-[10px] uppercase text-ww-muted mb-1">{t('totalCounted')}</p>
         <p className="font-display font-extrabold text-4xl text-ww-text tracking-tight">
           {cashCompte.toLocaleString()}
           <span className="text-lg text-ww-muted ml-1">THB</span>
@@ -81,7 +84,7 @@ export default function ClosingStep2Comptage({ caJour, onNext, onBack }: Props) 
             : 'bg-red-500/10 border-ww-danger/30'
         }`}>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-ww-muted">Ecart</span>
+            <span className="text-sm text-ww-muted">{t('difference')}</span>
             <span className={`font-display font-bold ${
               Math.abs(ecart) <= 50 ? 'text-ww-lime' : 'text-ww-danger'
             }`}>
@@ -89,7 +92,7 @@ export default function ClosingStep2Comptage({ caJour, onNext, onBack }: Props) 
             </span>
           </div>
           <div className="flex items-center justify-between mt-1">
-            <span className="text-xs text-ww-muted">CA du jour</span>
+            <span className="text-xs text-ww-muted">{t('dailyRevenue')}</span>
             <span className="text-xs font-mono text-ww-muted">{caJour.toLocaleString()}</span>
           </div>
         </div>
@@ -99,12 +102,12 @@ export default function ClosingStep2Comptage({ caJour, onNext, onBack }: Props) 
       {hasEcart && cashCompte > 0 && (
         <div className="mb-4">
           <label className="text-[10px] uppercase text-ww-muted block mb-1">
-            Note obligatoire (ecart != 0)
+            {t('noteRequired')}
           </label>
           <Input
             value={noteEcart}
             onChange={(e) => setNoteEcart(e.target.value)}
-            placeholder="Expliquer l'ecart..."
+            placeholder={t('explainGap')}
             className="text-sm"
           />
         </div>
@@ -113,14 +116,14 @@ export default function ClosingStep2Comptage({ caJour, onNext, onBack }: Props) 
       {/* Navigation */}
       <div className="mt-auto flex gap-3 pt-4 border-t border-ww-border">
         <Button variant="outline" onClick={onBack} className="gap-1">
-          <ArrowLeft className="h-4 w-4" /> Retour
+          <ArrowLeft className="h-4 w-4" /> {tc('back')}
         </Button>
         <Button
           onClick={() => onNext(cashCompte, noteEcart)}
           disabled={!canSubmit}
           className="flex-1 gap-2"
         >
-          Confirmer <ArrowRight className="h-4 w-4" />
+          {tc('confirm')} <ArrowRight className="h-4 w-4" />
         </Button>
       </div>
     </div>

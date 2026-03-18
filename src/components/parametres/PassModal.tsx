@@ -23,7 +23,10 @@ const DUREE_OPTIONS = [
   { label: '1 jour', value: 1 },
   { label: '3 jours', value: 3 },
   { label: '7 jours', value: 7 },
+  { label: '10 jours', value: 10 },
   { label: '30 jours', value: 30 },
+  { label: '180 jours', value: 180 },
+  { label: '365 jours', value: 365 },
 ]
 
 export function PassModal({ open, onOpenChange, pass, onSave }: PassModalProps) {
@@ -58,6 +61,7 @@ export function PassModal({ open, onOpenChange, pass, onSave }: PassModalProps) 
     if (!isValid) return
     onSave({
       id: pass?.id || `pass-${Date.now()}`,
+      slug: pass?.slug || nom.trim().toLowerCase().replace(/\s+/g, '-'),
       nom: nom.trim(),
       prix: Number(prix),
       dureeJours: Number(dureeJours),

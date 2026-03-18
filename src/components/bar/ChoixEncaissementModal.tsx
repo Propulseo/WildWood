@@ -1,6 +1,7 @@
 'use client'
 
 import { X, Banknote, ClipboardList, Home } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface ChoixEncaissementModalProps {
   open: boolean
@@ -16,6 +17,8 @@ export function ChoixEncaissementModal({
   open, onClose, total, itemsSummary,
   onEncaisserMaintenant, onOuvrirTable, onBungalow,
 }: ChoixEncaissementModalProps) {
+  const tPos = useTranslations('pos')
+
   if (!open) return null
 
   return (
@@ -39,9 +42,9 @@ export function ChoixEncaissementModal({
           >
             <Banknote className="h-8 w-8" />
             <span className="font-display font-bold text-sm uppercase tracking-wider text-center">
-              ENCAISSER MAINTENANT
+              {tPos('collectNow').toUpperCase()}
             </span>
-            <span className="text-[10px] text-ww-muted font-sans">Paiement cash direct</span>
+            <span className="text-[10px] text-ww-muted font-sans">{tPos('directCash')}</span>
           </button>
 
           <button
@@ -50,9 +53,9 @@ export function ChoixEncaissementModal({
           >
             <ClipboardList className="h-8 w-8" />
             <span className="font-display font-bold text-sm uppercase tracking-wider text-center">
-              OUVRIR UNE TABLE
+              {tPos('openTableLabel').toUpperCase()}
             </span>
-            <span className="text-[10px] text-ww-muted font-sans">Paiera plus tard</span>
+            <span className="text-[10px] text-ww-muted font-sans">{tPos('payLater')}</span>
           </button>
         </div>
 
@@ -62,7 +65,7 @@ export function ChoixEncaissementModal({
           className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-sans text-ww-wood hover:text-ww-text transition-colors"
         >
           <Home className="h-4 w-4" />
-          <span>Assigner a un bungalow (hotel)</span>
+          <span>{tPos('assignBungalowHotel')}</span>
         </button>
       </div>
     </div>

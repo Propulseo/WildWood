@@ -18,7 +18,7 @@ export function RetourModal({ open, onOpenChange }: RetourModalProps) {
   const { staff } = useStaff()
   const [search, setSearch] = useState('')
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [statut, setStatut] = useState<'rendue' | 'perdue'>('rendue')
+  const [showPerdue, setShowPerdue] = useState(false)
   const [note, setNote] = useState('')
   const [staffRetour, setStaffRetour] = useState('')
 
@@ -36,28 +36,28 @@ export function RetourModal({ open, onOpenChange }: RetourModalProps) {
 
   const selected = selectedId ? enCours.find((s) => s.id === selectedId) : null
 
-  function handleSubmit() {
+  function handleSubmit(statut: 'rendue' | 'perdue') {
     if (!selectedId || !staffRetour) return
     if (statut === 'perdue' && !note.trim()) return
 
     validerRetour(selectedId, statut, staffRetour, statut === 'perdue' ? note.trim() : undefined)
 
     if (statut === 'rendue') {
-      toast.success(`Retour valide — 500 THB rembourse a ${selected?.client_nom}`)
+      toast.success(`Serviette rendue · 500 THB restitue · Mise en attente lavage`)
     } else {
       toast('Serviette perdue enregistree — Depot conserve', { icon: '🏖️' })
     }
 
-    setSearch('')
-    setSelectedId(null)
-    setStatut('rendue')
-    setNote('')
-    setStaffRetour('')
+    resetAndClose()
+  }
+
+  function resetAndClose() {
+    setSearch(''); setSelectedId(null); setShowPerdue(false); setNote(''); setStaffRetour('')
     onOpenChange(false)
   }
 
   function handleOpenChange(v: boolean) {
-    if (!v) { setSelectedId(null); setSearch(''); setStatut('rendue'); setNote(''); setStaffRetour('') }
+    if (!v) { setSelectedId(null); setSearch(''); setShowPerdue(false); setNote(''); setStaffRetour('') }
     onOpenChange(v)
   }
 
@@ -94,18 +94,9 @@ export function RetourModal({ open, onOpenChange }: RetourModalProps) {
                 <p className="font-display font-bold text-ww-orange mt-1">Rembourser 500 THB</p>
               </div>
 
-              <div className="flex gap-2">
-                <button onClick={() => setStatut('rendue')} className={`flex-1 py-2.5 rounded-lg text-sm font-display font-bold uppercase tracking-wider transition-all ${statut === 'rendue' ? 'bg-[var(--ww-lime)] text-white' : 'bg-ww-surface text-ww-muted border border-ww-border'}`}>
-                  Rendue en bon etat
-                </button>
-                <button onClick={() => setStatut('perdue')} className={`flex-1 py-2.5 rounded-lg text-sm font-display font-bold uppercase tracking-wider transition-all ${statut === 'perdue' ? 'bg-ww-danger text-white' : 'bg-ww-surface text-ww-muted border border-ww-border'}`}>
-                  Perdue / Abimee
-                </button>
+              <div className="bg-ww-surface rounded-lg px-4 py-3 border border-ww-border">
+                <p className="text-sm text-ww-muted">Rendue sale · Mise de cote (ne retourne pas en stock)</p>
               </div>
-
-              {statut === 'perdue' && (
-                <Input value={note} onChange={(e) => setNote(e.target.value)} placeholder="Note obligatoire..." />
-              )}
 
               <div>
                 <label className="text-sm font-sans text-ww-muted mb-1.5 block">Staff qui valide</label>
@@ -113,19 +104,39 @@ export function RetourModal({ open, onOpenChange }: RetourModalProps) {
                   <SelectTrigger><SelectValue placeholder="Choisir un staff" /></SelectTrigger>
                   <SelectContent>
                     {staff.map((s) => (
-                      <SelectItem key={s.id} value={s.prenom}>{s.prenom} {s.nom}</SelectItem>
+                      <SelectItem key={s.id} value={s.id}>{s.prenom} {s.nom}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
 
               <button
-                onClick={handleSubmit}
-                disabled={!staffRetour || (statut === 'perdue' && !note.trim())}
+                onClick={() => handleSubmit('rendue')}
+                disabled={!staffRetour}
                 className="w-full h-12 bg-[var(--ww-lime)] text-white font-display font-bold text-base uppercase tracking-wider rounded-lg transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 VALIDER LE RETOUR
               </button>
+
+              {!showPerdue ? (
+                <button
+                  onClick={() => setShowPerdue(true)}
+                  className="w-full text-center text-xs text-ww-muted hover:text-ww-danger transition-colors"
+                >
+                  Signaler perdue
+                </button>
+              ) : (
+                <div className="space-y-2 border-t border-ww-border pt-3">
+                  <Input value={note} onChange={(e) => setNote(e.target.value)} placeholder="Note obligatoire (raison perte)..." />
+                  <button
+                    onClick={() => handleSubmit('perdue')}
+                    disabled={!staffRetour || !note.trim()}
+                    className="w-full h-10 bg-ww-danger text-white font-display font-bold text-sm uppercase tracking-wider rounded-lg transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    CONFIRMER PERTE
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>

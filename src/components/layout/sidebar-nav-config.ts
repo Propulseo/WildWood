@@ -9,106 +9,108 @@ import type { Role } from '@/lib/types'
 
 export interface NavItem {
   href: string
-  label: string
+  /** Translation key in the 'nav' namespace */
+  labelKey: string
   icon: LucideIcon
   badgeKey?: 'tables'
 }
 
 export interface NavSection {
-  label: string
+  /** Translation key in the 'sections' namespace */
+  labelKey: string
   items: NavItem[]
 }
 
 const ADMIN_SECTIONS: NavSection[] = [
   {
-    label: 'APERCU',
+    labelKey: 'overview',
     items: [
-      { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-      { href: '/statistiques', label: 'Statistiques', icon: BarChart3 },
+      { href: '/dashboard', labelKey: 'dashboard', icon: LayoutDashboard },
+      { href: '/statistiques', labelKey: 'statistics', icon: BarChart3 },
     ],
   },
   {
-    label: 'FINANCES',
+    labelKey: 'finances',
     items: [
-      { href: '/reporting', label: 'Reporting', icon: FileBarChart },
-      { href: '/revenus', label: 'Revenus', icon: TrendingUp },
-      { href: '/depenses', label: 'Depenses', icon: Receipt },
-      { href: '/comptabilite', label: 'Comptabilite', icon: Calculator },
+      { href: '/reporting', labelKey: 'reporting', icon: FileBarChart },
+      { href: '/revenus', labelKey: 'revenues', icon: TrendingUp },
+      { href: '/depenses', labelKey: 'expenses', icon: Receipt },
+      { href: '/comptabilite', labelKey: 'accounting', icon: Calculator },
     ],
   },
   {
-    label: 'OPERATIONS',
+    labelKey: 'operations',
     items: [
-      { href: '/bungalows', label: 'Bungalows', icon: BedDouble },
-      { href: '/checkin', label: 'Entrees du jour', icon: DoorOpen },
-      { href: '/maintenance', label: 'Maintenance', icon: Wrench },
-      { href: '/communications', label: 'Communications', icon: MessageCircle },
+      { href: '/bungalows', labelKey: 'bungalows', icon: BedDouble },
+      { href: '/checkin', labelKey: 'checkin', icon: DoorOpen },
+      { href: '/maintenance', labelKey: 'maintenance', icon: Wrench },
+      { href: '/communications', labelKey: 'communications', icon: MessageCircle },
     ],
   },
   {
-    label: 'EQUIPE',
+    labelKey: 'team',
     items: [
-      { href: '/presence', label: 'Presence', icon: UserCheck },
-      { href: '/planning', label: 'Planning', icon: CalendarDays },
+      { href: '/presence', labelKey: 'presence', icon: UserCheck },
+      { href: '/planning', labelKey: 'planning', icon: CalendarDays },
     ],
   },
   {
-    label: 'PARAMETRES',
+    labelKey: 'settings',
     items: [
-      { href: '/parametres/produits', label: 'Produits', icon: Settings },
-      { href: '/pointage', label: 'Staff', icon: Users },
-      { href: '/parametres/messages', label: 'Templates WA', icon: MessageCircle },
+      { href: '/parametres/produits', labelKey: 'products', icon: Settings },
+      { href: '/pointage', labelKey: 'staff', icon: Users },
+      { href: '/parametres/messages', labelKey: 'templatesWA', icon: MessageCircle },
     ],
   },
 ]
 
 const RECEPTION_SECTIONS: NavSection[] = [
   {
-    label: 'ACCUEIL',
+    labelKey: 'reception',
     items: [
-      { href: '/pos?tab=gym', label: 'Passes Gym', icon: Ticket },
-      { href: '/pos?tab=serviettes', label: 'Serviettes', icon: Waves },
-      { href: '/checkin', label: 'Entrees du jour', icon: DoorOpen },
+      { href: '/pos?tab=gym', labelKey: 'gymPasses', icon: Ticket },
+      { href: '/pos?tab=serviettes', labelKey: 'towels', icon: Waves },
+      { href: '/checkin', labelKey: 'checkin', icon: DoorOpen },
     ],
   },
   {
-    label: 'HEBERGEMENT',
+    labelKey: 'accommodation',
     items: [
-      { href: '/bungalows', label: 'Bungalows', icon: BedDouble },
+      { href: '/bungalows', labelKey: 'bungalows', icon: BedDouble },
     ],
   },
   {
-    label: 'FINANCES',
+    labelKey: 'finances',
     items: [
-      { href: '/reporting', label: 'Reporting', icon: FileBarChart },
+      { href: '/reporting', labelKey: 'reporting', icon: FileBarChart },
     ],
   },
   {
-    label: 'EQUIPE',
+    labelKey: 'team',
     items: [
-      { href: '/planning', label: 'Planning', icon: CalendarDays },
+      { href: '/planning', labelKey: 'planning', icon: CalendarDays },
     ],
   },
 ]
 
 const BAR_SECTIONS: NavSection[] = [
   {
-    label: 'SERVICE',
+    labelKey: 'service',
     items: [
-      { href: '/pos?tab=fnb', label: 'F&B', icon: UtensilsCrossed },
-      { href: '/tables', label: 'Tables ouvertes', icon: Coffee, badgeKey: 'tables' },
+      { href: '/pos?tab=fnb', labelKey: 'fnb', icon: UtensilsCrossed },
+      { href: '/tables', labelKey: 'openTables', icon: Coffee, badgeKey: 'tables' },
     ],
   },
   {
-    label: 'FINANCES',
+    labelKey: 'finances',
     items: [
-      { href: '/reporting', label: 'Reporting', icon: FileBarChart },
+      { href: '/reporting', labelKey: 'reporting', icon: FileBarChart },
     ],
   },
   {
-    label: 'EQUIPE',
+    labelKey: 'team',
     items: [
-      { href: '/planning', label: 'Planning', icon: CalendarDays },
+      { href: '/planning', labelKey: 'planning', icon: CalendarDays },
     ],
   },
 ]

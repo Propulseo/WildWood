@@ -3,7 +3,7 @@
 import { useMessagesWA } from '@/contexts/messages-wa-context'
 import { MessageCard } from './MessageCard'
 
-const TODAY = '2026-03-09'
+const TODAY = new Date().toISOString().split('T')[0]
 
 export function MessagesPlanifies() {
   const { getMessagesPlanifies } = useMessagesWA()
